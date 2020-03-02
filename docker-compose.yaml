@@ -1,0 +1,110 @@
+version: "3.7"
+services:
+  jenkins:
+    container_name: jenkins
+    image: ericnaglertw/cd4ml-build-master:1
+    ports:
+      - "10000:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    networks:
+      - jenkins_nw
+
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - bootstrap.memory_lock=true
+      - http.port=9200
+      - http.host=0.0.0.0
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - jenkins_nw
+    healthcheck:
+      test: curl -s http://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    depends_on: 
+      - jenkins
+
+  kib01:
+    image: docker.elastic.co/kibana/kibana:7.6.0
+    container_name: kib01
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://es01:9200
+      ELASTICSEARCH_HOSTS: http://es01:9200
+    networks:
+      - jenkins_nw
+    depends_on: 
+      - es01
+      
+  fluentd:
+    image: ericnaglertw/cd4ml-fluentd:1
+    container_name: fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    ports:
+      - "24224:24224"
+    networks:
+      - jenkins_nw
+    depends_on: 
+      - es01
+
+  model:
+    image: ericnaglertw/cd4ml-model-server:1
+    container_name: model
+    ports:
+      - "11000:5005"
+    environment:
+      FLUENTD_HOST: fluentd
+      FLUENTD_PORT: 24224
+    networks:
+      - jenkins_nw
+    depends_on: 
+      - fluentd
+
+  mlflow:
+    container_name: mlflow
+    image: ericnaglertw/cd4ml-mlflow:1
+    ports:
+      - "12000:5000"
+    networks:
+      - jenkins_nw
+    depends_on: 
+      - model
+  
+  dev:
+    container_name: dev
+    image: jupyter/minimal-notebook
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    ports:
+      - "13000:8888"
+    networks:
+      - jenkins_nw
+    depends_on: 
+      - jenkins
+    
+volumes:
+  jenkins_home:
+    driver: local
+  data01:
+    driver: local
+
+networks:
+  jenkins_nw:
+    driver: bridge

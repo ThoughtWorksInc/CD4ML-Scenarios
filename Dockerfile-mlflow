@@ -1,0 +1,7 @@
+FROM python:3.7-slim-buster
+
+RUN pip install mlflow
+
+EXPOSE 5000
+
+ENTRYPOINT mlflow ui -h 0.0.0.0 -p 5000

@@ -1,0 +1,6 @@
+cd4ml-workshop/*
+fluentd/*
+instructions/*
+python/*
+**/.DS_Store
+.vscode
