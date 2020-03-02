@@ -21,7 +21,7 @@ pipeline {
         stage('Evaluate/Test') {
             steps {
                 dir("python"){                
-                    // sh 'python3 test/test.py'
+                    sh 'python3 test/test.py'
                 }
             }
         }
