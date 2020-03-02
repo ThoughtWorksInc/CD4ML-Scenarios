@@ -26,7 +26,7 @@ pipeline {
                 }
             }
             stage('Deploy') {
-                dir {
+                dir("python"){
                     steps {
                         sh 'curl --request POST --data-binary "@data/decision_tree/model.pkl" http://model:5005/replacemodel'
                     }
