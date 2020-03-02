@@ -1,0 +1,11 @@
+md5: f9b98d5cd45c229180471878f94852a9
+cmd: python3 src/download_data.py
+deps:
+- md5: 6f8f0ec6c84d0116de650622dc1b0d65
+  path: src/download_data.py
+outs:
+- md5: a269ea06e07424957949abb6172578f8
+  path: data/raw/store47-2016.csv
+  cache: true
+  metric: false
+  persist: false

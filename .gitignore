@@ -4,3 +4,7 @@ nginx/*
 .vscode/*
 **/.DS_Store
 python/*.venv
+data/raw/*
+python/data/source/*
+python/data/splitter/*
+python/results/*
