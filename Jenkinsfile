@@ -11,26 +11,26 @@ pipeline {
                 sh 'pip3 install -r requirements.txt'
             }
         }
-            stage("Build"){
+        stage("Build"){
+            steps {
                 dir("python"){
-                    steps {
-                        sh 'dvc repro model.pkl.dvc'
-                    }
+                    sh 'dvc repro model.pkl.dvc'
                 }
             }
-            stage('Evaluate/Test') {
-                dir("python"){
-                    steps {
-                        sh 'python3 test/test.py'
-                    }
+        }
+        stage('Evaluate/Test') {
+            steps {
+                dir("python"){                
+                    sh 'python3 test/test.py'
                 }
             }
-            stage('Deploy') {
-                dir("python"){
-                    steps {
-                        sh 'curl --request POST --data-binary "@data/decision_tree/model.pkl" http://model:5005/replacemodel'
-                    }
+        }
+        stage('Deploy') {
+            steps {
+                dir("python") {
+                    sh 'curl --request POST --data-binary "@data/decision_tree/model.pkl" http://model:5005/replacemodel'
                 }
             }
+        }
     }
 }
