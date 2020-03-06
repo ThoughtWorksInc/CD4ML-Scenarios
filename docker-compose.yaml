@@ -2,7 +2,7 @@ version: "3.7"
 services:
   jenkins:
     container_name: jenkins
-    image: ericnaglertw/cd4ml-build-master:1
+    image: ericnaglertw/cd4ml-build-master:2
     ports:
       - "10000:8080"
     volumes:
