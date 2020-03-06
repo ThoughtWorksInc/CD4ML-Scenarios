@@ -32,12 +32,12 @@ Copy the <token here> part and paste into [Jupyter Lab](https://localhost:13000)
 
 ### Workshop Apps 
 
-[Jenkins](https://localhost:10000)
+[Jenkins](http://localhost:10000)
 
-[ML Model](https://localhost:11000)
+[ML Model](http://localhost:11000)
 
-[MLFlow](https://localhost:12000)
+[MLFlow](http://localhost:12000)
 
-[Jupyter Lab](https://localhost:13000)
+[Jupyter Lab](http://localhost:13000)
 
-[Kibana](https://localhost:5601)
+[Kibana](http://localhost:5601)
