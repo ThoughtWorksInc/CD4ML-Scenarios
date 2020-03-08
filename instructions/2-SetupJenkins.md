@@ -30,17 +30,17 @@ After the installation is completed, select "Continue as admin" then "Save and F
 
 At this step you'll be presented with the Jenkins Home Page shown below.
 
-![JenkinsHomePage](http:///github.com/ericnagler/cd4ml-jenkins/blob/master/instructions/images/JenkinsHomePage.png "Jenkins Home Page")
+![JenkinsHomePage](http:///github.com/ericnagler/cd4ml-jenkins/blob/master/instructions/images/JenkinsHomePage.png?raw=true "Jenkins Home Page")
 
 Select "Manage Jenkins" on the left. Then, select "Manage Plugins". On the Plugin Manager page, select the "Available" Tab. On the search filter on the top right, search "Blue Ocean" and check the "Blue Ocean" Plugin. 
 
-![BlueOcean](http:///github.com/ericnagler/cd4ml-jenkins/blob/master/instructions/images/BlueOcean.png "Blue Ocean Search Result")
+![BlueOcean](http:///github.com/ericnagler/cd4ml-jenkins/blob/master/instructions/images/BlueOcean.png?raw=true "Blue Ocean Search Result")
 
 Click "Download Now and Install after Restart". This will take you to the plugin install page. Check the bottom check box, "Restart Jenkins when installation is complete and no jobs are running". Wait for the install to finish and Jenkins will restart.
 
 Navigate to [Jenkins Blue Ocean](http://localhost:10000/blue) and log in to the following home screen.
 
-![BlueOceanWelcome](http:///github.com/ericnagler/cd4ml-jenkins/blob/master/instructions/images/BlueOceanWelcome.png "Blue Ocean Result")
+![BlueOceanWelcome](http:///github.com/ericnagler/cd4ml-jenkins/blob/master/instructions/images/BlueOceanWelcomeScreen.png?raw=true "Blue Ocean Result")
 
 Select "Create a Pipeline".
 
@@ -52,4 +52,4 @@ Select your github account, then cd4ml-jenkins and "Create Pipeline"
 
 At this step the pipeline will build, you can select the pipeline to see the individual steps execute. At the end the pipeline should be 'green' indicating that all the steps were successful (shown below).
 
-![GreenBuildPipline](http:///github.com/ericnagler/cd4ml-jenkins/blob/master/instructions/images/GreenBuildPipeline.png "Green Build Pipeline")
+![GreenBuildPipline](http:///github.com/ericnagler/cd4ml-jenkins/blob/master/instructions/images/GreenBuildPipeline.png?raw=true "Green Build Pipeline")
