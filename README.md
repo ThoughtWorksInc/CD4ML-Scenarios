@@ -34,6 +34,8 @@ Copy the <token here> part and paste into [Jupyter Lab](https://localhost:13000)
 
 [Jenkins](http://localhost:10000)
 
+[Jenkins Blue Ocean](http://localhost:10000/blue)
+
 [ML Model](http://localhost:11000)
 
 [MLFlow](http://localhost:12000)
