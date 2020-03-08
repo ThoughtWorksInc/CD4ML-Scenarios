@@ -1,4 +1,3 @@
-
 docker load --input cd4ml-build-master.tar.gz
 docker load --input cd4ml-fluentd.tar.gz
 docker load --input cd4ml-model-server.tar.gz
