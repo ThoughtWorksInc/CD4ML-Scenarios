@@ -4,3 +4,4 @@ instructions/*
 python/*
 **/.DS_Store
 .vscode
+.venv/*
