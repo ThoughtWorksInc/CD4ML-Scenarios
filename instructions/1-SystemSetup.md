@@ -39,7 +39,7 @@ Click "Generate new token" on the top right. You may need to enter your Github p
 
 Enter a Note for your personal access token and select the "repo" and "user:email" permissions. Click "Generate Token".
 
-Your personal access token will be created and displayed to your. Make sure you save this token safely because it will not be shown again.
+Your personal access token will be created and displayed to you. Make sure you save this token safely because it will not be shown again.
 
 ### Next Steps
 
