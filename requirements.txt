@@ -6,3 +6,5 @@ mlflow==1.4.0
 lime==0.1.1.36
 fluent-logger==0.9.4
 dvc==0.71.0
+bokeh==2.0.0
+

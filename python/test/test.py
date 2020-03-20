@@ -1,6 +1,7 @@
 import unittest
 import json
 
+
 class TestAccuracy(unittest.TestCase):
     METRICS_FILE = "results/metrics.json"
 
@@ -11,5 +12,6 @@ class TestAccuracy(unittest.TestCase):
             self.assertGreater(metrics['r2_score'], 0.0)
 
 
-if __name__ == "__main__":
-    unittest.main()
+class TestStupid(unittest.TestCase):
+    def test_stupid(self):
+        assert True
