@@ -4,7 +4,7 @@
 
 export PYTHONWARNINGS="ignore::DeprecationWarning:numpy"
 
-command="python -m pytest --cov=cd4ml --cov-report html:cov_html test"
+command="python3 -m pytest --cov=cd4ml --cov-report html:cov_html test"
 echo "$command"
 eval "$command"
 
