@@ -4,6 +4,11 @@ pipeline {
         MLFLOW_TRACKING_URL = 'http://mlflow:5000'
     }
     stages {
+        stage('tests') {
+            steps {
+                sh 'run_tests.sh'
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 echo 'Starting Build'
@@ -15,13 +20,6 @@ pipeline {
             steps {
                 dir("python"){
                     sh 'dvc repro model.pkl.dvc'
-                }
-            }
-        }
-        stage('Evaluate/Test') {
-            steps {
-                dir("python"){                
-                    sh 'python3 test/test.py'
                 }
             }
         }

@@ -8,3 +8,11 @@ data/raw/*
 python/data/source/*
 python/data/splitter/*
 python/results/*
+data
+.coverage
+.idea/
+cov_html/
+notes.txt
+*/__pycache__/*
+venv
+
