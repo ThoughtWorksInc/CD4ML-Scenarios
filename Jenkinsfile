@@ -4,11 +4,6 @@ pipeline {
         MLFLOW_TRACKING_URL = 'http://mlflow:5000'
     }
     stages {
-        stage('tests') {
-            steps {
-                sh 'run_tests.sh'
-            }
-        }
         stage('Install Dependencies') {
             steps {
                 echo 'Starting Build'
@@ -16,19 +11,24 @@ pipeline {
                 sh 'pip3 install -r requirements.txt'
             }
         }
-        stage("Build"){
+        stage('tests') {
             steps {
-                dir("python"){
-                    sh 'dvc repro model.pkl.dvc'
-                }
+                sh './run_tests.sh'
             }
         }
-        stage('Deploy') {
-            steps {
-                dir("python") {
-                    sh 'curl --request POST --data-binary "@data/decision_tree/model.pkl" http://model:5005/replacemodel'
-                }
-            }
-        }
+        // stage("Build"){
+        //     steps {
+        //         dir("python"){
+        //             sh 'dvc repro model.pkl.dvc'
+        //         }
+        //     }
+        // }
+        // stage('Deploy') {
+        //     steps {
+        //         dir("python") {
+        //             sh 'curl --request POST --data-binary "@data/decision_tree/model.pkl" http://model:5005/replacemodel'
+        //         }
+        //     }
+        // }
     }
 }

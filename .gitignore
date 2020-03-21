@@ -13,6 +13,6 @@ data
 .idea/
 cov_html/
 notes.txt
-*/__pycache__/*
+**/__pycache__/*
 venv
 

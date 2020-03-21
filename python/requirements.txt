@@ -1,0 +1,15 @@
+numpy==1.17.4
+pandas==0.25.3
+scikit-learn==0.21.3
+flask==1.1.1
+mlflow==1.4.0
+lime==0.1.1.36
+fluent-logger==0.9.4
+dvc==0.71.0
+bokeh==1.4.0
+pytest==5.0.1
+coverage==4.5.4
+flake8==3.7.8
+snakeviz==2.0.1
+pytest-cov==2.7.1
+ipython==7.8.0
