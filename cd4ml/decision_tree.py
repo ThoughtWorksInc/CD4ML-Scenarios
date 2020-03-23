@@ -7,8 +7,9 @@ import joblib
 sys.path.append(os.path.join('..', 'src'))
 sys.path.append(os.path.join('src'))
 from sklearn import tree, ensemble, metrics
-import evaluation
-import tracking
+from cd4ml import evaluation
+from cd4ml import tracking
+
 
 class Model(Enum):
     DECISION_TREE = 0
