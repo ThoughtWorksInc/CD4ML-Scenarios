@@ -1,5 +1,6 @@
 from cd4ml.decision_tree import main
 from cd4ml.download_data import main as main_download
+from cd4ml.splitter import main as main_splitter
 
 
 def download_data():
@@ -8,7 +9,13 @@ def download_data():
     print('Done downloading data')
 
 
-def run_simple_model():
-    print('Run Simple Model')
+def split_data():
+    print('Splitting data')
+    main_splitter()
+    print('Done splitting data')
+
+
+def train_model():
+    print('Training Model')
     main(seed=8675309)
-    print('Done running model')
+    print('Done training model')

@@ -16,4 +16,5 @@ def main(*args):
 
     print('variable: %s' % variable)
     ph.download_data()
-    ph.run_simple_model()
+    ph.split_data()
+    ph.train_model()
