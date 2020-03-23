@@ -42,7 +42,7 @@ def index():
 @app.route('/replacemodel', methods=["POST"])
 def replace_model():
     content = request.get_data(as_text=False)
-    with open('data/decision_tree/model.pkl', 'w+b') as f:
+    with open(file_names['model'], 'w+b') as f:
         f.write(content)
     return "OK", 200 
 
