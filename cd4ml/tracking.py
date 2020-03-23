@@ -19,9 +19,9 @@ class track:
         if USE_MLFLOW:
             mlflow.end_run()
 
-    def set_model(self, model):
+    def set_model(self, model_name):
         if USE_MLFLOW:
-            mlflow.log_param('model', model.name)
+            mlflow.log_param('model', model_name)
 
     def log_params(self, params):
         if USE_MLFLOW:
