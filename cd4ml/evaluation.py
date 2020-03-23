@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 def nwrmsle(predictions, targets, weights):
     if type(predictions) == list:
         predictions = np.array([np.nan if x < 0 else x for x in predictions])

@@ -1,8 +1,6 @@
 import os
 import urllib.request
-import argparse
-import zipfile
-from cd4ml.filenames import file_names, data_raw, data_source
+from cd4ml.filenames import data_raw
 
 
 def load_data(path, key):

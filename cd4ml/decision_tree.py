@@ -1,7 +1,5 @@
 from enum import Enum
-import numpy as np
 import pandas as pd
-import sys
 import os
 import json
 from sklearn.preprocessing import LabelEncoder
@@ -70,7 +68,7 @@ def train_model(train, model=Model.RANDOM_FOREST, seed=None):
         params = {'n_estimators': 10}
         clf = ensemble.RandomForestRegressor(random_state=seed, **params)
     elif model == Model.ADABOOST:
-        params = {'n_estimators': 50, 'learning_rate': 1.0, 'loss':'linear'}
+        params = {'n_estimators': 50, 'learning_rate': 1.0, 'loss': 'linear'}
         clf = ensemble.AdaBoostRegressor(random_state=seed, **params)
     elif model == Model.GRADIENT_BOOST:
         params = {'n_estimators': 200, 'max_depth': 4}
@@ -80,14 +78,17 @@ def train_model(train, model=Model.RANDOM_FOREST, seed=None):
         clf = tree.DecisionTreeRegressor(random_state=seed)
 
     trained_model = clf.fit(train_dropped, target)
-    return (trained_model,params)
+    return (trained_model, params)
 
 
 def overwrite_unseen_prediction_with_zero(preds, train, validate):
     cols_item_store = ['item_nbr', 'store_nbr']
-    cols_to_use = validate.columns.drop('unit_sales') if 'unit_sales' in validate.columns else validate.columns
-    validate_train_joined = pd.merge(validate[cols_to_use], train, on=cols_item_store, how='left')
-    unseen = validate_train_joined[validate_train_joined['unit_sales'].isnull()]
+    cols_to_use = validate.columns.drop(
+        'unit_sales') if 'unit_sales' in validate.columns else validate.columns
+    validate_train_joined = pd.merge(
+        validate[cols_to_use], train, on=cols_item_store, how='left')
+    unseen = validate_train_joined[validate_train_joined['unit_sales'].isnull(
+    )]
     validate['preds'] = preds
     validate.loc[validate.id.isin(unseen['id_x']), 'preds'] = 0
     preds = validate['preds'].tolist()
@@ -128,14 +129,19 @@ def main(model=Model.RANDOM_FOREST, seed=None):
 
         print("Calculating metrics")
         evaluation_metrics = {
-            'nwrmsle': evaluation.nwrmsle(validation_predictions, validate['unit_sales'].values, validate['perishable'].values),
-            'r2_score': metrics.r2_score(y_true=validate['unit_sales'].values, y_pred=validation_predictions)
+            'nwrmsle': evaluation.nwrmsle(validation_predictions,
+                                          validate['unit_sales'].values,
+                                          validate['perishable'].values),
+            'r2_score': metrics.r2_score(y_true=validate['unit_sales'].values,
+                                         y_pred=validation_predictions)
         }
         track.log_metrics(evaluation_metrics)
 
-        write_predictions_and_score(evaluation_metrics, model, original_train.columns)
+        write_predictions_and_score(
+            evaluation_metrics, model, original_train.columns)
 
-        print("Evaluation done with metrics {}.".format(json.dumps(evaluation_metrics)))
+        print("Evaluation done with metrics {}.".format(
+            json.dumps(evaluation_metrics)))
 
 
 if __name__ == "__main__":

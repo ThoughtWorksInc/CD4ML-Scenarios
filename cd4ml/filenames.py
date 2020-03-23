@@ -22,5 +22,3 @@ file_names = {
     'raw_data': '%s/raw/store47-2016.csv' % data_dir,
     'model': '%s/decision_tree/model.pkl' % data_dir
 }
-
-

@@ -2,7 +2,7 @@ import mlflow
 import os
 
 MLFLOW_TRACKING_URL = os.getenv('MLFLOW_TRACKING_URL')
-TENANT = os.getenv('TENANT','local')
+TENANT = os.getenv('TENANT', 'local')
 RUN_LABEL = os.getenv('BUILD_NUMBER', '0')
 USE_MLFLOW = MLFLOW_TRACKING_URL is not None
 
