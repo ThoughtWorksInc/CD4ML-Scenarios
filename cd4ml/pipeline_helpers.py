@@ -1,22 +1,22 @@
-from cd4ml.run_ml_model import main as main_train
-from cd4ml.download_data import main as main_download
-from cd4ml.splitter import main as main_splitter
+from cd4ml.run_ml_model import run_model
+from cd4ml.download_data import run_download_data
+from cd4ml.splitter import run_splitter
 
 
 def download_data():
     print('Downloading data')
-    main_download()
+    run_download_data()
     print('Done downloading data')
 
 
 def split_data():
     print('Splitting data')
-    main_splitter()
+    run_splitter()
     print('Done splitting data')
 
 
 def train_model():
     model_name = 'random_forest'
     print('Training Model')
-    main_train(model_name=model_name, seed=8675309)
+    run_model(model_name=model_name, seed=8675309)
     print('Done training model')

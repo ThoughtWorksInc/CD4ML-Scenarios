@@ -23,7 +23,7 @@ def write_data(table, filename):
     table.to_csv(filename, index=False)
 
 
-def main():
+def run_splitter():
     print("Loading data...")
     train = pd.read_csv(file_names['raw_data'])
 

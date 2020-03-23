@@ -59,7 +59,7 @@ def write_predictions_and_score(evaluation_metrics, model, columns_used):
         json.dump(evaluation_metrics, score_file)
 
 
-def main(model_name='random_forest', seed=None):
+def run_model(model_name='random_forest', seed=None):
     original_train, original_validate = load_data()
     train, validate = encode(original_train, original_validate)
 
