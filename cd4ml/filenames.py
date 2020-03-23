@@ -7,12 +7,13 @@ from cd4ml.utils import ensure_dir_exists
 data_dir_default = 'data'
 data_dir = os.getenv('CD4ML_DATA_DIR', data_dir_default)
 data_raw = "%s/raw" % data_dir
-
+data_source = "%s/source" % data_dir
 
 ensure_dir_exists(data_dir)
 ensure_dir_exists("%s/results" % data_dir)
 ensure_dir_exists("%s/splitter" % data_dir)
 ensure_dir_exists(data_raw)
+ensure_dir_exists(data_source)
 
 file_names = {
     'metrics': '%s/results/metrics.json' % data_dir,
