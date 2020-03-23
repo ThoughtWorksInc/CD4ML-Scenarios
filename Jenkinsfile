@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'python run_python_script.py pipeline'
+                sh 'python3 run_python_script.py pipeline'
             }
         }
         // stage('Deploy') {
