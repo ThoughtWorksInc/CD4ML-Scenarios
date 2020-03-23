@@ -2,6 +2,7 @@ import os
 import urllib.request
 import argparse
 import zipfile
+from cd4ml.filenames import file_names, data_raw
 
 
 def load_data(path, key):
@@ -16,6 +17,13 @@ def load_data(path, key):
 
 
 def main():
+    with zipfile.ZipFile(file_names['zipped_data'], 'r') as zip_ref:
+        zip_ref.extractall(data_raw)
+
+    print("Finished unzipping data")
+
+
+def main_dep():
     parser = argparse.ArgumentParser(description='Download files from Google Storage.')
     parser.add_argument('--model', action='store_true', default=False, help='Downloads model (data/decision_tree/model.pkl) instead of input file (data/raw/store47-2016.csv)')
     args = parser.parse_args()
