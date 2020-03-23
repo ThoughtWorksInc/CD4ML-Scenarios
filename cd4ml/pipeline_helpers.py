@@ -1,4 +1,4 @@
-from cd4ml.decision_tree import main as main_train
+from cd4ml.run_ml_model import main as main_train
 from cd4ml.download_data import main as main_download
 from cd4ml.splitter import main as main_splitter
 
