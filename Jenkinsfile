@@ -21,12 +21,12 @@ pipeline {
                 sh 'python3 run_python_script.py pipeline'
             }
         }
-        // stage('Deploy') {
-        //     steps {
-        //         dir("python") {
-        //             sh 'curl --request POST --data-binary "@data/decision_tree/model.pkl" http://model:5005/replacemodel'
-        //         }
-        //     }
-        // }
+        stage('Deploy') {
+            steps {
+                 dir("python") {
+                     sh 'curl --request POST --data-binary "@data/decision_tree/model.pkl" http://model:5005/replacemodel'
+                 }
+             }
+        }
     }
 }
