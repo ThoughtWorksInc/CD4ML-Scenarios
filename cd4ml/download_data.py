@@ -18,7 +18,7 @@ def load_data(path, key):
 
 def main():
     key = 'store47-2016.csv'
-    load_data(file_names['zipped_data'], key)
+    load_data(data_raw, key)
     zip_ref = zipfile.ZipFile(file_names['zipped_data'], 'r')
     zip_ref.extractall(data_raw)
 
