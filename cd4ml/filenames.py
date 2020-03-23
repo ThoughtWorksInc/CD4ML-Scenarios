@@ -18,7 +18,7 @@ file_names = {
     'metrics': '%s/results/metrics.json' % data_dir,
     'train': '%s/splitter/train.csv' % data_dir,
     'validation': '%s/splitter/validation.csv' % data_dir,
-    'zipped_data': 'data/source/store47-2016.csv.zip'
+    'zipped_data': '%s/source/store47-2016.csv.zip' % data_dir
 }
 
 
