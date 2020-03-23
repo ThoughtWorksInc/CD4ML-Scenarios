@@ -44,7 +44,7 @@ def replace_model():
     content = request.get_data(as_text=False)
     with open(file_names['model'], 'w+b') as f:
         f.write(content)
-    return "OK", 200 
+    return "OK", 200
 
 
 @app.route('/prediction')
