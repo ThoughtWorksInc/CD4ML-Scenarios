@@ -17,9 +17,9 @@
 docker-compose -f "docker-compose.yaml" down
 ```
 
-### Get Admin Password for Jenkins
+### Get Admin Password for Jenkins. Save it in a file that will not be checked in to git
 ```{bash}
-docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword > ~/jenkins_admin_password
 ```
 
 ### Get URL for Dev Environment
@@ -43,3 +43,12 @@ Copy the <token here> part and paste into [Jupyter Lab](https://localhost:13000)
 [Jupyter Lab](http://localhost:13000)
 
 [Kibana](http://localhost:5601)
+
+
+If you want to blow everything Jenkins away and start over, check your volumes and delete them.
+```{bash}
+docker volume ls
+docker volume rm <volume_name>
+```
+
+
