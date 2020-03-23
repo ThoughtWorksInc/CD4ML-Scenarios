@@ -2,9 +2,11 @@ from flask import Flask, render_template, jsonify, request
 from datetime import datetime
 import joblib
 import pandas as pd
-import decision_tree
 import os
 from fluent import sender, event
+from cd4ml import decision_tree
+from cd4ml.filenames import file_names
+
 
 app = Flask(__name__, template_folder='webapp/templates', static_folder='webapp/static')
 
@@ -47,7 +49,7 @@ def replace_model():
 
 @app.route('/prediction')
 def get_prediction():
-  loaded_model = joblib.load('data/decision_tree/model.pkl')
+  loaded_model = joblib.load(file_names['model'])
 
   date_string = request.args.get('date')
 
