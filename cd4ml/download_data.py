@@ -10,12 +10,12 @@ def load_data(path, key):
 
     if not os.path.exists(os.path.join(path, key)):
         url = "https://storage.googleapis.com/%s/%s" % (gcsBucket, key)
-        urllib.request.urlretrieve(url, os.path.join(path, key) + '.blah')
+        urllib.request.urlretrieve(url, os.path.join(path, key))
 
 
 def main():
     key = 'store47-2016.csv'
-    load_data(data_source, key)
+    load_data(data_raw, key)
     # zip_ref = zipfile.ZipFile(file_names['zipped_data'], 'r')
     # zip_ref.extractall(data_raw)
 
