@@ -1,14 +1,15 @@
 from enum import Enum
 import numpy as np
 import pandas as pd
-import sys, os, json
+import sys
+import os
+import json
 from sklearn.preprocessing import LabelEncoder
 import joblib
-sys.path.append(os.path.join('..', 'src'))
-sys.path.append(os.path.join('src'))
 from sklearn import tree, ensemble, metrics
 from cd4ml import evaluation
 from cd4ml import tracking
+from cd4ml.filenames import file_names
 
 
 class Model(Enum):
@@ -19,11 +20,11 @@ class Model(Enum):
 
 
 def load_data():
-    filename = "data/splitter/train.csv"
+    filename = file_names['train']
     print("Loading data from {}".format(filename))
     train = pd.read_csv(filename)
 
-    filename = 'data/splitter/validation.csv'
+    filename = file_names['validation']
     print("Loading data from {}".format(filename))
     validate = pd.read_csv(filename)
 
