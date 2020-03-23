@@ -21,13 +21,6 @@ pipeline {
                 sh 'python run_python_script.py pipeline'
             }
         }
-        // stage("Build"){
-        //     steps {
-        //         dir("python"){
-        //             sh 'dvc repro model.pkl.dvc'
-        //         }
-        //     }
-        // }
         // stage('Deploy') {
         //     steps {
         //         dir("python") {
