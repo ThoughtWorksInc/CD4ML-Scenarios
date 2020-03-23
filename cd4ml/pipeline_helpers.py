@@ -1,4 +1,4 @@
-from cd4ml.decision_tree import main
+from cd4ml.decision_tree import main as main_train
 from cd4ml.download_data import main as main_download
 from cd4ml.splitter import main as main_splitter
 
@@ -16,6 +16,7 @@ def split_data():
 
 
 def train_model():
+    model_name = 'random_forest'
     print('Training Model')
-    main(seed=8675309)
+    main_train(model_name=model_name, seed=8675309)
     print('Done training model')

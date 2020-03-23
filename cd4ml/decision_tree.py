@@ -1,20 +1,13 @@
-from enum import Enum
 import pandas as pd
 import os
 import json
 from sklearn.preprocessing import LabelEncoder
 import joblib
-from sklearn import tree, ensemble, metrics
+from sklearn import metrics
 from cd4ml import evaluation
 from cd4ml import tracking
 from cd4ml.filenames import file_names
-
-
-class Model(Enum):
-    DECISION_TREE = 0
-    RANDOM_FOREST = 1
-    ADABOOST = 2
-    GRADIENT_BOOST = 3
+from cd4ml.model_utils import get_model_class_and_params
 
 
 def load_data():
@@ -59,26 +52,17 @@ def encode(train, validate):
     return train, validate
 
 
-def train_model(train, model=Model.RANDOM_FOREST, seed=None):
-    print("Training model using regressor: {}".format(model.name))
+def train_model(train, model_name, seed=None):
+    model_class, params = get_model_class_and_params(model_name)
+
+    print("Training %s model" % model_name)
     train_dropped = train.drop('unit_sales', axis=1)
     target = train['unit_sales']
 
-    if model == Model.RANDOM_FOREST:
-        params = {'n_estimators': 10}
-        clf = ensemble.RandomForestRegressor(random_state=seed, **params)
-    elif model == Model.ADABOOST:
-        params = {'n_estimators': 50, 'learning_rate': 1.0, 'loss': 'linear'}
-        clf = ensemble.AdaBoostRegressor(random_state=seed, **params)
-    elif model == Model.GRADIENT_BOOST:
-        params = {'n_estimators': 200, 'max_depth': 4}
-        clf = ensemble.GradientBoostingRegressor(random_state=seed, **params)
-    else:
-        params = {'criterion': 'mse'}
-        clf = tree.DecisionTreeRegressor(random_state=seed)
+    clf = model_class(random_state=seed, **params)
 
     trained_model = clf.fit(train_dropped, target)
-    return (trained_model, params)
+    return trained_model, params
 
 
 def overwrite_unseen_prediction_with_zero(preds, train, validate):
@@ -118,12 +102,12 @@ def write_predictions_and_score(evaluation_metrics, model, columns_used):
         json.dump(evaluation_metrics, score_file)
 
 
-def main(model=Model.RANDOM_FOREST, seed=None):
+def main(model_name='random_forest', seed=None):
     original_train, original_validate = load_data()
     train, validate = encode(original_train, original_validate)
     with tracking.track() as track:
-        track.set_model(model)
-        model, params = train_model(train, model, seed)
+        track.set_model(model_name)
+        model, params = train_model(train, model_name, seed)
         track.log_params(params)
         validation_predictions = make_predictions(model, validate)
 
@@ -142,8 +126,3 @@ def main(model=Model.RANDOM_FOREST, seed=None):
 
         print("Evaluation done with metrics {}.".format(
             json.dumps(evaluation_metrics)))
-
-
-if __name__ == "__main__":
-    # main(model=Model.RANDOM_FOREST, seed=8675309)
-    pass
