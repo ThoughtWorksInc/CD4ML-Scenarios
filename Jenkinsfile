@@ -16,6 +16,11 @@ pipeline {
                 sh './run_tests.sh'
             }
         }
+        stage('Build') {
+            steps {
+                echo 'Hello'
+            }
+        }
         // stage("Build"){
         //     steps {
         //         dir("python"){
