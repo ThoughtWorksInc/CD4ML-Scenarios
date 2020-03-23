@@ -15,4 +15,5 @@ def main(*args):
     np.random.seed(462748)
 
     print('variable: %s' % variable)
+    ph.download_data()
     ph.run_simple_model()

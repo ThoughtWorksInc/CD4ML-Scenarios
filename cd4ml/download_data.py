@@ -3,6 +3,7 @@ import urllib.request
 import argparse
 import zipfile
 
+
 def load_data(path, key):
     gcsBucket = "continuous-intelligence"
 
