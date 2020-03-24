@@ -20,6 +20,6 @@ file_names = {
     'train': '%s/splitter/train.csv' % data_dir,
     'validation': '%s/splitter/validation.csv' % data_dir,
     'raw_data': '%s/raw/store47-2016.csv' % data_dir,
-    'model': '%s/decision_tree/model.pkl' % data_dir,
+    'model': '%s/models/model.pkl' % data_dir,
     'ml_params': 'ml_model_params.py'
 }

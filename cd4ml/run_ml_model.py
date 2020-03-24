@@ -7,6 +7,7 @@ from cd4ml import evaluation
 from cd4ml import tracking
 from cd4ml.model_utils import get_model_class_and_params
 from cd4ml.prepare_data import load_data, encode
+from cd4ml.filenames import file_names
 
 
 def train_model(train, model_name, seed=None):
@@ -43,11 +44,8 @@ def make_predictions(model, validate):
     return validate_preds
 
 
-def write_predictions_and_score(evaluation_metrics, model, columns_used):
-    key = "decision_tree"
-    if not os.path.exists('data/{}'.format(key)):
-        os.makedirs('data/{}'.format(key))
-    filename = 'data/{}/model.pkl'.format(key)
+def write_predictions_and_score(evaluation_metrics, model):
+    filename = file_names['model']
     print("Writing to {}".format(filename))
     joblib.dump(model, filename)
 
@@ -79,8 +77,7 @@ def run_model(model_name='random_forest', seed=None):
         }
         track.log_metrics(evaluation_metrics)
 
-        write_predictions_and_score(
-            evaluation_metrics, model, original_train.columns)
+        write_predictions_and_score(evaluation_metrics, model)
 
         print("Evaluation done with metrics {}.".format(
             json.dumps(evaluation_metrics)))
