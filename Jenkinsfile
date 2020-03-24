@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'curl --request POST --data-binary "@data/decision_tree/model.pkl" http://model:5005/replacemodel'
+                sh 'curl --request POST --data-binary "@data/models/model.pkl" http://model:5005/replacemodel'
             }
         }
     }

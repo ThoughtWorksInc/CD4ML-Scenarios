@@ -44,11 +44,13 @@ def make_predictions(model, validate):
     return validate_preds
 
 
-def write_predictions_and_score(evaluation_metrics, model):
+def write_model(model):
     filename = file_names['model']
     print("Writing to {}".format(filename))
     joblib.dump(model, filename)
 
+
+def write_predictions_and_score(evaluation_metrics):
     filename = 'results/metrics.json'
     print("Writing to {}".format(filename))
     if not os.path.exists('results'):
@@ -77,7 +79,9 @@ def run_model(model_name='random_forest', seed=None):
         }
         track.log_metrics(evaluation_metrics)
 
-        write_predictions_and_score(evaluation_metrics, model)
+        write_predictions_and_score(evaluation_metrics)
 
         print("Evaluation done with metrics {}.".format(
             json.dumps(evaluation_metrics)))
+
+        write_model(model)
