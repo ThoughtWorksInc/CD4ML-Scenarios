@@ -1,6 +1,6 @@
 model_params = {
     "random_forest": {
-        "n_estimators": 100
+        "n_estimators": 20
     },
     "adaboost": {
         "n_estimators": 50,
