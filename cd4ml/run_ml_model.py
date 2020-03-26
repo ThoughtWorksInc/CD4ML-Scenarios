@@ -2,7 +2,6 @@ import pandas as pd
 import os
 import json
 import joblib
-import numpy as np
 from sklearn import metrics
 from cd4ml import evaluation
 from cd4ml import tracking
