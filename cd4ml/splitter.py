@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from cd4ml.filenames import file_names
 
 
@@ -23,23 +24,49 @@ def write_data(table, filename):
     table.to_csv(filename, index=False)
 
 
+def read_raw_data():
+    dtypes = {'class': np.str,
+              'date': np.str,
+              'day': np.str,
+              'dayoff': np.int64,
+              'dayofweek': np.str,
+              'days_til_end_of_data': np.int64,
+              'family': np.str,
+              'id': np.str,
+              'item_nbr': np.str,
+              'month': np.str,
+              'perishable': np.int64,
+              'transactions': np.int64,
+              'unit_sales': np.float64,
+              'year': np.str}
+
+    data = pd.read_csv(file_names['raw_data'], dtype=dtypes)
+    data['date'] = pd.to_datetime(data['date'], format="%Y-%m-%d")
+    return data
+
+
+def read_data():
+    data = read_raw_data()
+    # TODO: add features
+    return data
+
+
 def run_splitter():
     print("Loading data...")
-    train = pd.read_csv(file_names['raw_data'])
+    data = read_data()
 
-    train['date'] = pd.to_datetime(train['date'], format="%Y-%m-%d")
-
-    latest_date = train['date'].max()
+    latest_date = data['date'].max()
 
     begin_of_validation, end_of_validation = get_validation_period(
         latest_date, days_back=57)
 
     print("Splitting data between {} and {}".format(
         begin_of_validation, end_of_validation))
-    train_train, train_validation = split_validation_train_by_validation_period(train, begin_of_validation,
+    train, validation = split_validation_train_by_validation_period(data,
+                                                                                begin_of_validation,
                                                                                 end_of_validation)
-    write_data(train_train, file_names['train'])
+    write_data(train, file_names['train'])
 
-    write_data(train_validation, file_names['validation'])
+    write_data(validation, file_names['validation'])
 
     print("Finished splitting")
