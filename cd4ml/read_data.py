@@ -33,6 +33,7 @@ def stream_data():
 
 
 def get_encoder_from_stream(stream):
+    # batch step
     categorical_n_levels_dict_all = {'item_nbr': 10000000000,
                                      'year': 50,
                                      'month': 13,
@@ -43,8 +44,10 @@ def get_encoder_from_stream(stream):
 
     categorical_n_levels_dict = categorical_n_levels_dict_all
 
-    numeric_columns = ['unit_sales', 'perishable', 'transactions',
-                       'days_til_end_of_data', 'dayoff']
+    numeric_columns = ['perishable',
+                       'transactions',
+                       'days_til_end_of_data',
+                       'dayoff']
 
     encoder = OneHotEncoder(categorical_n_levels_dict, numeric_columns)
     encoder.load_from_data_stream(stream)
@@ -52,5 +55,16 @@ def get_encoder_from_stream(stream):
 
 
 def get_encoder():
+    # batch step
     stream = stream_data()
     return get_encoder_from_stream(stream)
+
+
+def stream_encoded_data():
+    # batch step
+    print('Getting encoder')
+    encoder = get_encoder()
+    encoder_file = file_names['encoder']
+    encoder.save(encoder_file)
+    print('Got encoder, wrote to %s' % encoder_file)
+    return encoder.encode_data_stream(stream_data())

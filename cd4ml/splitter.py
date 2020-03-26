@@ -1,7 +1,7 @@
 import pandas as pd
 from datetime import datetime
 from cd4ml.filenames import file_names
-from cd4ml.read_data import read_raw_data
+from cd4ml.read_data import stream_data
 
 
 def date_string_to_date(date_string):
@@ -54,3 +54,13 @@ def run_splitter():
     write_data(validation, file_names['validation'])
 
     print("Finished splitting")
+
+
+def get_cutoff_dates():
+    max_date = '1500-01-01'
+    stream = read_raw_data
+
+
+
+def split_stream(stream, date_cutoff):
+    pass

@@ -84,7 +84,7 @@ def test_get_encoder_from_stream():
 
     print(decoded[0].keys())
     print(row_in.keys())
-    del row_in['date'], row_in['id']
+    del row_in['date'], row_in['id'], row_in['unit_sales']
 
     assert decoded[0].keys() == row_in.keys()
 
