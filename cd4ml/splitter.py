@@ -47,6 +47,8 @@ def read_raw_data():
 
 def read_data():
     data = read_raw_data()
+    data.loc[data.unit_sales < 0, 'unit_sales'] = 0
+
     # TODO: add features
     return data
 

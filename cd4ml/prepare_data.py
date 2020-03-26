@@ -20,7 +20,14 @@ def join_tables(train, validate):
     return train.append(validate).drop('date', axis=1)
 
 
-def encode_categorical_columns(df):
+def get_encoder(df, columns_to_encode):
+    encoder = LabelEncoder()
+    for col in columns_to_encode:
+        encoder.fit(df[col])
+    return encoder
+
+
+def encode_categorical_columns_deprecated(df):
     obj_df = df.select_dtypes(include=['object', 'bool']).copy().fillna('-1')
     lb = LabelEncoder()
     for col in obj_df.columns:
@@ -28,18 +35,26 @@ def encode_categorical_columns(df):
     return df
 
 
+def encode_with_encoder(df, encoder):
+    df_encoded = df.copy()
+    for col in df.columns:
+        df_encoded[col] = encoder.transform(df[col])
+
+    return df_encoded
+
+
+def get_columns_to_encode():
+    return ['item_nbr', 'family', 'class', 'year', 'month', 'dayofweek']
+
+
 def encode(train, validate):
     print("Encoding categorical variables")
-    train_ids = train.id
-    validate_ids = validate.id
-
+    cols_to_encode = get_columns_to_encode()
     joined = join_tables(train, validate)
+    encoder = get_encoder(joined, cols_to_encode)
+    # TODO: persist the encoder
 
-    encoded = encode_categorical_columns(joined.fillna(-1))
+    train_encoded = encode_with_encoder(train, encoder)
+    validate_encoded = encode_with_encoder(validate, encoder)
 
-    print("Not predicting returns...")
-    encoded.loc[encoded.unit_sales < 0, 'unit_sales'] = 0
-
-    validate = encoded[encoded['id'].isin(validate_ids)]
-    train = encoded[encoded['id'].isin(train_ids)]
-    return train, validate
+    return train_encoded, validate_encoded
