@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import json
 import joblib
+import numpy as np
 from sklearn import metrics
 from cd4ml import evaluation
 from cd4ml import tracking
@@ -15,7 +16,7 @@ def train_model(train, model_name, seed=None):
 
     print("Training %s model" % model_name)
     train_dropped = train.drop('unit_sales', axis=1)
-    target = train['unit_sales']
+    target = train['unit_sales'].astype(np.float64)
 
     clf = model_class(random_state=seed, **params)
 
