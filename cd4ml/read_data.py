@@ -1,11 +1,27 @@
+import os
 from csv import DictReader
 from cd4ml.filenames import file_names
 from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
 
+# use just a small number of items?
+use_filter = True
+
+
+def in_small_item_list(row):
+    items = {"99197", "105574", "1963838"}
+    return row['item_nbr'] in items
+
 
 def stream_raw_data():
     filename = file_names['raw_data']
-    return (dict(row) for row in DictReader(open(filename, 'r')))
+    if use_filter:
+        filter_func = in_small_item_list
+    else:
+        def filter_func(_):
+            return True
+
+    return (dict(row) for row in DictReader(open(filename, 'r'))
+            if filter_func(row))
 
 
 def process(row_in):
@@ -54,17 +70,21 @@ def get_encoder_from_stream(stream):
     return encoder
 
 
-def get_encoder():
+def get_encoder(write=True, read_from_cache=False):
     # batch step
-    stream = stream_data()
-    return get_encoder_from_stream(stream)
-
-
-def stream_encoded_data():
-    # batch step
-    print('Getting encoder')
-    encoder = get_encoder()
     encoder_file = file_names['encoder']
-    encoder.save(encoder_file)
-    print('Got encoder, wrote to %s' % encoder_file)
-    return encoder.encode_data_stream(stream_data())
+    if os.path.exists(encoder_file) and read_from_cache:
+        print('Reading encoder from : %s' % encoder_file)
+        encoder_from_file = OneHotEncoder([], [])
+        encoder_from_file.load_from_file(encoder_file)
+        return encoder_file
+
+    print('Building encoder')
+    stream = stream_data()
+    encoder = get_encoder_from_stream(stream)
+
+    if write:
+        print('Writing encoder to: %s' % encoder_file)
+        encoder.save(encoder_file)
+
+    return encoder
