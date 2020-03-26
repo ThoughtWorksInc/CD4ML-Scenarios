@@ -63,8 +63,8 @@ def run_splitter():
     print("Splitting data between {} and {}".format(
         begin_of_validation, end_of_validation))
     train, validation = split_validation_train_by_validation_period(data,
-                                                                                begin_of_validation,
-                                                                                end_of_validation)
+                                                                    begin_of_validation,
+                                                                    end_of_validation)
     write_data(train, file_names['train'])
 
     write_data(validation, file_names['validation'])
