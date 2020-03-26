@@ -17,4 +17,5 @@ notes.txt
 venv
 admin_password
 results
+*.prof
 

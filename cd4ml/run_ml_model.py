@@ -15,7 +15,6 @@ def train_model(train, model_name, seed=None):
 
     print("Training %s model" % model_name)
     train_dropped = train.drop('unit_sales', axis=1)
-    # target = train['unit_sales'].astype(np.float64)
     target = train['unit_sales']
     clf = model_class(random_state=seed, **params)
 
