@@ -35,7 +35,6 @@ def process(row_in):
            'class': row_in['class'],
            'family': row_in['family'],
            'perishable': int(row_in['perishable'] == '1'),
-           'transactions': int(row_in['transactions']),
            'dayofweek': row_in['dayofweek'],
            'days_til_end_of_data': int(row_in['days_til_end_of_data']),
            'dayoff': int(row_in['dayoff'] == 'True')
@@ -61,7 +60,6 @@ def get_encoder_from_stream(stream):
     categorical_n_levels_dict = categorical_n_levels_dict_all
 
     numeric_columns = ['perishable',
-                       'transactions',
                        'days_til_end_of_data',
                        'dayoff']
 
