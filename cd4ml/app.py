@@ -4,8 +4,9 @@ import joblib
 import pandas as pd
 import os
 from fluent import sender
-from cd4ml import prepare_data
 from cd4ml.filenames import file_names
+
+# TODO: needs fixing to work with new data
 
 
 app = Flask(__name__, template_folder='webapp/templates',
@@ -73,9 +74,9 @@ def get_prediction():
         "days_til_end_of_data": 0,
         "dayoff": date.weekday() >= 5
     }
+
     df = pd.DataFrame(data=data, index=['row1'])
 
-    df = prepare_data.encode_categorical_columns(df)
     pred = loaded_model.predict(df)
     if FLUENTD_HOST is not None:
         log_payload = {'prediction': pred[0], **data}
