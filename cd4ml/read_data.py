@@ -25,8 +25,7 @@ def stream_raw_data():
 
 
 def process(row_in):
-    row = {'id': row_in['id'],
-           'item_nbr': row_in['item_nbr'],
+    row = {'item_nbr': row_in['item_nbr'],
            'unit_sales': max(0.0, float(row_in['unit_sales'])),
            'date': row_in['date'],
            'year': row_in['year'],
@@ -37,8 +36,7 @@ def process(row_in):
            'perishable': int(row_in['perishable'] == '1'),
            'dayofweek': row_in['dayofweek'],
            'days_til_end_of_data': int(row_in['days_til_end_of_data']),
-           'dayoff': int(row_in['dayoff'] == 'True')
-           }
+           'dayoff': int(row_in['dayoff'] == 'True')}
 
     return row
 
@@ -68,14 +66,14 @@ def get_encoder_from_stream(stream):
     return encoder
 
 
-def get_encoder(write=True, read_from_cache=False):
+def get_encoder(write=True, read_from_file=False):
     # batch step
     encoder_file = file_names['encoder']
-    if os.path.exists(encoder_file) and read_from_cache:
+    if os.path.exists(encoder_file) and read_from_file:
         print('Reading encoder from : %s' % encoder_file)
         encoder_from_file = OneHotEncoder([], [])
         encoder_from_file.load_from_file(encoder_file)
-        return encoder_file
+        return encoder_from_file
 
     print('Building encoder')
     stream = stream_data()

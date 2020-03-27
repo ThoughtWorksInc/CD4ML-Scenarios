@@ -1,6 +1,5 @@
 import datetime
 import arrow
-import numpy as np
 from cd4ml.memo import memo
 
 
@@ -37,50 +36,6 @@ def get_days_from_start_date(current_date, start_date):
     return diff_sec / (24 * 3600.0)
 
 
-# TODO: These needed for schema change
-def get_rpr(r):
-    x = r.get('date')
-    if x is not None:
-        return x
-    else:
-        return r['RPR_DT']
-
-
-def get_smu(r):
-    x = r.get('value')
-    if x is not None:
-        return x
-    else:
-        return r['USE_HR_MI']
-
-
-def get_src(r):
-    x = r.get('src_ind')
-    if x is not None:
-        return x
-    else:
-        return r['SRC_IND']
-
-
-def get_days_utilz(record_list, ins_dt=None):
-    parse = parse_date_as_datetime_date
-    dates = [parse(get_rpr(r)) for r in record_list]
-    utiliz = [get_smu(r) for r in record_list]
-    src_inds = [get_src(r) for r in record_list]
-
-    if ins_dt is None:
-        # TODO: Old way where INS_DT was in each row
-        start_date = list(set([parse(r['INS_DT']) for r in record_list]))
-        assert len(start_date) == 1
-        start_date = start_date[0]
-    else:
-        start_date = parse(ins_dt)
-
-    days = [get_days_from_start_date(d, start_date) for d in dates]
-
-    return np.array(days), np.array(utiliz), np.array(src_inds)
-
-
 def get_day_range_dates(num_days, stride_days):
     first = datetime.date(2000, 1, 1)
     return [first + datetime.timedelta(days=x)
@@ -113,3 +68,24 @@ def diff_days_date_strings(date_string_start, date_string_end):
 def ymd_to_date_string(ymd):
     year, month, day = ymd
     return "%s-%s-%s" % (str(year), str(month).zfill(2), str(day).zfill(2))
+
+
+@memo
+def date_to_ymd(date_string):
+    ymd = date_string.split('-')
+    ymd = [int(i) for i in ymd]
+    year, month, day = ymd
+    return year, month, day
+
+
+@memo
+def ymd_to_weekday(ymd):
+    date = datetime.datetime(ymd)
+    return date.weekday()
+
+
+@memo
+def date_string_to_weekday(date_string):
+    ymd = date_to_ymd(date_string)
+    date = datetime.datetime(*ymd)
+    return date.weekday()

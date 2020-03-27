@@ -66,3 +66,21 @@ def test_ymd_to_date_string():
     assert du.ymd_to_date_string((2020, 11, 5)) == '2020-11-05'
     assert du.ymd_to_date_string((2020, 1, 5)) == '2020-01-05'
     assert du.ymd_to_date_string((2020, 6, 23)) == '2020-06-23'
+
+
+def test_date_to_ymd():
+    date_string = '2020-02-12'
+    year, month, day = du.date_to_ymd(date_string)
+    assert year == 2020
+    assert month == 2
+    assert day == 12
+
+
+def test_date_string_to_weekday():
+    # Thursday March 26, 2020
+    date_string = '2020-03-26'
+    weekday = du.date_string_to_weekday(date_string)
+    assert weekday == 3
+
+
+

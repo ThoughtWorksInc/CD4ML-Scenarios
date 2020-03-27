@@ -34,8 +34,7 @@ def test_process():
               'dayoff': 'False'}
 
     row = process(row_in)
-    expected = {'id': '88219279',
-                'item_nbr': '103520',
+    expected = {'item_nbr': '103520',
                 'unit_sales': 10.0,
                 'date': '2016-08-16',
                 'year': '2016',
