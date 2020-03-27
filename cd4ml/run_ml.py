@@ -80,7 +80,7 @@ def validate(model, encoder, track, date_cutoff, max_date):
 
 
 def run_all(model_name='random_forest', seed=None):
-    encoder = get_encoder(write=True, read_from_cache=False)
+    encoder = get_encoder(write=True, read_from_file=False)
     date_cutoff, max_date = get_cutoff_dates(57)
 
     with tracking.track() as track:
