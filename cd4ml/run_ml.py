@@ -6,7 +6,6 @@ from cd4ml import tracking
 from cd4ml.read_data import stream_data, get_encoder
 from cd4ml.splitter import get_cutoff_dates, train_filter, validate_filter
 from cd4ml.model_utils import get_model_class, get_model_params
-from cd4ml import evaluation
 from cd4ml.filenames import file_names
 
 
