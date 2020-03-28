@@ -3,6 +3,7 @@ from cd4ml.filenames import file_names
 from cd4ml.date_utils import date_string_to_weekday
 from cd4ml.read_data import process as process_row
 from cd4ml.read_data import get_encoder
+from pathlib import Path
 
 products = {
     "99197": {
@@ -71,7 +72,13 @@ def replace_encoder_file(content):
 
 
 def get_prediction(item_nbr, date_string):
+    if (not Path(file_names['model']).exists()):
+        return ("ERROR", "Model Not Loaded")
+
+    if (not Path(file_names['encoder']).exists()):
+        return ("ERROR", "Encoder Not Loaded")
+
     loaded_model = joblib.load(file_names['model'])
     encoder = get_encoder(read_from_file=True)
     encoded_data = [get_encoded_row(item_nbr, date_string, encoder)]
-    return loaded_model.predict(encoded_data)[0]
+    return ("OK", loaded_model.predict(encoded_data)[0])

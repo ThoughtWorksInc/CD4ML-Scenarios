@@ -1,0 +1,18 @@
+FROM python:3.7-slim-buster
+
+USER root
+ENV FLUENTD_HOST "fluentd"
+ENV FLUENTD_PORT "24224"
+ENV FLASK_APP "cd4ml/app.py"
+ENV FLASK_ENV "production"
+
+RUN mkdir -p /app/cd4ml/{src,data}
+WORKDIR /app/cd4ml/
+
+COPY cd4ml .
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+EXPOSE 5005
+WORKDIR /app
+CMD flask run --host=0.0.0.0 --port 5005

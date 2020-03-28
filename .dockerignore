@@ -1,7 +1,9 @@
-cd4ml-workshop/*
-fluentd/*
-instructions/*
-python/*
+fluentd/**
+instructions/**
 **/.DS_Store
-.vscode
-.venv/*
+.vscode/**
+.venv/**
+.git/**
+.pytest_cache/**
+.dvc/*
+./cov_html/**

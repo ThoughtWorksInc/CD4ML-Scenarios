@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import os
 from fluent import sender
-from cd4ml.app_utils import replace_model_file, replace_encoder_file
+import cd4ml.app_utils as utils
 
 app = Flask(__name__, template_folder='webapp/templates',
             static_folder='webapp/static')
@@ -22,26 +22,15 @@ def index():
 @app.route('/replace_model', methods=["POST"])
 def replace_model():
     content = request.get_data(as_text=False)
-    replace_model_file(content)
+    utils.replace_model_file(content)
     return "OK", 200
 
 
 @app.route('/replace_encoder', methods=["POST"])
 def replace_encoder():
     content = request.get_data(as_text=False)
-    replace_encoder_file(content)
+    utils.replace_encoder_file(content)
     return "OK", 200
-
-
-def log_prediction(pred):
-    log_payload = {'prediction': pred}
-    print('logging {}'.format(log_payload))
-    logger = sender.FluentSender(
-        TENANT, host=FLUENTD_HOST, port=int(FLUENTD_PORT))
-
-    if not logger.emit('prediction', log_payload):
-        print(logger.last_error)
-        logger.clear_last_error()
 
 
 @app.route('/prediction')
@@ -49,13 +38,33 @@ def get_prediction():
     date_string = request.args.get('date')
     item_nbr = request.args.get("item_nbr"),
 
-    pred = get_prediction(item_nbr, date_string)
-    log_prediction(pred)
+    prediction_tuple = utils.get_prediction(item_nbr, date_string)
+    status = prediction_tuple[0]
+    predicition = prediction_tuple[1]
+
+    log_payload = {'prediction': predicition}
+    log_prediction_console(log_payload)
 
     if FLUENTD_HOST is not None:
-        log_prediction(pred)
+        log_prediction_fluentd(log_payload)
 
-    return "%d" % pred
+    if status == "ERROR":
+        return predicition, 503
+    else:
+        return "%d" % predicition, 200
+
+
+def log_prediction_console(log_payload):
+    print('logging {}'.format(log_payload))
+
+
+def log_prediction_fluentd(log_payload):
+    logger = sender.FluentSender(
+        TENANT, host=FLUENTD_HOST, port=int(FLUENTD_PORT))
+
+    if not logger.emit('prediction', log_payload):
+        print("Could not log to Fluentd: {}".format(logger.last_error))
+        logger.clear_last_error()
 
 
 if __name__ == '__main__':

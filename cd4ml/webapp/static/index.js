@@ -33,8 +33,8 @@ $( document ).ready(function() {
                     $('#prediction').text(result);
                     $('button[type="submit"]').removeAttr("disabled")
                 })
-                .fail(function() {
-                    alert("Request failed.")
+                .fail(function(errorObject, textStatus, body) {
+                    $('#prediction').text(errorObject.responseText);
                     $('button[type="submit"]').removeAttr("disabled")
                 });
         }
