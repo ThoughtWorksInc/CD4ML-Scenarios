@@ -36,7 +36,7 @@ def replace_encoder():
 @app.route('/prediction')
 def get_prediction():
     date_string = request.args.get('date')
-    item_nbr = request.args.get("item_nbr"),
+    item_nbr = request.args.get("item_nbr")
 
     prediction_tuple = utils.get_prediction(item_nbr, date_string)
     status = prediction_tuple[0]

@@ -6,7 +6,7 @@ ENV FLUENTD_PORT "24224"
 ENV FLASK_APP "cd4ml/app.py"
 ENV FLASK_ENV "production"
 
-RUN mkdir -p /app/cd4ml/{src,data}
+RUN mkdir -p /app/cd4ml/
 WORKDIR /app/cd4ml/
 
 COPY cd4ml .

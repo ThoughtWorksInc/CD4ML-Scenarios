@@ -32,7 +32,7 @@ At this step you'll be presented with the Jenkins Home Page shown below.
 
 ![JenkinsHomePage](./images/JenkinsHomePage.png)
 
-Select "Manage Jenkins" on the left. Then, select "Manage Plugins". On the Plugin Manager page, select the "Available" Tab. On the search filter on the top right, search "Blue Ocean" and check the "Blue Ocean" Plugin. 
+Select "Manage Jenkins" on the left. Then, select "Manage Plugins". On the Plugin Manager page, select the "Available" Tab. Using the search filter on the top right, search "Blue Ocean" and for "Poll SCM plugin". Install both of these plugins.
 
 ![BlueOcean](./images/BlueOcean.png)
 

@@ -5,7 +5,7 @@ docker build -f Dockerfile-jenkins -t ericnaglertw/cd4ml-build-master:2 .
 echo "Building MLFlow"
 docker build -f Dockerfile-mlflow -t ericnaglertw/cd4ml-mlflow:1 .
 echo "Building Model Server"
-docker build -f Dockerfile -t ericnaglertw/cd4ml-model-server:1 .
+docker build -f Dockerfile-model -t ericnaglertw/cd4ml-model-server:1 .
 
 echo "Building Fluentd"
 pushd .
