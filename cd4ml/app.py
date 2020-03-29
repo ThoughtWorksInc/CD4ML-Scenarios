@@ -12,7 +12,7 @@ FLUENTD_PORT = os.getenv('FLUENTD_PORT')
 
 print("FLUENTD_HOST="+FLUENTD_HOST)
 print("FLUENTD_PORT="+FLUENTD_PORT)
-print("Starting Up!")
+
 
 @app.route('/')
 def index():
