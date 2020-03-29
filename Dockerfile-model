@@ -8,10 +8,10 @@ ENV FLASK_ENV "production"
 
 RUN mkdir -p /app/cd4ml/
 WORKDIR /app/cd4ml/
-
-COPY cd4ml .
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
+
+COPY cd4ml .
 
 EXPOSE 5005
 WORKDIR /app

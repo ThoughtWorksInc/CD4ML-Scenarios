@@ -65,7 +65,10 @@ services:
       - es01
 
   model:
-    image: ericnaglertw/cd4ml-model-server:1
+    build:
+      context: .
+      dockerfile: Dockerfile-model
+    image: cd4ml-model:latest   
     container_name: model
     ports:
       - "11000:5005"

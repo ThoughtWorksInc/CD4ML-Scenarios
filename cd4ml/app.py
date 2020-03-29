@@ -12,7 +12,7 @@ FLUENTD_PORT = os.getenv('FLUENTD_PORT')
 
 print("FLUENTD_HOST="+FLUENTD_HOST)
 print("FLUENTD_PORT="+FLUENTD_PORT)
-
+print("Starting Up!")
 
 @app.route('/')
 def index():
@@ -65,7 +65,3 @@ def log_prediction_fluentd(log_payload):
     if not logger.emit('prediction', log_payload):
         print("Could not log to Fluentd: {}".format(logger.last_error))
         logger.clear_last_error()
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5005)
