@@ -23,6 +23,16 @@ products = {
     }
 }
 
+product_name_map = {
+    "99197": "Milk",
+    "105574": "Cheese",
+    "1963838": "Soap"
+}
+
+
+def get_product_name_from_id(id):
+    return product_name_map.get(id)
+
 
 def get_processed_row(item_nbr, date_string):
     ymd = date_string.split('-')

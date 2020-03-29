@@ -42,7 +42,10 @@ def get_prediction():
     status = prediction_tuple[0]
     predicition = prediction_tuple[1]
 
-    log_payload = {'prediction': predicition}
+    log_payload = {'prediction': predicition, 
+                   'itemid': item_nbr, 
+                   'item_name': utils.get_product_name_from_id(item_nbr), 
+                   'date_string': date_string}
     log_prediction_console(log_payload)
 
     if FLUENTD_HOST is not None:
@@ -61,7 +64,7 @@ def log_prediction_console(log_payload):
 def log_prediction_fluentd(log_payload):
     logger = sender.FluentSender(
         TENANT, host=FLUENTD_HOST, port=int(FLUENTD_PORT))
-
+    
     if not logger.emit('prediction', log_payload):
         print("Could not log to Fluentd: {}".format(logger.last_error))
         logger.clear_last_error()
