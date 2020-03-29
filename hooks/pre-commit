@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=$(git hash-object -t tree /dev/null)
+fi
+
+# Redirect output to stderr.
+exec 1>&2
+
+echo "[PRE-COMMIT] Restarting model"
+docker-compose up -d --build model
+status=$?
+if [ $status -ne 0 ]; then
+	echo "[PRE-COMMIT] Model failed to rebuild"
+	exit 1
+fi
+
