@@ -2,7 +2,7 @@ pipeline {
     agent any
     triggers { 
         // Poll SCM every minute for new changes
-        pollSCM('*/2 * * * *')
+        pollSCM('* * * * *')
     }
     options {
        // add timestamps to output
