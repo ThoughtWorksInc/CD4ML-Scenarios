@@ -1,5 +1,11 @@
 ## Setting up Jenkins
 
+## Goals
+
+* Learn about [Jenkins](https://www.jenkins.io/)
+* Setup and Configure a [Deployment Pipeline](https://martinfowler.com/bliki/DeploymentPipeline.html) to build and deploy your application to production
+* Deploy to the Model server running in production
+
 #### Retrieving your Jenkins Administrator Password
 
 Run the following command from your terminal. Make sure you save this password.
@@ -9,22 +15,7 @@ docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
 Navigate to the [Jenkins Home Page](http://localhost:10000), you should see a message to unlock Jenkins. Enter the admin password to start the setup process.
 
-Click the "Select plugins to install" option. On the top of the page, select 'None' Install the following plugins:
-
-* Organization and Administration
-    * Folders
-* Build Features
-    * Timestamper
-    * Workspace Cleanup
-* Pipelines and Continuous Delivery
-    * Pipeline
-    * Github Branch Source
-    * Pipeline: Stage View
-* Source Code Management
-    * Git
-    * Github
-
-Click the Install Button on the bottom right and let Jenkins set it's self up.
+Click the "Select Install Default Plugins" option. Jenkins will then begin to configure it's self.
 
 After the installation is completed, select "Continue as admin" then "Save and Finish" and then "Start Using Jenkins".
 

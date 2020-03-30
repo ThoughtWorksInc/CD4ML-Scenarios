@@ -10,20 +10,13 @@
 
 ## Introduction
 
-To close the data feedback loop, we can log events in production to collect data
-about how our model is performing against real data. This data can later be
-curated and labeled to improve the dataset used during training. This allows us
-to continuously improve our models in production!
+To close the data feedback loop, we can log events in production to collect data about how our model is performing against real data. This data can later be curated and labeled to improve the dataset used during training. This allows us to continuously improve our models in production!
 
-In this workshop, we use the EFK stack for our monitoring and observability
-infrastructure. It is composed of three main components:
+In this workshop, we use the EFK stack for our monitoring and observability infrastructure. It is composed of three main components:
 
-* [Elasticsearch](https://www.elastic.co/products/elasticsearch): an open
-source search engine.
-* [FluentD](https://www.fluentd.org/): an open source data collector for unified
-logging layer.
-* [Kibana](https://www.elastic.co/products/kibana): an open source web UI that
-makes it easy to explore and visualize the data indexed by Elasticsearch.
+* [Elasticsearch](https://www.elastic.co/products/elasticsearch): an open source search engine.
+* [FluentD](https://www.fluentd.org/): an open source data collector for unified logging layer.
+* [Kibana](https://www.elastic.co/products/kibana): an open source web UI that makes it easy to explore and visualize the data indexed by Elasticsearch.
 
 ## Step by Step instructions
 
@@ -34,16 +27,16 @@ makes it easy to explore and visualize the data indexed by Elasticsearch.
 
 ![Kibana Home Page](./images/KibanaHomePage.png)
 
-5. When the page loads click the "Discover" Compass on the top left. This will take you to the "Create Index Pattern" Page. Enter "model-*" as the index pattern. Click "Next Step"
+5. When the page loads click the "Discover" Compass on the top left. This will take you to the "Create Index Pattern" Page. Enter `model-*` as the index pattern. Click "Next Step"
 
 ![Kibana Create Index](./images/KibanaCreateIndex.png)
 
-6. On the "Configure Settings" page, make sure "@timestamp" is selected from the "Time Filter Field name" dropdown. Click "Create Index Pattern". 
+6. On the "Configure Settings" page, make sure `@timestamp` is selected from the "Time Filter Field name" dropdown. Click "Create Index Pattern". 
 
 ![Kibana Time Filter](./images/KibanaTimeFilter.png)
 
-7. Click the Discover Compass on the top left again and you should able to visualize your model logs
+7. Click the Discover Compass on the top left again and you should able to visualize your model logs and see the times, product names and predictions that were made
 
-You don’t need to use the same tools we chose to implement CD4ML. Get in touch
-with us if you want to learn how to run this workshop with your teams in your
-company!
+![Kibana Model Predictions](./images/KibanaPredictions.png)
+
+You don’t need to use the same tools we chose to implement CD4ML. Get in touch with us if you want to learn how to run this workshop with your teams in your company!
