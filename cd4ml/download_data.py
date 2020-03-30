@@ -1,4 +1,4 @@
-import os
+# import os
 import urllib.request
 from cd4ml.filenames import data_raw
 
