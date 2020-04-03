@@ -20,7 +20,7 @@ model_params = {
     },
     "data_reader": {
         "type": "postgres",
-        "host": "localhost",
+        "host": "psql",
         "username": "postgres",
         "password": "<A_S3cur3_Password>",
         "database": "cd4ml"
