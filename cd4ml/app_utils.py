@@ -1,7 +1,7 @@
 import joblib
 from cd4ml.filenames import file_names
 from cd4ml.date_utils import date_string_to_weekday
-from cd4ml.read_data import process as process_row
+from cd4ml.readers.streamer import DataStreamer
 from cd4ml.read_data import get_encoder
 from pathlib import Path
 
@@ -60,7 +60,7 @@ def get_processed_row(item_nbr, date_string):
         "unit_sales": '0'
     }
 
-    row = process_row(raw_row)
+    row = DataStreamer.process(raw_row)
 
     return row
 

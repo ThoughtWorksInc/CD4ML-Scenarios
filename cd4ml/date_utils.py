@@ -65,6 +65,11 @@ def diff_days_date_strings(date_string_start, date_string_end):
 
 
 @memo
+def date_string_to_date(date):
+    year, month, day = date_to_ymd(date)
+    return datetime.date(year, month, day)
+
+@memo
 def ymd_to_date_string(ymd):
     year, month, day = ymd
     return "%s-%s-%s" % (str(year), str(month).zfill(2), str(day).zfill(2))

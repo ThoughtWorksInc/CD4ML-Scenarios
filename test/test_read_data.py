@@ -1,9 +1,15 @@
-from cd4ml.read_data import process, stream_raw_data, stream_data, get_encoder_from_stream
+from cd4ml.read_data import stream_data, get_encoder_from_stream
+from cd4ml.readers.streamer import DataStreamer
+from cd4ml.readers.file_reader import CSVDictionaryReader
 from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
+from cd4ml.filenames import file_names
 
+local_file_configuration = {
+    "type": "file"
+}
 
 def test_stream_raw_data():
-    stream = stream_raw_data()
+    stream = CSVDictionaryReader(file_names["raw_data"]).read_data()
     row = next(stream)
     assert isinstance(row, dict)
     assert 'perishable' in row
@@ -11,7 +17,8 @@ def test_stream_raw_data():
 
 
 def test_stream_data():
-    stream = stream_data()
+
+    stream = stream_data(local_file_configuration)
     row = next(stream)
     assert isinstance(row, dict)
     assert 'perishable' in row
@@ -33,7 +40,7 @@ def test_process():
               'days_til_end_of_data': '364',
               'dayoff': 'False'}
 
-    row = process(row_in)
+    row = DataStreamer.process(row_in)
     expected = {'item_nbr': '103520',
                 'unit_sales': 10.0,
                 'date': '2016-08-16',
@@ -51,12 +58,12 @@ def test_process():
 
 
 def test_get_encoder_from_stream():
-    stream = stream_data()
+    stream = stream_data(local_file_configuration)
     stream_small = (next(stream) for _ in range(100))
     encoder = get_encoder_from_stream(stream_small)
     assert isinstance(encoder, OneHotEncoder)
 
-    stream = stream_data()
+    stream = stream_data(local_file_configuration)
     stream_small = (next(stream) for _ in range(100))
     encoded = list(encoder.encode_data_stream(stream_small))
     assert len(encoded) == 100

@@ -17,5 +17,12 @@ model_params = {
     },
     "decision_tree": {
         'criterion': 'mse'
+    },
+    "data_reader": {
+        "type": "postgres",
+        "host": "localhost",
+        "username": "postgres",
+        "password": "<A_S3cur3_Password>",
+        "database": "cd4ml"
     }
 }

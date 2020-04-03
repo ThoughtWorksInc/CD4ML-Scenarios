@@ -101,7 +101,16 @@ services:
       - jenkins_nw
     depends_on: 
       - jenkins
-    
+
+  psql:
+    container_name: psql
+    image: ericnaglertw/cd4ml-postgres:1
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: <A_S3cur3_Password>
+    ports: 
+      - "5432:5432"
+
 volumes:
   jenkins_home:
     driver: local
