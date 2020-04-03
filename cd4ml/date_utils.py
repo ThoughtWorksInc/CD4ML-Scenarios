@@ -69,6 +69,7 @@ def date_string_to_date(date):
     year, month, day = date_to_ymd(date)
     return datetime.date(year, month, day)
 
+
 @memo
 def ymd_to_date_string(ymd):
     year, month, day = ymd

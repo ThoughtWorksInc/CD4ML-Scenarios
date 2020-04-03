@@ -1,4 +1,4 @@
-from cd4ml.date_utils import ymd_to_date_string, add_to_date_string,date_string_to_date
+from cd4ml.date_utils import ymd_to_date_string, add_to_date_string, date_string_to_date
 from cd4ml.read_data import stream_data
 
 

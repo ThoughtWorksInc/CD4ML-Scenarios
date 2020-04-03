@@ -1,12 +1,21 @@
+import pytest
+
 from cd4ml.read_data import stream_data, get_encoder_from_stream
 from cd4ml.readers.streamer import DataStreamer
 from cd4ml.readers.file_reader import CSVDictionaryReader
 from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
 from cd4ml.filenames import file_names
+from cd4ml.download_data import run_download_data
 
 local_file_configuration = {
     "type": "file"
 }
+
+@pytest.fixture(autouse=True, scope="module")
+def setup_module():
+    print("Downloading Data Before Tests")
+    run_download_data()
+
 
 def test_stream_raw_data():
     stream = CSVDictionaryReader(file_names["raw_data"]).read_data()

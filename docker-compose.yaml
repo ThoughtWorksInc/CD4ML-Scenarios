@@ -110,6 +110,8 @@ services:
       POSTGRES_PASSWORD: <A_S3cur3_Password>
     ports: 
       - "5432:5432"
+    networks:
+      - jenkins_nw
 
 volumes:
   jenkins_home:
