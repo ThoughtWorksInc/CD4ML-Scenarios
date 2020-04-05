@@ -19,10 +19,6 @@ model_params = {
         'criterion': 'mse'
     },
     "data_reader": {
-        "type": "postgres",
-        "host": "psql",
-        "username": "postgres",
-        "password": "<A_S3cur3_Password>",
-        "database": "cd4ml"
+        "type": "file",
     }
 }

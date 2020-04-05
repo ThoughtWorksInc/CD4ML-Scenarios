@@ -1,9 +1,11 @@
-## Setting up your machine 
+## Setting up your environment 
 
-### Workshop Prerequistes
-1. Download and Install Docker ([for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows)) ([for Mac](https://hub.docker.com/editions/community/docker-ce-desktop-mac))
-2. [A github account](https://www.github.com)
-3. [Python 3.7](https://www.python.org/downloads/release/python-377/)
+## Goals
+
+* Setup a development environment for CD4ML including:
+** Git Code Repository in GitHub
+** A python code development environment
+
 
 ## Github Setup
 Navigate to the [Github Personal Access Tokens page](https://github.com/settings/tokens).
@@ -14,43 +16,17 @@ Enter a Note for your personal access token and select the "repo" and "user:emai
 
 Your personal access token will be created and displayed to you. Make sure you save this token safely because it will not be shown again.
 
-Fork the following [repository](https://github.com/ericnagler/cd4ml-jenkins) into your github account. 
+Fork the following [repository](https://github.com/ericnagler/cd4ml-jenkins) into your personal github account. 
 
-`git clone` the forked repo to your computer.
+## Setting up your local environment (using local machine environment)
+For this workshop we are going to use python3 as our python, pip3 as our dependency manager, and virtualenv for python environment management.
 
-
-## Docker Instructions (with a workshop USB drive)
-With the USB drive inserted open a terminal or powershell session.
-On Windows, run the following commands:
-```cmd
-cd <thumb drive>
-Set-ExecutionPolicy -Scope CurrentUser Unrestricted
-./import.ps1
-```
-
-On Mac, run the following command:
-```bash
-cd /Volumes/<thumb drive>
-./import.sh
-```
-
-The import should take about 5 minutes to complete. After the import is completed run:
-```bash
-docker-compose -d up
-```
-This should start the environment on your machine.
-
-## Docker Instructions (Using Internet)
-1. Download `docker-compose.yaml` to your machine.
-2. Run `docker-compose -d up` to download the images and start the environment
-
-## Setting up your local environment 
-For this workshop we are going to use python3 as our runtime, pip3 as our dependency manager, and virtualenv for environment management.
-
-First you need to fork and clone this environment to your local machine
+First you need to fork this repo to your github account and then clone this environment to your local machine
 
 After you install python run the following commands to start your environment
 ```bash
+cd <cloned file>
+docker-compose up -d --build --remove-orphans
 pip3 install virtualenv
 virtualenv --python=python3 .venv
 
@@ -60,6 +36,18 @@ source .venv/bin/activate
 Set-ExecutionPolicy RemoteSigned
 .venv/Scripts/activate.ps1
 ```
+
+## Setting up your local environment (using JupyterLab Development Environment)
+1. Download the [docker-compose.yaml](https://github.com/ThoughtWorksInc/CD4ML-Scenarios/blob/master/docker-compose.yaml) file to your machine.
+2. Run `docker-compose up -d --build --remove-orphans` to download the images and start the environment
+3. Run the following command to retrieve the URL for docker. 
+```bash
+docker dev logs
+```
+You will see a URL such as `http://127.0.0.1:8888?token=<token>`. Open that url in a web browser
+
+4. From the JupyterLab environment you can open a terminal window by clicking the terminal tile on the home page
+5. Clone your forked repo, cd into `cd4ml-scenarios` and run `pip install -r requirements.txt`
 
 ### Next Steps
 

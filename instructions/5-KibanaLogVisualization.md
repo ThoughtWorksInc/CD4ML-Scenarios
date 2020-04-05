@@ -39,4 +39,7 @@ In this workshop, we use the EFK stack for our monitoring and observability infr
 
 ![Kibana Model Predictions](./images/KibanaPredictions.png)
 
+To stop the environment run: `docker-compose down`
+
 You don’t need to use the same tools we chose to implement CD4ML. Get in touch with us if you want to learn how to run this workshop with your teams in your company!
+

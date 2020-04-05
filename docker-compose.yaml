@@ -92,26 +92,15 @@ services:
   
   dev:
     container_name: dev
-    image: jupyter/minimal-notebook
+    image: jupyter/minimal-notebook:latest
     environment:
       - JUPYTER_ENABLE_LAB=yes
     ports:
-      - "13000:8888"
+      - "8888:8888"
     networks:
       - jenkins_nw
     depends_on: 
       - jenkins
-
-  psql:
-    container_name: psql
-    image: ericnaglertw/cd4ml-postgres:1
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: <A_S3cur3_Password>
-    ports: 
-      - "5432:5432"
-    networks:
-      - jenkins_nw
 
 volumes:
   jenkins_home:
