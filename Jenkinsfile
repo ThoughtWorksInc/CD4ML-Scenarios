@@ -12,7 +12,7 @@ pipeline {
         MLFLOW_TRACKING_URL = 'http://mlflow:5000'
     }
     stages {
-        stage('Install Dependencies') {
+        stage('Install dependencies') {
             steps {
                 echo 'Starting Build'
                 sh 'pip3 install -r requirements.txt'
@@ -28,7 +28,7 @@ pipeline {
                 sh 'python3 run_python_script.py pipeline'
             }
         }
-        stage('Deploy Model') {
+        stage('Deploy model') {
             steps {
                 sh 'curl --request POST --data-binary "@data/models/model.pkl" http://model:5005/replace_model'
                 sh 'curl --request POST --data-binary "@data/models/encoder.json" http://model:5005/replace_encoder'
