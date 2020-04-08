@@ -6,15 +6,15 @@ from cd4ml.readers.file_reader import CSVDictionaryReader
 from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
 from cd4ml.filenames import file_names
 from cd4ml.download_data import run_download_data
+from cd4ml.pipeline_params import pipeline_params
 
-local_file_configuration = {
-    "type": "file"
-}
+pipeline_params['data_reader']['type'] = 'file'
+
 
 @pytest.fixture(autouse=True, scope="module")
 def setup_module():
     print("Downloading Data Before Tests")
-    run_download_data()
+    run_download_data(pipeline_params)
 
 
 def test_stream_raw_data():
@@ -27,7 +27,7 @@ def test_stream_raw_data():
 
 def test_stream_data():
 
-    stream = stream_data(local_file_configuration)
+    stream = stream_data(pipeline_params)
     row = next(stream)
     assert isinstance(row, dict)
     assert 'perishable' in row
@@ -67,12 +67,12 @@ def test_process():
 
 
 def test_get_encoder_from_stream():
-    stream = stream_data(local_file_configuration)
+    stream = stream_data(pipeline_params)
     stream_small = (next(stream) for _ in range(100))
     encoder = get_encoder_from_stream(stream_small)
     assert isinstance(encoder, OneHotEncoder)
 
-    stream = stream_data(local_file_configuration)
+    stream = stream_data(pipeline_params)
     stream_small = (next(stream) for _ in range(100))
     encoded = list(encoder.encode_data_stream(stream_small))
     assert len(encoded) == 100

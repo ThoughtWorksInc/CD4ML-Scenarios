@@ -82,13 +82,17 @@ def replace_encoder_file(content):
 
 
 def get_prediction(item_nbr, date_string):
-    if (not Path(file_names['model']).exists()):
-        return ("ERROR", "Model Not Loaded")
+    if not Path(file_names['model']).exists():
+        return "ERROR", "Model Not Loaded"
 
-    if (not Path(file_names['encoder']).exists()):
-        return ("ERROR", "Encoder Not Loaded")
+    if not Path(file_names['encoder']).exists():
+        return "ERROR", "Encoder Not Loaded"
 
     loaded_model = joblib.load(file_names['model'])
-    encoder = get_encoder(read_from_file=True)
+
+    # pipeline_params not needed if reading from file
+    pipeline_params = None
+
+    encoder = get_encoder(pipeline_params, read_from_file=True)
     encoded_data = [get_encoded_row(item_nbr, date_string, encoder)]
-    return ("OK", loaded_model.predict(encoded_data)[0])
+    return "OK", loaded_model.predict(encoded_data)[0]

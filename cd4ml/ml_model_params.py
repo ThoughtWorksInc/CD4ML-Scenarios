@@ -1,4 +1,4 @@
-model_params = {
+model_parameters = {
     "random_forest": {
         "n_estimators": 50
     },
@@ -17,8 +17,5 @@ model_params = {
     },
     "decision_tree": {
         'criterion': 'mse'
-    },
-    "data_reader": {
-        "type": "file",
     }
 }

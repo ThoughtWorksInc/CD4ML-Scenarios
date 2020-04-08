@@ -1,13 +1,14 @@
 import os
 from cd4ml.readers.streamer import DataStreamer
 from cd4ml.readers.postgres import PostgresReader
-from cd4ml.ml_model_params import model_params
+from cd4ml.pipeline_params import pipeline_params
+
 
 def make_configuration_tuple():
     postgres_host = os.environ["POSTGRES_HOST"]
     if postgres_host is None:
         postgres_host = "127.0.0.1"
-    data_settings = model_params["data_reader"]
+    data_settings = pipeline_params["data_reader"]
 
     username = data_settings["username"]
     password = data_settings["password"]

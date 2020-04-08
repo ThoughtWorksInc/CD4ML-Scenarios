@@ -1,6 +1,7 @@
 import numpy as np
 from cd4ml import pipeline_helpers as ph
-from cd4ml.ml_model_params import model_params
+from cd4ml.pipeline_params import pipeline_params
+
 
 def main(*args):
     """
@@ -14,8 +15,10 @@ def main(*args):
 
     np.random.seed(462748)
 
-    print('variable: %s' % variable)
-    if model_params["data_reader"]["type"] == "file":
-        ph.download_data()
+    if variable:
+        print('variable: %s' % variable)
 
-    ph.train_model()
+    if pipeline_params["data_reader"]["type"] == "file":
+        ph.download_data(pipeline_params)
+
+    ph.train_and_validate_model(pipeline_params)

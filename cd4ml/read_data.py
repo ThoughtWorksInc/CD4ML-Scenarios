@@ -1,14 +1,11 @@
 import os
-from cd4ml.ml_model_params import model_params
 from cd4ml.filenames import file_names
 from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
 from cd4ml.readers.streamer import DataStreamer
 
 
-def stream_data(configuration=None):
-    if configuration is None:
-        configuration = model_params["data_reader"]
-
+def stream_data(pipeline_params):
+    configuration = pipeline_params["data_reader"]
     data_streamer = DataStreamer(configuration)
     data = data_streamer.stream_data()
     data_streamer.close()
@@ -36,7 +33,7 @@ def get_encoder_from_stream(stream):
     return encoder
 
 
-def get_encoder(write=True, read_from_file=False):
+def get_encoder(pipeline_params, write=True, read_from_file=False):
     # batch step
     encoder_file = file_names['encoder']
     if os.path.exists(encoder_file) and read_from_file:
@@ -46,7 +43,7 @@ def get_encoder(write=True, read_from_file=False):
         return encoder_from_file
 
     print('Building encoder')
-    stream = stream_data()
+    stream = stream_data(pipeline_params)
     encoder = get_encoder_from_stream(stream)
 
     if write:
