@@ -18,7 +18,7 @@ pipeline {
                 sh 'pip3 install -r requirements.txt'
             }
         }
-        stage('tests') {
+        stage('Run tests') {
             steps {
                 sh './run_tests.sh'
             }
@@ -28,7 +28,7 @@ pipeline {
                 sh 'python3 run_python_script.py pipeline'
             }
         }
-        stage('Deploy') {
+        stage('Deploy Model') {
             steps {
                 sh 'curl --request POST --data-binary "@data/models/model.pkl" http://model:5005/replace_model'
                 sh 'curl --request POST --data-binary "@data/models/encoder.json" http://model:5005/replace_encoder'
