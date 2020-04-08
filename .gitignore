@@ -18,4 +18,5 @@ venv
 admin_password
 results
 *.prof
+bad_code.py
 

@@ -18,14 +18,14 @@ pipeline {
                 sh 'pip3 install -r requirements.txt'
             }
         }
-        stage('Build') {
-            steps {
-                sh 'python3 run_python_script.py pipeline'
-            }
-        }
         stage('tests') {
             steps {
                 sh './run_tests.sh'
+            }
+        }
+        stage('Run ML pipeline') {
+            steps {
+                sh 'python3 run_python_script.py pipeline'
             }
         }
         stage('Deploy') {
