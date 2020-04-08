@@ -10,5 +10,5 @@ pipeline_params = {'model_name': 'random_forest',
                        {
                            'key': 'store47-2016.csv',
                            'gcs_bucket': 'continuous-intelligence',
-                           'base_url': 'https://storage.googleapis.com/%s/%s'
+                           'base_url': 'https://storage.googleapis.com'
                        }}
