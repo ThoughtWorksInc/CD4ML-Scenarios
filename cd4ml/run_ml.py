@@ -87,7 +87,7 @@ def run_all(pipeline_params):
     # programmatic control over all of the pipeline
 
     encoder = get_encoder(pipeline_params, write=True, read_from_file=False)
-    date_cutoff, max_date = get_cutoff_dates(57)
+    date_cutoff, max_date = get_cutoff_dates(pipeline_params)
 
     with tracking.track() as track:
         trained_model, params = run_ml_model(pipeline_params, encoder, track, date_cutoff)

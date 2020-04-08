@@ -1,7 +1,10 @@
 # parameters for running the pipeline
 from cd4ml.ml_model_params import model_parameters
 
+# TODO: add some security protocols around the key
+
 pipeline_params = {'model_name': 'random_forest',
+                   'days_back': 57,
                    'data_reader': {
                        'type': 'file'
                    },
