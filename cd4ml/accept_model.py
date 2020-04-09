@@ -23,7 +23,7 @@ def check_model_performance(metric_name, threshold):
     metric_value = get_metric(metric_name, last_run_record)
     run_name = last_run_record["tags.mlflow.runName"][0]
     template = "{metric_name} for Run '{run_name}' was too low for model acceptance," \
-               " {metric_name}: threshold: {threshold}"
+               " {metric_value}: threshold: {threshold}"
     message = template.format(matric_name=metric_name,
                               run_name=run_name,
                               metric_value=metric_value,
