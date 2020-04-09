@@ -89,11 +89,15 @@ def run_all(pipeline_params):
     encoder = get_encoder(pipeline_params, write=True, read_from_file=False)
     date_cutoff, max_date = get_cutoff_dates(pipeline_params)
 
-    run_all_models = False
+    # For testing/debugging
+    run_all_models = True
 
     with tracking.track() as track:
         if run_all_models:
             # This is mostly for testing/debugging right now, not fully supported
+            # models will overwrite each other and only the last one will show up in
+            # ML flow. Turning this on can demonstrate that all models can run
+            # They might not all pass the acceptance threshold though
 
             all_model_names = sorted(list(pipeline_params['model_params'].keys()))
             print('All model names')
