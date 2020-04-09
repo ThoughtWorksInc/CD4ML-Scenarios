@@ -28,6 +28,11 @@ pipeline {
                 sh 'python3 run_python_script.py pipeline'
             }
         }
+        stage('Acceptance test') {
+            steps {
+                sh './accept_model.sh'
+            }
+        }
         stage('Deploy model') {
             steps {
                 sh 'curl --request POST --data-binary "@data/models/model.pkl" http://model:5005/replace_model'
