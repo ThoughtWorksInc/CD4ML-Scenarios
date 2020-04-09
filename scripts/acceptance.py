@@ -7,5 +7,6 @@ def main(*args):
     Check model meets acceptance threshold
     """
     metric = pipeline_params['acceptance_metric']
-    threshold = pipeline_params['acceptance_threshold']
-    check_model_performance(metric, threshold)
+    threshold_min = pipeline_params['acceptance_threshold_min']
+    threshold_max = pipeline_params['acceptance_threshold_max']
+    check_model_performance(metric, threshold_min, threshold_max)
