@@ -3,8 +3,7 @@ model_parameters = {
         "n_estimators": 50
     },
     "adaboost": {
-        "n_estimators": 200,
-        "max_depth": 4
+        "n_estimators": 100
     },
     "gradient_boosting": {
         "n_estimators": 200,
