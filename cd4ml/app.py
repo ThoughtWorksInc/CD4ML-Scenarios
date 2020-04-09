@@ -40,10 +40,10 @@ def get_prediction():
 
     prediction_tuple = utils.get_prediction(item_nbr, date_string)
     status = prediction_tuple[0]
-    predicition = prediction_tuple[1]
+    prediction = prediction_tuple[1]
 
     log_payload = {
-        'prediction': predicition,
+        'prediction': prediction,
         'itemid': item_nbr,
         'item_name': utils.get_product_name_from_id(item_nbr),
         'date_string': date_string
