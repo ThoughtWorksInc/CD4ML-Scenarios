@@ -90,7 +90,7 @@ def run_all(pipeline_params):
     date_cutoff, max_date = get_cutoff_dates(pipeline_params)
 
     # For testing/debugging
-    run_all_models = True
+    run_all_models = False
 
     with tracking.track() as track:
         if run_all_models:
