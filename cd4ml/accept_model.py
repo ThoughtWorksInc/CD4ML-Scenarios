@@ -11,8 +11,7 @@ def get_latest_executed_run(df_of_runs):
 
 
 def get_metric(metric_name, df_of_single_run):
-    print(df_of_single_run)
-    return df_of_single_run["metrics.%s" % metric_name][0]
+    return df_of_single_run["metrics.%s" % metric_name].head().values[0]
 
 
 def check_model_performance(metric_name, threshold_min, threshold_max):
@@ -21,7 +20,7 @@ def check_model_performance(metric_name, threshold_min, threshold_max):
     runs = mlflow.search_runs(experiment_ids=experiment.experiment_id)
     last_run_record = get_latest_executed_run(runs)
     metric_value = get_metric(metric_name, last_run_record)
-    run_name = last_run_record["tags.mlflow.runName"][0]
+    run_name = last_run_record["tags.mlflow.runName"].head().values[0]
     template = "Metric: {metric_name} for Run: {run_name} was not accepted, " \
                "value: {metric_value}, " \
                "threshold_min: {threshold_min}, threshold_max: {threshold_max}"
