@@ -5,11 +5,19 @@ from cd4ml.readers.streamer import DataStreamer
 
 
 def stream_data(pipeline_params):
+    """
+    The only way that data should be read in the pipeline is by calling this
+    and reading from the stream
+    :param pipeline_params: parameters for everything in pipeline
+    :return: a stream of data from a source specified in pipeline_params
+    """
     configuration = pipeline_params["data_reader"]
     data_streamer = DataStreamer(configuration)
     data = data_streamer.stream_data()
+    for row in data:
+        yield data_streamer.process(row)
+
     data_streamer.close()
-    return (data_streamer.process(row) for row in data)
 
 
 def get_encoder_from_stream(stream):
