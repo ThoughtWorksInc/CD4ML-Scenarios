@@ -54,9 +54,9 @@ def get_prediction():
         log_prediction_fluentd(log_payload)
 
     if status == "ERROR":
-        return predicition, 503
+        return prediction, 503
     else:
-        return "%d" % predicition, 200
+        return "%d" % prediction, 200
 
 
 def log_prediction_console(log_payload):
