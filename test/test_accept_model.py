@@ -3,7 +3,7 @@ import os
 import mlflow
 import mlflow.tracking
 
-threshold = 0.65
+threshold = 0.60
 
 
 def get_latest_executed_run(df_of_runs):
