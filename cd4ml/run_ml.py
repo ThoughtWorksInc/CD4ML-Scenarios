@@ -90,5 +90,11 @@ def run_all(pipeline_params):
     date_cutoff, max_date = get_cutoff_dates(pipeline_params)
 
     with tracking.track() as track:
-        trained_model, params = run_ml_model(pipeline_params, encoder, track, date_cutoff)
-        validate(pipeline_params, trained_model, encoder, track, date_cutoff, max_date)
+        all_model_names = list(pipeline_params['model_params'].keys())
+
+        print('All model names')
+        print(all_model_names)
+        for model_name in all_model_names:
+            pipeline_params['model_name'] = model_name
+            trained_model, params = run_ml_model(pipeline_params, encoder, track, date_cutoff)
+            validate(pipeline_params, trained_model, encoder, track, date_cutoff, max_date)
