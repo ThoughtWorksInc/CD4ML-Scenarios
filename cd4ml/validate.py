@@ -5,6 +5,7 @@ import joblib
 from cd4ml.read_data import stream_data
 from cd4ml.splitter import validate_filter
 from cd4ml.filenames import file_names
+from cd4ml.validation_plots import make_validation_plot
 
 
 def write_predictions_and_score(evaluation_metrics):
@@ -43,3 +44,4 @@ def validate(pipeline_params, model, encoder, track, date_cutoff, max_date):
         json.dumps(evaluation_metrics)))
 
     write_model(model)
+    make_validation_plot(target, validation_predictions)

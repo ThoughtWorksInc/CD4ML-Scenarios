@@ -24,5 +24,6 @@ file_names = {
     'raw_data': '%s/raw/store47-2016.csv' % data_dir,
     'model': '%s/model.pkl' % model_dir,
     'ml_params': 'ml_model_params.py',
-    'encoder': '%s/encoder.json' % model_dir
+    'encoder': '%s/encoder.json' % model_dir,
+    'validation_plot': '%s/validation_plot.html' % model_dir
 }
