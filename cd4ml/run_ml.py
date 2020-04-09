@@ -38,6 +38,7 @@ def run_ml_model(pipeline_params, encoder, track, date_cutoff, seed=None):
 
     track.set_model(model_name)
     track.log_params(params)
+    track.log_params(pipeline_params)
 
     trained_model, params = train_model(encoded_train_data, target, model_name, params, seed=seed)
 
