@@ -1,6 +1,5 @@
 import cProfile
 import sys
-import os
 
 
 script_names = ["pipeline", "acceptance"]
@@ -46,8 +45,8 @@ def run_python_script(script_name, *args, **kwargs):
 
 if __name__ == "__main__":
     profiler = ' -p' in ' '.join(sys.argv)
-    script_name = sys.argv[1]
-    args = sys.argv[2:]
-    # remove the profile flag
-    args = [i for i in args if i != '-p']
-    run_python_script(script_name, args, profiler=profiler)
+    script = sys.argv[1]
+    arguments = sys.argv[2:]
+    # remove the profile flag now that profiler is on
+    arguments = [i for i in arguments if i != '-p']
+    run_python_script(script, arguments, profiler=profiler)

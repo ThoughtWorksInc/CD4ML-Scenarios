@@ -17,7 +17,7 @@ def one_hot_encode_column(data_stream, max_levels):
 
 
 def select_counter(counter, n_max):
-    # first be frequency (largest), then alphabetical by key
+    # first by frequency (largest), then alphabetical by key
     return sorted(counter.most_common(), key=lambda x: (-x[1], x[0]))[0:n_max]
 
 

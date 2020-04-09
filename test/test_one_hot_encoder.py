@@ -123,6 +123,8 @@ def test_load_from_data_encodes_data_correctly():
                 0.0,  # red
                 0.0]  # yellow
 
+    assert last_row == expected
+
     expected_total = [[6.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
                       [3.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0],
                       [5.5, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],

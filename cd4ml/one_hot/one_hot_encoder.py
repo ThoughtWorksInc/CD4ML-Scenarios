@@ -70,15 +70,15 @@ class OneHotEncoder:
         idx, _ = ohe.get_index(key, value, self.index_lookup)
         return idx
 
-    def encode_data_stream(self, data):
+    def encode_data_stream(self, stream):
         # generator
-        return (self.encode_row(row) for row in data)
+        return (self.encode_row(row) for row in stream)
 
-    def encode_data(self, data):
-        return list(self.encode_data_stream(data))
+    def encode_data(self, stream):
+        return list(self.encode_data_stream(stream))
 
-    def decode_data_stream(self, encoded_data):
-        return (self.decode_row(row) for row in encoded_data)
+    def decode_data_stream(self, encoded_data_stream):
+        return (self.decode_row(row) for row in encoded_data_stream)
 
-    def decode_data(self, encoded_data):
-        return list(self.decode_data_stream(encoded_data))
+    def decode_data(self, encoded_data_stream):
+        return list(self.decode_data_stream(encoded_data_stream))

@@ -18,7 +18,7 @@ class DataStreamer:
             database = configuration_dictionary["database"]
             self.strategy = PostgresReader(host, username, password, database)
         else:
-            raise ValueError("Configuration dictionary does not contatin a valid 'type', must be one of ['file', "
+            raise ValueError("Configuration dictionary does not contain a valid 'type', must be one of ['file', "
                              "'postgres']")
 
     def stream_data(self):
