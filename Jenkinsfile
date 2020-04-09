@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Acceptance test') {
             steps {
-                sh './accept_model.sh'
+                sh 'python3 run_python_script.py acceptance'
             }
         }
         stage('Deploy model') {

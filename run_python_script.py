@@ -3,7 +3,7 @@ import sys
 import os
 
 
-script_names = ["pipeline"]
+script_names = ["pipeline", "acceptance"]
 
 script_names_str = script_names.__repr__()
 
@@ -26,6 +26,9 @@ def run_python_script(script_name, *args, **kwargs):
 
     if script_name == "pipeline":
         from scripts import generic_pipeline as script
+
+    elif script_name == "acceptance":
+        from scripts import acceptance as script
 
     else:
         message = "Error, script_name (%s) must be one of %s" % (script_name,
