@@ -19,16 +19,17 @@ class track:
         if USE_MLFLOW:
             mlflow.end_run()
 
-    def set_model(self, model_name):
+    @staticmethod
+    def log_param(key, val):
         if USE_MLFLOW:
-            mlflow.log_param('model', model_name)
+            mlflow.log_param(key, val)
 
-    def log_params(self, params):
-        if USE_MLFLOW:
-            for param in params:
-                mlflow.log_param(param, params[param])
+    def log_ml_params(self, ml_params):
+        for key, val in ml_params.items():
+            self.log_param(key, val)
 
-    def log_metrics(self, metrics):
-        if USE_MLFLOW:
-            for metric in metrics:
-                mlflow.log_metric(metric, metrics[metric])
+    def log_pipeline_params(self, pipeline_params):
+        excluded_keys = ['download_data_info']
+        for key, val in pipeline_params.items():
+            if key not in excluded_keys:
+                self.log_param(key, val.__repr__())

@@ -53,3 +53,17 @@ def hash_to_uniform_random(val, seed):
     seed_string = str(seed) + str(seed.__class__)
     string = val_string + seed_string
     return float(unpack('<Q', hash_string_obj(string).digest()[:8])[0]) / 2 ** 64
+
+
+def flatten_dict(pyobj, keystring=''):
+    if type(pyobj) is dict:
+        if type(pyobj) is dict:
+            keystring = keystring + "_" if keystring else keystring
+            for k in pyobj:
+                yield from flatten_dict(pyobj[k], keystring + k)
+
+        elif type(pyobj) is list:
+            for lelm in pyobj:
+                yield from flatten_dict(lelm, keystring)
+    else:
+        yield keystring, pyobj

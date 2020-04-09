@@ -36,9 +36,8 @@ def run_ml_model(pipeline_params, encoder, track, date_cutoff, seed=None):
     model_name = pipeline_params['model_name']
     params = pipeline_params['model_params'][model_name]
 
-    track.set_model(model_name)
-    track.log_params(params)
-    track.log_params(pipeline_params)
+    track.log_ml_params(params)
+    track.log_pipeline_params(pipeline_params)
 
     trained_model, params = train_model(encoded_train_data, target, model_name, params, seed=seed)
 
@@ -73,7 +72,8 @@ def validate(pipeline_params, model, encoder, track, date_cutoff, max_date):
 
     print("Calculating metrics")
     evaluation_metrics = {'r2_score': metrics.r2_score(y_true=target, y_pred=validation_predictions)}
-    track.log_metrics(evaluation_metrics)
+    for key, val in evaluation_metrics.items():
+        track.log_param('metric_'+key, val)
 
     write_predictions_and_score(evaluation_metrics)
 
