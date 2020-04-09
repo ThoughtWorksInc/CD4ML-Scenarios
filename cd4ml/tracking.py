@@ -33,3 +33,8 @@ class track:
         for key, val in pipeline_params.items():
             if key not in excluded_keys:
                 self.log_param(key, val.__repr__())
+
+    def log_metrics(self, metrics):
+        if USE_MLFLOW:
+            for key, val in metrics.items():
+                mlflow.log_metric(key, val)

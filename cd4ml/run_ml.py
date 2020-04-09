@@ -72,8 +72,7 @@ def validate(pipeline_params, model, encoder, track, date_cutoff, max_date):
 
     print("Calculating metrics")
     evaluation_metrics = {'r2_score': metrics.r2_score(y_true=target, y_pred=validation_predictions)}
-    for key, val in evaluation_metrics.items():
-        track.log_param('metric_'+key, val)
+    track.log_metrics(evaluation_metrics)
 
     write_predictions_and_score(evaluation_metrics)
 

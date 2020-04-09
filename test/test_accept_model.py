@@ -13,6 +13,7 @@ def get_latest_executed_run(df_of_runs):
 
 
 def get_r2_score(df_of_single_run):
+    print(df_of_single_run)
     return df_of_single_run["metrics.r2_score"][0]
 
 
