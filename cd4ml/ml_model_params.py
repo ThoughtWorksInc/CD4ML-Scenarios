@@ -1,6 +1,7 @@
 model_parameters = {
     "random_forest": {
-        "n_estimators": 50
+        "n_estimators": 50,
+        "max_features": 'sqrt'
     },
     "adaboost": {
         "n_estimators": 100
@@ -10,6 +11,6 @@ model_parameters = {
         "max_depth": 4
     },
     "decision_tree": {
-        'criterion': 'mse'
+        "criterion": 'mse'
     }
 }

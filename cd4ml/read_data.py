@@ -21,7 +21,6 @@ def stream_data(pipeline_params):
 
 
 def get_encoder_from_stream(stream):
-    # batch step
     categorical_n_levels_dict_all = {'item_nbr': 10000000000,
                                      'year': 50,
                                      'month': 13,
@@ -42,7 +41,6 @@ def get_encoder_from_stream(stream):
 
 
 def get_encoder(pipeline_params, write=True, read_from_file=False):
-    # batch step
     encoder_file = file_names['encoder']
     if os.path.exists(encoder_file) and read_from_file:
         print('Reading encoder from : %s' % encoder_file)
