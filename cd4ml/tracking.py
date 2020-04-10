@@ -49,4 +49,5 @@ class track:
 
     def log_artifact(self, filename):
         if USE_MLFLOW:
-            mlflow.log_artifact(filename, artifact_path=self.artifact_uri)
+            artifact_path = "validation_plot.html"
+            mlflow.log_artifact(filename, artifact_path)
