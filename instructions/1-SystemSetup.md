@@ -51,4 +51,4 @@ You will see a URL such as `http://127.0.0.1:8888?token=<token>`. Open that url 
 
 ### Next Steps
 
-At this step you can start setting up the different components of CD4ML. Continue to the [next section](http:///github.com/ThoughtworksInc/CD4ML-Scenarios/blob/alternative/instructions/2-SetupJenkins.md).
+At this step you can start setting up the different components of CD4ML. Continue to the [next section](https:///github.com/ThoughtworksInc/CD4ML-Scenarios/blob/alternative/instructions/2-SetupJenkins.md).
