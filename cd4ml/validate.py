@@ -6,6 +6,9 @@ from cd4ml.read_data import stream_data
 from cd4ml.splitter import validate_filter
 from cd4ml.filenames import file_names
 from cd4ml.validation_plots import make_validation_plot
+from cd4ml.fluentd_logging import FluentdLogger
+
+fluentd_logger = FluentdLogger()
 
 
 def write_predictions_and_score(evaluation_metrics):
@@ -35,13 +38,15 @@ def validate(pipeline_params, model, encoder, track, date_cutoff, max_date):
               if validate_filter(row, date_cutoff, max_date)]
 
     print("Calculating metrics")
-    evaluation_metrics = {'r2_score': metrics.r2_score(y_true=target, y_pred=validation_predictions)}
-    track.log_metrics(evaluation_metrics)
+    validation_metrics = {'r2_score': metrics.r2_score(y_true=target, y_pred=validation_predictions)}
 
-    write_predictions_and_score(evaluation_metrics)
+    track.log_metrics(validation_metrics)
+    fluentd_logger.log('validation_metrics', validation_metrics)
+
+    write_predictions_and_score(validation_metrics)
 
     print("Evaluation done with metrics {}.".format(
-        json.dumps(evaluation_metrics)))
+        json.dumps(validation_metrics)))
 
     write_model(model)
     make_validation_plot(target, validation_predictions, track)
