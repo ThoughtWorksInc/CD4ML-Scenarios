@@ -24,7 +24,7 @@ def run_python_script(script_name, *args, **kwargs):
         print("running with profiler")
 
     if script_name == "pipeline":
-        from scripts import generic_pipeline as script
+        from scripts import pipeline as script
 
     elif script_name == "acceptance":
         from scripts import acceptance as script

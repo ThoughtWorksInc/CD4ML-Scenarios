@@ -18,7 +18,7 @@ def main(*args):
     if variable:
         print('variable: %s' % variable)
 
-    if pipeline_params["data_reader"]["type"] == "file":
+    if pipeline_params["data_source"] == "file":
         ph.download_data(pipeline_params)
 
     ph.train_and_validate_model(pipeline_params)

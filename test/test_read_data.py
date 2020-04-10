@@ -1,14 +1,13 @@
 import pytest
 
 from cd4ml.read_data import stream_data, get_encoder_from_stream
-from cd4ml.readers.streamer import DataStreamer
 from cd4ml.readers.file_reader import CSVDictionaryReader
 from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
-from cd4ml.filenames import file_names
 from cd4ml.download_data import run_download_data
 from cd4ml.pipeline_params import pipeline_params
+from cd4ml.read_data import process
 
-pipeline_params['data_reader']['type'] = 'file'
+pipeline_params['data_source'] = 'file'
 
 
 @pytest.fixture(autouse=True, scope="module")
@@ -18,7 +17,7 @@ def setup_module():
 
 
 def test_stream_raw_data():
-    stream = CSVDictionaryReader(file_names["raw_data"]).read_data()
+    stream = CSVDictionaryReader().stream_data()
     row = next(stream)
     assert isinstance(row, dict)
     assert 'perishable' in row
@@ -49,7 +48,7 @@ def test_process():
               'days_til_end_of_data': '364',
               'dayoff': 'False'}
 
-    row = DataStreamer.process(row_in)
+    row = process(row_in)
     expected = {'item_nbr': '103520',
                 'unit_sales': 10.0,
                 'date': '2016-08-16',

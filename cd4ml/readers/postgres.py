@@ -1,28 +1,31 @@
 import psycopg2
 import psycopg2.extras
 
+# TODO: consider security issues
+
+HOST = "127.0.0.1"
+USER = "postgres"
+PASSWORD = "password"
+DATABASE = "cd4ml"
+
 
 class PostgresReader:
-    def __init__(self, hostname, username, password, database='cd4ml'):
-        self.conn = psycopg2.connect(dbname=database, user=username, password=password, host=hostname)
+    def __init__(self):
+        self.conn = psycopg2.connect(dbname=DATABASE, user=USER,
+                                     password=PASSWORD, host=HOST)
 
-    def read_all_data_from_table(self, table_name="raw_data"):
-        sql_query = "SELECT * FROM {0}".format(table_name)
+    def _query(self, sql_query):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute(sql_query)
+        return cursor
 
-        while True:
-            results = cursor.fetchmany(10000)
-            if not results:
-                break
+    def _raw_data_query(self):
+        table_name = "raw_data"
+        sql_query = "SELECT * FROM {0}".format(table_name)
+        return self._query(sql_query)
 
-            for result in results:
-                yield result
+    def stream_data(self):
+        for row in self._raw_data_query():
+            yield row
 
-        cursor.close()
-
-    def read_data(self):
-        return self.read_all_data_from_table()
-
-    def close(self):
         self.conn.close()
