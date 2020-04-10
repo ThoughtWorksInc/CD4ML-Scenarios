@@ -17,8 +17,8 @@ class track:
             mlflow.start_run(run_name=RUN_LABEL)
 
             print("MLFLOW_TRACKING_URL: ", MLFLOW_TRACKING_URL)
-            artifact_uri = mlflow.get_artifact_uri()
-            print('artifact_uri: ', artifact_uri)
+            self.artifact_uri = mlflow.get_artifact_uri()
+            print('artifact_uri: ', self.artifact_uri)
 
         return self
 
@@ -47,7 +47,6 @@ class track:
             for key, val in metrics.items():
                 mlflow.log_metric(key, val)
 
-    @staticmethod
-    def log_artifact(filename):
+    def log_artifact(self, filename):
         if USE_MLFLOW:
-            mlflow.log_artifact(filename)
+            mlflow.log_artifact(filename, artifact_path=self.artifact_uri)
