@@ -47,6 +47,7 @@ class track:
             for key, val in metrics.items():
                 mlflow.log_metric(key, val)
 
-    def log_artifact(self, filename):
+    @staticmethod
+    def log_artifact(filename):
         if USE_MLFLOW:
             mlflow.log_artifact(filename)
