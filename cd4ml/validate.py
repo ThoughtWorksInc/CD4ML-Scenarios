@@ -42,6 +42,7 @@ def validate(pipeline_params, model, encoder, track, date_cutoff, max_date):
 
     track.log_metrics(validation_metrics)
     fluentd_logger.log('validation_metrics', validation_metrics)
+    fluentd_logger.log('blah', {'bubba': 'neeeee'})
 
     write_predictions_and_score(validation_metrics)
 

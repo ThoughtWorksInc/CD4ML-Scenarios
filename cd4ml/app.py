@@ -45,6 +45,7 @@ def get_prediction():
 
     log_prediction_console(log_payload)
     fluentd_logger.log('prediction', log_payload)
+    fluentd_logger.log('foo', {'bar': 'buzz'})
 
     if status == "ERROR":
         return prediction, 503
