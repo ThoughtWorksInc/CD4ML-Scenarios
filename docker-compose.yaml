@@ -5,6 +5,9 @@ services:
     image: ericnaglertw/cd4ml-build-master:2
     ports:
       - "10000:8080"
+    environment:
+        FLUENTD_HOST: fluentd
+        FLUENTD_PORT: 24224
     volumes:
       - jenkins_home:/var/jenkins_home
     networks:
