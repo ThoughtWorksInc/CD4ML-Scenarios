@@ -1,17 +1,11 @@
 from flask import Flask, render_template, request
-import os
-from fluent import sender
 import cd4ml.app_utils as utils
+from cd4ml.fluentd_logging import FluentdLogger
 
 app = Flask(__name__, template_folder='webapp/templates',
             static_folder='webapp/static')
 
-TENANT = os.getenv('TENANT', 'model')
-FLUENTD_HOST = os.getenv('FLUENTD_HOST')
-FLUENTD_PORT = os.getenv('FLUENTD_PORT')
-
-print("FLUENTD_HOST="+FLUENTD_HOST)
-print("FLUENTD_PORT="+FLUENTD_PORT)
+fluentd_logger = FluentdLogger()
 
 
 @app.route('/')
@@ -48,10 +42,9 @@ def get_prediction():
         'item_name': utils.get_product_name_from_id(item_nbr),
         'date_string': date_string
     }
-    log_prediction_console(log_payload)
 
-    if FLUENTD_HOST is not None:
-        log_prediction_fluentd(log_payload)
+    log_prediction_console(log_payload)
+    fluentd_logger.log('prediction', log_payload)
 
     if status == "ERROR":
         return prediction, 503
@@ -61,11 +54,3 @@ def get_prediction():
 
 def log_prediction_console(log_payload):
     print('logging {}'.format(log_payload))
-
-
-def log_prediction_fluentd(log_payload):
-    logger = sender.FluentSender(TENANT, host=FLUENTD_HOST, port=int(FLUENTD_PORT))
-
-    if not logger.emit('prediction', log_payload):
-        print("Could not log to Fluentd: {}".format(logger.last_error))
-        logger.clear_last_error()
