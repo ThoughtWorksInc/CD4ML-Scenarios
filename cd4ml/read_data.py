@@ -7,8 +7,7 @@ from cd4ml.readers.streamer import DataStreamer
 def process(row_in):
     return {'item_nbr': row_in['item_nbr'],
             'unit_sales': max(0.0, float(row_in['unit_sales'])),
-            #'date': row_in['date'],
-            'date': 'blah',
+            'date': row_in['date'],
             'year': row_in['year'],
             'month': row_in['month'],
             'day': row_in['day'],
