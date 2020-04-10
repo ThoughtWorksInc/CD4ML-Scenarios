@@ -44,4 +44,4 @@ def validate(pipeline_params, model, encoder, track, date_cutoff, max_date):
         json.dumps(evaluation_metrics)))
 
     write_model(model)
-    make_validation_plot(target, validation_predictions)
+    make_validation_plot(target, validation_predictions, track)

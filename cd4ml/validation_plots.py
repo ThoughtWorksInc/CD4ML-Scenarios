@@ -27,8 +27,9 @@ def get_validation_plot(true_value, prediction):
     return plot
 
 
-def make_validation_plot(true_value, prediction):
+def make_validation_plot(true_value, prediction, track):
     plot = get_validation_plot(true_value, prediction)
     filename = file_names['validation_plot']
     print('Writing validation plot: %s' % filename)
     save(plot, filename=filename, title='validation plot')
+    track.log_artifact(filename)

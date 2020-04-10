@@ -6,6 +6,8 @@ TENANT = os.getenv('TENANT', 'local')
 RUN_LABEL = os.getenv('BUILD_NUMBER', '0')
 USE_MLFLOW = MLFLOW_TRACKING_URL is not None
 
+# TODO: clean this up
+
 
 class track:
     def __enter__(self):
@@ -39,3 +41,8 @@ class track:
         if USE_MLFLOW:
             for key, val in metrics.items():
                 mlflow.log_metric(key, val)
+
+    @staticmethod
+    def log_artifact(filename):
+        if USE_MLFLOW:
+            mlflow.log_artifact(filename)
