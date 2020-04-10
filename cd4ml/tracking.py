@@ -15,6 +15,11 @@ class track:
             mlflow.set_tracking_uri(uri=MLFLOW_TRACKING_URL)
             mlflow.set_experiment(TENANT)
             mlflow.start_run(run_name=RUN_LABEL)
+
+            print("MLFLOW_TRACKING_URL: ", MLFLOW_TRACKING_URL)
+            artifact_uri = mlflow.get_artifact_uri()
+            print('artifact_uri: ', artifact_uri)
+
         return self
 
     def __exit__(self, type, value, traceback):
