@@ -2,8 +2,8 @@ import os
 from fluent import sender
 
 TENANT = os.getenv('TENANT', 'model')
-FLUENTD_HOST = os.getenv('FLUENTD_HOST')
-FLUENTD_PORT = os.getenv('FLUENTD_PORT')
+FLUENTD_HOST = os.getenv('FLUENTD_HOST', '')
+FLUENTD_PORT = os.getenv('FLUENTD_PORT', '0')
 
 print("FLUENTD_HOST="+FLUENTD_HOST)
 print("FLUENTD_PORT="+FLUENTD_PORT)
@@ -17,4 +17,7 @@ class FluentdLogger:
         if FLUENTD_HOST is not None:
             if not self.logger.emit(event_label, event_payload):
                 print("Could not log to Fluentd: {}".format(self.logger.last_error))
+                print("event_label: %s" % event_label)
+                print("event_payload")
+                print(event_payload)
                 self.logger.clear_last_error()
