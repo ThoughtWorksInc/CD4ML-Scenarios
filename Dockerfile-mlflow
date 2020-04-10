@@ -4,4 +4,4 @@ RUN pip install mlflow
 
 EXPOSE 5000
 
-ENTRYPOINT mlflow ui -h 0.0.0.0 -p 5000
+ENTRYPOINT mlflow server -h 0.0.0.0 -p 5000
