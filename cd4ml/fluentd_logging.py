@@ -16,7 +16,7 @@ class FluentdLogger:
     def log(self, event_label, event_payload):
         if FLUENTD_HOST is not None:
             if not self.logger.emit(event_label, event_payload):
-                print("Could not log to Fluentd: {}".format(self.logger.last_error))
+                print("Warning, could not log to Fluentd: {}".format(self.logger.last_error))
                 print("event_label: %s" % event_label)
                 print("event_payload")
                 print(event_payload)
