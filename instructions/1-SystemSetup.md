@@ -38,11 +38,15 @@ Set-ExecutionPolicy RemoteSigned
 ```
 
 ## Setting up your local environment (using JupyterLab Development Environment)
+If you are running the environment on a MS Windows 10 machine, make sure to switch Docker to Linux-containers.
+You can do this by clicking on the little Docker icon in the Windows task list.
+You also need to make sure that your PC can handle virtual environments. This can be switched on or off in the BIOS.
+
 1. Download the [docker-compose.yaml](https://github.com/ThoughtWorksInc/CD4ML-Scenarios/blob/master/docker-compose.yaml) file to your machine.
 2. Run `docker-compose up -d --build --remove-orphans` to download the images and start the environment
 3. Run the following command to retrieve the URL for docker. 
 ```bash
-docker dev logs
+docker logs dev
 ```
 You will see a URL such as `http://127.0.0.1:8888?token=<token>`. Open that url in a web browser
 
@@ -51,4 +55,4 @@ You will see a URL such as `http://127.0.0.1:8888?token=<token>`. Open that url 
 
 ### Next Steps
 
-At this step you can start setting up the different components of CD4ML. Continue to the [next section](https:///github.com/ThoughtworksInc/CD4ML-Scenarios/blob/alternative/instructions/2-SetupJenkins.md).
+At this step you can start setting up the different components of CD4ML. Continue to the [next section](https:///github.com/ThoughtworksInc/CD4ML-Scenarios/blob/master/instructions/2-SetupJenkins.md).
