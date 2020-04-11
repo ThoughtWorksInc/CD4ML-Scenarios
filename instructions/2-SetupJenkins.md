@@ -39,7 +39,7 @@ Click "GitHub".
 
 Enter your Github Personal Access Token.
 
-Select your github account, then cd4ml-jenkins and "Create Pipeline"
+Select your github account, then CD4ML-Scenarios and "Create Pipeline"
 
 At this step the pipeline will build, you can select the pipeline to see the individual steps execute. At the end the pipeline should be 'green' indicating that all the steps were successful (shown below).
 
