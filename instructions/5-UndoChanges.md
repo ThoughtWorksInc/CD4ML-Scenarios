@@ -1,4 +1,4 @@
-## Continuous Deployment - Acceptance Check Verification
+## Continuous Deployment - Undo Changes
 
 ## Goals
 
@@ -12,7 +12,7 @@
 * Run the following to commit and push you adjustments
 ```bash
 git add cd4ml/ml_model_params.py
-git commit -m "Adjust number of n_estimators from 50 to 5"
+git commit -m "Adjust number of n_estimators to 5"
 git push
 ``` 
 Notice that your build should have failed because the predictions this estimator are not high enough. 
