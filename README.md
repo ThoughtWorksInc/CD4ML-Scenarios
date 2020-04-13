@@ -2,7 +2,7 @@
 
 This workshop contains the sample application and machine learning code used for the Continuous Delivery for Machine Learning (CD4ML) and Continuous Intelligence workshop. 
 
-This workshop is based on an existing [CD4ML Workshop](https://github.com/ThoughtWorksInc/cd4ml-workshop)
+This workshop is based on an existing [CD4ML Workshop](https://github.com/ThoughtWorksInc/cd4ml-workshop).
 
 This material has been developed and is continuously evolved by [ThoughtWorks](www.thoughtworks.com/open-source) and has been presented in conferences such as: ODSC Boston 2020.
 
@@ -30,6 +30,16 @@ The workshop is divided into several steps, which build on top of each other. In
 ## The Machine Learning Problem
 
 We built a simplified solution to a Kaggle problem posted by Corporación Favorita, a large Ecuadorian-based grocery retailer interested in improving their [Sales Forecasting](https://www.kaggle.com/c/favorita-grocery-sales-forecasting/overview) using data. For the purposes of this workshop, we have combined and simplified their data sets, as our goal is not to find the best predictions, but to demonstrate how to implement CD4ML.
+
+## Links to the different components of this scenario
+
+After a successfull setup of the environment, the following components are running on your machine:
+
+* [Jenkins](http://localhost:10000/blue)
+* [JupyterLab](http://localhost:8888/lab)
+* [MLFlow](http://localhost:12000)
+* [The ML Model](http://localhost:11000)
+* [Kibala/fluentD/Elasticsearch](http://localhost:5601/app/kibana)
 
 ## Collaborators
 
