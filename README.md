@@ -36,7 +36,7 @@ We built a simplified solution to a Kaggle problem posted by Corporación Favori
 After a successfull setup of the environment, the following components are running on your machine:
 
 * [Jenkins](http://localhost:10000/blue)
-* [JupyterLab](http://localhost:8888/lab)
+* [JupyterLab](http://127.0.0.1:8888/lab)
 * [MLFlow](http://localhost:12000)
 * [The ML Model](http://localhost:11000)
 * [Kibala/fluentD/Elasticsearch](http://localhost:5601/app/kibana)
