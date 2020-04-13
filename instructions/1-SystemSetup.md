@@ -62,8 +62,10 @@ docker logs dev
 ```
 You will see a URL such as `http://127.0.0.1:8888?token=<token>`. Open that url in your web browser
 
-4. From the JupyterLab environment you can open a terminal window by clicking the terminal tile on the home page. Run the following
+4. From the JupyterLab environment you can open a terminal window by clicking the terminal tile on the home page. Run the following commands to setup the environment. Please fill in the git email and name to your name 
 ```bash
+git config --global user.email "<your email>"
+git config --global user.name "<your name>"
 pip install -r requirements.txt
 ```
 

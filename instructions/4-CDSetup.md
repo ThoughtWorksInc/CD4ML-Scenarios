@@ -1,4 +1,4 @@
-## Continuous Deployment
+## Continuous Deployment - Setup
 
 ## Goals
 
@@ -19,4 +19,4 @@ git push
 ```
 4. Watch your pipeline run. It should be green and an additional step will be added to your pipeline visualization for this check
 
-Continue to the next [scenario](./5-PerformanceRegression.md)
+Continue to the next [scenario](5-AcceptanceCheckTesting.md)
