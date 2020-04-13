@@ -15,6 +15,3 @@ RUN apt update && \
 COPY ./requirements.txt requirements.txt
 COPY jenkins/1-configureJenkins.groovy /usr/share/jenkins/ref/init.groovy.d/1-configureJenkins.groovy
 RUN pip3 install -r requirements.txt
-
-
-

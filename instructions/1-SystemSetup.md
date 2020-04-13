@@ -6,7 +6,7 @@
 * Fork Git Code Repository into Personal GitHub
 * Configuring a python code development environment
 
-## Github Setup
+### Github Setup
 Navigate to the [Github Personal Access Tokens page](https://github.com/settings/tokens).
 
 Click "Generate new token" on the top right. You may need to enter your Github password again.
@@ -15,12 +15,24 @@ Enter a Note for your personal access token and select the "repo" and "user:emai
 
 Your personal access token will be created and displayed to you. Make sure you save this token safely because it will not be shown again.
 
-Fork the following [repository](https://github.com/ThoughtWorksInc/cd4ml-scenarios) into your personal github account.
+Fork the following [repository](https://github.com/ThoughtWorksInc/CD4ML-Scenarios) into your personal github account.
 
-## Increase Docker Desktop Resources
+Clone the repo to your machine
+```bash
+git clone https://github.com/<Your User Name>/CD4ML-Scenarios
+```
+
+### Setting your Jenkins Administrator Password
+Create a file called `jenkins-admin-password.txt` in the `jenkins\` folder. On the first line of the file type in a secure password. Save and close the file
+
+### Docker Settings Adjustments
 Open Docker Desktop by clicking on the docker icon in your Mac or Windows taskbar and selecting Dashboard. Click the gear and select "Resources" and then "Advanced". Increase the RAM allocated to docker to 4 Gigabytes. Click "Apply and Restart".
 
 ![DockerSettings](./images/DockerSettings.png)
+
+If you are running the environment on a MS Windows 10 machine, make sure to switch Docker to Linux-containers.
+You can do this by clicking on the little Docker icon in your Windows taskbar.
+You also need to make sure that your PC can handle virtual environments. This can be switched on or off in your systems BIOS.
 
 ## Select your development environment
 In the next section you can choose from one of two different application development environments either using a local machine based development environment or a JupyterLab based development environment. When completing the scenario there is no difference between the two environments. We recommend that if you are more comfortable with the JupyterLab development IDE and environment then select JupyterLab otherwise use your already existing development environment.
@@ -48,12 +60,7 @@ Set-ExecutionPolicy RemoteSigned
 pip3 install -r requirements.txt
 ```
 
-## Setting up your local environment (using JupyterLab Development Environment)
-If you are running the environment on a MS Windows 10 machine, make sure to switch Docker to Linux-containers.
-You can do this by clicking on the little Docker icon in the Windows taskbar.
-You also need to make sure that your PC can handle virtual environments. This can be switched on or off our systems BIOS.
-
-## JupyterLab Development Environment
+### JupyterLab Development Environment
 1. Clone the environment to your local machine using `git clone https://github.com/<Your User Name>/CD4ML-Scenarios`
 2. Run `docker-compose up -d --build --remove-orphans` to download the images and start the environment
 3. Run the following command to retrieve the URL for docker. 
@@ -71,4 +78,4 @@ pip install -r requirements.txt
 
 ### Next Steps
 
-At this step you can start setting up the different components of CD4ML. Continue to the [next section](https:///github.com/ThoughtworksInc/CD4ML-Scenarios/blob/master/instructions/2-SetupJenkins.md).
+At this step you can start setting up the different components of CD4ML. Continue to the [next section](https://github.com/ThoughtworksInc/CD4ML-Scenarios/blob/master/instructions/2-SetupJenkins.md).

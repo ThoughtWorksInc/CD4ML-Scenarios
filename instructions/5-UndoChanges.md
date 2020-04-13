@@ -15,7 +15,7 @@ git add cd4ml/ml_model_params.py
 git commit -m "Adjust number of n_estimators to 5"
 git push
 ``` 
-Notice that your build should have failed because the predictions this estimator are not high enough. 
+Notice that your build should have failed because the prediction accuracy with this estimator are not high enough. 
 
 ![BuildFailedCD](./images/BuildFailedCD.png)
 

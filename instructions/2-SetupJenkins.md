@@ -6,10 +6,6 @@
 * Setup and Configure a [Deployment Pipeline](https://martinfowler.com/bliki/DeploymentPipeline.html) to build and deploy your application to production
 * Deploy to the Model server running in production
 
-### Setting your Jenkins Administrator Password
-
-Create a file called `jenkins-admin-password.txt` in the `jenkins\` folder. On the first line of the file type in a secure password. Save and close the file
-
 Navigate to (Jenkins)[http://localhost:10000/blue]. After you log in you will be presented with the Jenkins Blue Ocean welcome page
  
 ![BlueOceanWelcome](./images/BlueOceanWelcomeScreen.png)
