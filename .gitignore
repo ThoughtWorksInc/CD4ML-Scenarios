@@ -19,4 +19,13 @@ admin_password
 results
 *.prof
 bad_code.py
+test/mlruns/*
+# Jenkins Files
+jenkins/jenkins-admin-password.txt
 
+# Jupyter Files
+.bash_history
+.cache/*
+.jupyter/*
+.local/*
+**/.ipynb_checkpoints/*

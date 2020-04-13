@@ -11,6 +11,8 @@ services:
         TENANT: "jenkins"
     volumes:
       - jenkins_home:/var/jenkins_home
+    secrets:
+      - jenkins-admin-password
     networks:
       - jenkins_nw
 
@@ -101,6 +103,8 @@ services:
       - JUPYTER_ENABLE_LAB=yes
     ports:
       - "8888:8888"
+    volumes:
+      - .:/home/jovyan/
     networks:
       - jenkins_nw
     depends_on: 
@@ -115,3 +119,7 @@ volumes:
 networks:
   jenkins_nw:
     driver: bridge
+
+secrets:
+  jenkins-admin-password:
+    file: ./jenkins/jenkins-admin-password.txt

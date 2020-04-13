@@ -13,13 +13,6 @@ cd fluentd
 docker build --rm  -f Dockerfile -t ericnaglertw/cd4ml-fluentd:1 .
 popd
 
-echo "Building Postgres"
-pushd .
-cd postgres
-docker build --rm  -f Dockerfile -t ericnaglertw/cd4ml-postgres:1 .
-popd
-
-
 # Push to DockerHub
 
 # docker push ericnaglertw/cd4ml-build-master:2

@@ -5,5 +5,6 @@ instructions/**
 .venv/**
 .git/**
 .pytest_cache/**
-.dvc/*
 ./cov_html/**
+.cache/**
+.jupyter/**
