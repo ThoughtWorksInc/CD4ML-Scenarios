@@ -86,4 +86,38 @@ git pull -r
 git push
 ```
 
+Then run the pipeline through Jenkins like you did before. Note, if you run it locally, it won't 
+run the acceptance test or update the model scoring app. Those are are separate commands as you
+can see in the Jenkins file. You could run those locally commands too if you wanted.
+
+There are other parameters that govern how the pipeline runs. Those other parameters are in
+cd4ml/pipeline_params.py
+
+You could for example change the model from "random_forest" to "decision_tree" or any model 
+included in ml_model_params.py. If you want to add another scikit-learn model, just add the model
+to model_utils.py and params to ml_model_params.py. Everything should work the same. There is no
+(and there should be no) model specific logic elsewhere in the pipeline. That is an example of
+separation of concerns. After the model is chosen and configured, it should appear to be a 
+generic black box to all other parts of the pipeline. 
+
+Note that some choices of model or configurations might not pass the acceptance test stage. 
+If you need to adjust those thresholds, you can do so in pipeline_params.py. 
+
+## Configuration strategy
+
+Note that we only have two configuration files pipeline_params.py and ml_model_params.py. The
+pipeline_params object includes ml_models params as a sub-object. So this single object 
+is responsible for all configuration.
+
+It is important to create this object only once at the head of the pipeline. You can see it 
+is read (or imported rather) in scripts/pipeline.py. It should not be read/imported anywhere else
+but the top of the pipeline. It is read there and passed down to other functions. 
+
+The reason why this is a good idea is that it gives you full programmatic control. If you 
+wanted to run the pipeline 50 times with 50 parameters and gather the performance metrics, you
+could do that. You would just read the parameters at the top levels and run a loop where you 
+modify some parameters before running the pipeline. Note that if you read/imported the 
+params at various places in the code, this might not work. Even if you got it to work, it could
+prove brittle and bug prone. 
+
 
