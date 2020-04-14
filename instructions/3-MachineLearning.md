@@ -131,4 +131,8 @@ paths and names are not sprinkled throughout the code and hard to locate.
 The stream reader is in cd4ml/read_data.py and it called some lower level functions. Currently
 it just runs from reading a csv file but we are in the process of adding postgres as an option.
 
+## ML Flow
 
+Open your browser to the following page to see MLflow.
+
+[http://localhost:12000/#/](http://localhost:12000/#/)
