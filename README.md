@@ -13,7 +13,7 @@ In order to run this workshop, you will need:
 * A valid Github account
 * A working Docker setup with at least 20 GB of space free (if running on Windows, make sure to use Linux containers)
 
-## Tool used in this workshop
+## Tools used in this workshop
 
 * [Python 3.7](https://www.python.org/downloads/release/python-377/)
 * [Docker](https://www.docker.com/)
@@ -33,7 +33,7 @@ We built a simplified solution to a Kaggle problem posted by Corporación Favori
 
 ## Links to the different components of this scenario
 
-After a successfull setup of the environment, the following components are running on your machine:
+After a successful setup of the environment, the following components are running on your machine:
 
 * [Jenkins](http://localhost:10000/blue)
 * [JupyterLab](http://127.0.0.1:8888/lab)
@@ -43,8 +43,7 @@ After a successfull setup of the environment, the following components are runni
 
 ## Collaborators
 
-The material, ideas, and content developed for this workshop were contributions
-from (in alphabetical order):
+The material, ideas, and content developed for this workshop were contributions from (in alphabetical order):
 
 * [Arif Wider](https://github.com/arifwider)
 * [Arun Manivannan](https://github.com/arunma)
