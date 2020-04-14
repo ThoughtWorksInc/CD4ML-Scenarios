@@ -29,10 +29,12 @@ Should output something like
 32 passed, 2 skipped in 5.73 seconds
 and without any flake8 comments
 
-## Goals
+## Run the pipeline with different model parameters
+
+Goals
 
 * Run python pipeline locally
-* Make a change and run again
+* Make a change and run again to see changes
 
 Once the shell is activated, you can run the ML pipeline with
 
@@ -119,5 +121,14 @@ could do that. You would just read the parameters at the top levels and run a lo
 modify some parameters before running the pipeline. Note that if you read/imported the 
 params at various places in the code, this might not work. Even if you got it to work, it could
 prove brittle and bug prone. 
+
+## Streaming design
+
+As discussed in the presentation, we try to maintain a preference for streaming over batch.
+You'll see all of the paths and filenames in the  file called cd4ml/filenames.py. That is so
+paths and names are not sprinkled throughout the code and hard to locate. 
+
+The stream reader is in cd4ml/read_data.py and it called some lower level functions. Currently
+it just runs from reading a csv file but we are in the process of adding postgres as an option.
 
 
