@@ -35,7 +35,12 @@ You can do this by clicking on the little Docker icon in your Windows taskbar.
 You also need to make sure that your PC can handle virtual environments. This can be switched on or off in your systems BIOS.
 
 ## Select your development environment
-In the next section you can choose from one of two different application development environments either using a local machine based development environment or a JupyterLab based development environment. When completing the scenario there is no difference between the two environments. We recommend that if you are more comfortable with the JupyterLab development IDE and environment then select JupyterLab otherwise use your already existing development environment.
+In the next section you can choose from one of two different application development 
+environments either using a local machine based development environment or a 
+JupyterLab based development environment. When completing the scenario there is no 
+difference between the two environments. We recommend that if you are more comfortable 
+with the JupyterLab development IDE and environment then select JupyterLab otherwise use 
+your already existing development environment.
 
 ### Local machine environment
 For this workshop we are going to use python3 as our python, pip3 as our dependency manager, and virtualenv for python environment management.
@@ -59,6 +64,12 @@ Set-ExecutionPolicy RemoteSigned
 .venv/Scripts/activate.ps1
 pip3 install -r requirements.txt
 ```
+
+Note, if using PyCharm and virtualenv, be sure to select the right python interpreter for PyCharm. 
+This is done by clicking on interpreter in the bottom right on the PyCharm window and 
+navigating to the python3 executable in the .venv/bin/ directory. That will allow PyCharm 
+to highlight missing libraries and incorrect syntax correctly. If you don't configure this 
+it will show red lines everywhere because it can't find the installed libraries.
 
 ### JupyterLab Development Environment
 1. Clone the environment to your local machine using `git clone https://github.com/<Your User Name>/CD4ML-Scenarios`

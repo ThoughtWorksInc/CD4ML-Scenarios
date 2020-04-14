@@ -5,7 +5,7 @@
 Goals
 
 * Run python pipeline locally
-* Make a change and run again to see changes
+* Make a change and run again to see the effects
 
 ### Run the tests locally
 
@@ -21,7 +21,18 @@ Should output something like
 32 passed, 2 skipped in 5.73 seconds
 and without any flake8 comments
 
-Once the shell is activated, you can run the ML pipeline with
+Flake8 checks for style violations. We suggest you stick to standard PEP8 style
+guidelines. If you use the PyCharm IDE (or other IDEs properly-configured), it will show
+style violations while you type. If however, you miss some, this Flake8 checker will
+cause it to fail the test stage. If that is undesirable, it can be removed 
+from run_tests.sh.
+
+Once the shell has been activated, which you can do with 
+```bash
+source .venv/bin/activate
+```
+
+you can run the ML pipeline with
 
 ```bash
 python3 run_python_script.py pipeline
