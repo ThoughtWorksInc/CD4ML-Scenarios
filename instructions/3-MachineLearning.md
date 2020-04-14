@@ -30,7 +30,6 @@ algorithm and output a performance metric.
 
 `{'r2_score': 0.678401327984714}`
 
-
 This run_python_script.py file is a script runner. This is a nice way to run scripts which import 
 all the code in the cd4ml module without having to monkey around with paths. All script should put
 in the scripts directory and have a function named main. See the two scripts pipeline.py 
@@ -135,3 +134,17 @@ to see what they were.
 
 ![MLflow](./images/mlflow.png)
 
+## One hot encoding
+
+Notice that we use our own one-hot-encoder to convert each categorical variable to a set 
+of Booleans ones. This was done because of some shortcomings of the one included in scikit-learn. 
+First of all theirs is not complete and so needs lots of wrapper code around it anyway. 
+
+Ours has some nice features
+
+* All written in python with tests
+* Can run on data streams without requiring batch loading or batch scoring
+* Has persistence build in. Persistence of one-hot encoder is required for repeatability.
+* Makes it easy to transform back and forth between original and encoded forms
+* Allows for control over maximum number of encoded levels. Aids with memory use.
+* Is configurable through a single data structure, allowing for easy hyper-parameter tuning
