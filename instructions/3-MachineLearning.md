@@ -7,7 +7,7 @@ Goals
 * Run python pipeline locally
 * Make a change and run again to see changes
 
-## Run the tests locally
+### Run the tests locally
 
 If you want to run things locally, you can follow this recipe. If you just want
 to run things with Jenkins, you can skip this. Running with Jenkins requires that
