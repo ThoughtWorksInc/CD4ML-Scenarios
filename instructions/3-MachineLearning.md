@@ -1,3 +1,5 @@
+# Instructions for running ML pipeline
+
 ## Run the pipeline with different model parameters
 
 Goals
@@ -87,6 +89,30 @@ generic black box to all other parts of the pipeline.
 Note that some choices of model or configurations might not pass the acceptance test stage. 
 If you need to adjust those thresholds, you can do so in pipeline_params.py. 
 
+## ML Flow
+
+Open your browser to the following page to see MLflow.
+
+[http://localhost:12000/#/](http://localhost:12000/#/)
+
+On the left, under experiments, click on jenkins to see the jobs launched from 
+the jenkins server.
+
+If you run the pipeline through Jenkins at least once, you will see a list of runs in the 
+table with the metric r2_score on the far right. Click on the date field to se more information.
+
+Artifacts like plots can be added. We haven't implemented this yet though. 
+The model can also be saved in mlflow as an artifact.
+
+One of the most important thing recorded is the git commit hash. So if you ever need to roll back
+to a previous model, you can check out that version of the code or at least check the parameters
+to see what they were.
+
+![MLflow](./images/mlflow.png)
+
+
+# Codebase characteristics
+
 ## Configuration strategy
 
 Note that we only have two configuration files pipeline_params.py and ml_model_params.py. The
@@ -113,38 +139,30 @@ paths and names are not sprinkled throughout the code and hard to locate.
 The stream reader is in cd4ml/read_data.py and it called some lower level functions. Currently
 it just runs from reading a csv file but we are in the process of adding postgres as an option.
 
-## ML Flow
-
-Open your browser to the following page to see MLflow.
-
-[http://localhost:12000/#/](http://localhost:12000/#/)
-
-On the left, under experiments, click on jenkins to see the jobs launched from 
-the jenkins server.
-
-If you run the pipeline through Jenkins at least once, you will see a list of runs in the 
-table with the metric r2_score on the far right. Click on the date field to se more information.
-
-Artifacts like plots can be added. We haven't implemented this yet though. 
-The model can also be saved in mlflow as an artifact.
-
-One of the most important thing recorded is the git commit hash. So if you ever need to roll back
-to a previous model, you can check out that version of the code or at least check the parameters
-to see what they were.
-
-![MLflow](./images/mlflow.png)
-
 ## One hot encoding
 
 Notice that we use our own one-hot-encoder to convert each categorical variable to a set 
-of Booleans ones. This was done because of some shortcomings of the one included in scikit-learn. 
-First of all theirs is not complete and so needs lots of wrapper code around it anyway. 
+of Boolean ones. This was done because of some shortcomings of the one included in scikit-learn. 
+First of all, theirs is not complete and so needs lots of wrapper code around it anyway. 
 
 Ours has some nice features
 
 * All written in python with tests
 * Can run on data streams without requiring batch loading or batch scoring
-* Has persistence build in. Persistence of one-hot encoder is required for repeatability.
+* Has easy persistence built in. Persistence of one-hot encoder is required for repeatability.
 * Makes it easy to transform back and forth between original and encoded forms
 * Allows for control over maximum number of encoded levels. Aids with memory use.
 * Is configurable through a single data structure, allowing for easy hyper-parameter tuning
+
+## Future improvements
+
+We will continue to work on and improve this codebase. Primarily it is intended to teach the 
+concepts of CD4ML but should also be a useful starting place for real projects. Be sure to 
+read our License concerning use. We will continue to improve the design and add functionality
+and may make use of it in actual project work. At such a time, more emphasis would be paid to 
+security. Overall, we prefer a library versus framework approach to machine learning. 
+We find, especially in our work as consultants, that frameworks will never be flexible enough 
+to work in all the varied environments we encounter. That is, we prefer to maintain a large 
+set of modular components or libraries that can be selected from and arranged in different 
+patterns to fit almost any ecosystem or at least reduce the time required to built what is 
+needed.
