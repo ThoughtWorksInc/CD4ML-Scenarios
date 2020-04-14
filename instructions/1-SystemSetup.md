@@ -43,7 +43,8 @@ with the JupyterLab development IDE and environment then select JupyterLab other
 your already existing development environment.
 
 ### Local machine environment
-For this workshop we are going to use python3 as our python, pip3 as our dependency manager, and virtualenv for python environment management.
+For this workshop we are going to use python3 as our python, pip3 as our dependency manager, 
+and virtualenv for python environment management.
 
 First you need to fork this repo to your github account and then clone this environment to your local machine
 
