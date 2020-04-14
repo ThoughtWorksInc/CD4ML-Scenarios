@@ -32,7 +32,7 @@ def validate(pipeline_params, model, encoder, track, date_cutoff, max_date):
                        if validate_filter(row, date_cutoff, max_date))
 
     encoded_validate_stream = encoder.encode_data_stream(validate_stream)
-    validation_predictions = [model.predict([row]) for row in encoded_validate_stream]
+    validation_predictions = [float(model.predict([row])) for row in encoded_validate_stream]
 
     target = [row[target_name] for row in stream_data(pipeline_params)
               if validate_filter(row, date_cutoff, max_date)]
