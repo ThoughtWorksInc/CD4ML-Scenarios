@@ -1,4 +1,4 @@
-# Exercise 5: Model Monitoring and Observability
+# Exercise 6: Model Monitoring and Observability
 
 ## Goals
 
