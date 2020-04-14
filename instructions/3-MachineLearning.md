@@ -136,3 +136,19 @@ it just runs from reading a csv file but we are in the process of adding postgre
 Open your browser to the following page to see MLflow.
 
 [http://localhost:12000/#/](http://localhost:12000/#/)
+
+On the left, under experiments, click on jenkins to see the jobs launched from 
+the jenkins server.
+
+If you run the pipeline through Jenkins at least once, you will see a list of runs in the 
+table with the metric r2_score on the far right. Click on the date field to se more information.
+
+Artifacts like plots can be added. We haven't implemented this yet though. 
+The model can also be saved in mlflow as an artifact.
+
+One of the most important thing recorded is the git commit hash. So if you ever need to roll back
+to a previous model, you can check out that version of the code or at least check the parameters
+to see what they were.
+
+![MLflow](./images/mlflow.png)
+
