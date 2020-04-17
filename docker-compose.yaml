@@ -2,7 +2,7 @@ version: "3.7"
 services:
   jenkins:
     container_name: jenkins
-    image: ericnaglertw/cd4ml-build-master:2
+    image: ericnaglertw/cd4ml-build-master:odsc-east-2020
     ports:
       - "10000:8080"
     environment:
@@ -59,7 +59,7 @@ services:
       - es01
       
   fluentd:
-    image: ericnaglertw/cd4ml-fluentd:1
+    image: ericnaglertw/cd4ml-fluentd:odsc-east-2020
     container_name: fluentd
     volumes:
       - ./fluentd/conf:/fluentd/etc
@@ -74,7 +74,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-model
-    image: cd4ml-model:latest   
+    image: cd4ml-model:latest
     container_name: model
     ports:
       - "11000:5005"
@@ -88,7 +88,7 @@ services:
 
   mlflow:
     container_name: mlflow
-    image: ericnaglertw/cd4ml-mlflow:1
+    image: ericnaglertw/cd4ml-mlflow:odsc-east-2020
     ports:
       - "12000:5000"
     networks:
