@@ -1,6 +1,7 @@
 cd4ml-workshop/*
 nginx/*
 .venv/*
+env/*
 .vscode/*
 **/.DS_Store
 python/*.venv
@@ -29,3 +30,7 @@ jenkins/jenkins-admin-password.txt
 .jupyter/*
 .local/*
 **/.ipynb_checkpoints/*
+
+# other files
+.gitconfig
+.get-pip.py
