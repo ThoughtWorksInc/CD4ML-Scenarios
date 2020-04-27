@@ -1,5 +1,5 @@
 from cd4ml.run_ml import run_all
-from cd4ml.download_data import run_download_data
+from cd4ml.download_data.download_data import run_download_data
 
 
 def download_data(pipeline_params):
