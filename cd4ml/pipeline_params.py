@@ -11,6 +11,7 @@ pipeline_params = {'problem': 'shopping',
                    'acceptance_threshold_max': 1.0,
                    'data_source': 'file',
                    'model_params': model_parameters,
+                   'zillow_year': 2016,
                    'download_data_info': {
                        'key': 'store47-2016.csv',
                        'gcs_bucket': 'continuous-intelligence',
