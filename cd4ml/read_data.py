@@ -1,7 +1,7 @@
 import os
 from cd4ml.filenames import file_names
 from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
-from cd4ml.readers.streamer import DataStreamer
+from cd4ml.problems.shopping.readers.streamer import DataStreamer
 
 
 def process(row_in):
@@ -40,7 +40,7 @@ def stream_data(pipeline_params, apply_filter=True):
     :param apply_filter: if true (default), filter the rows
     :return: a stream of data from a source specified in pipeline_params
     """
-    data_source = pipeline_params["data_source"]
+    data_source = pipeline_params['problem_params']['data_source']
     data_streamer = DataStreamer(data_source)
     data = data_streamer.stream_data()
     for row in data:

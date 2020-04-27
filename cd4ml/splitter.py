@@ -13,7 +13,7 @@ def get_max_date(pipeline_params):
 
 def get_cutoff_dates(pipeline_params):
     # batch step, 57 days usual
-    days_back = pipeline_params['days_back']
+    days_back = pipeline_params['problem_params']['days_back']
     max_date = get_max_date(pipeline_params)
     date_cutoff = add_to_date_string(max_date, days=-days_back)
     return date_cutoff, max_date

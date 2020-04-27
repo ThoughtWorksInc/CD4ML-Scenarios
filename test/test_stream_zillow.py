@@ -1,4 +1,4 @@
-from cd4ml.readers.stream_zillow import float_or_zero, process_row
+from cd4ml.problems.zillow.readers.stream_zillow import float_or_zero, process_row
 
 
 def test_float_or_zero():

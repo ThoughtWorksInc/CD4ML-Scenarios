@@ -1,19 +1,15 @@
 # parameters for running the pipeline
-from cd4ml.ml_model_params import model_parameters
 
-# TODO: add some security protocols around the key?
+pipeline_params = {'problem': 'shopping'}
 
-pipeline_params = {'problem': 'shopping',
-                   'model_name': 'random_forest',
-                   'days_back': 57,
-                   'acceptance_metric': 'r2_score',
-                   'acceptance_threshold_min': 0.60,
-                   'acceptance_threshold_max': 1.0,
-                   'data_source': 'file',
-                   'model_params': model_parameters,
-                   'zillow_year': 2016,
-                   'download_data_info': {
-                       'key': 'store47-2016.csv',
-                       'gcs_bucket': 'continuous-intelligence',
-                       'base_url': 'https://storage.googleapis.com'
-                   }}
+if pipeline_params['problem'] == 'shopping':
+    from cd4ml.problems.shopping.config.problem_params import problem_params
+    from cd4ml.problems.shopping.config.ml_model_params import model_parameters
+elif pipeline_params['problem'] == 'zillow':
+    from cd4ml.problems.zillow.config.problem_params import problem_params
+    from cd4ml.problems.zillow.config.ml_model_params import model_parameters
+else:
+    raise ValueError("Problem %s, must be one of 'shopping' or 'zillow'" % pipeline_params['problem'])
+
+pipeline_params['problem_params'] = problem_params
+pipeline_params['model_params'] = model_parameters

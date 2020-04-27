@@ -1,5 +1,5 @@
-from cd4ml.readers.streamer import DataStreamer
-from cd4ml.readers.postgres import PostgresReader
+from cd4ml.problems.shopping.readers.streamer import DataStreamer
+from cd4ml.problems.shopping.readers.postgres import PostgresReader
 import pytest
 
 

@@ -1,11 +1,11 @@
 import pytest
 
 from cd4ml.read_data import stream_data, get_encoder_from_stream
-from cd4ml.readers.file_reader import CSVDictionaryReader
+from cd4ml.problems.shopping.readers.file_reader import CSVDictionaryReader
 from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
-from cd4ml.download_data.download_data import run_download_data
 from cd4ml.pipeline_params import pipeline_params
 from cd4ml.read_data import process
+from cd4ml.download_data import run_download_data
 
 pipeline_params['data_source'] = 'file'
 

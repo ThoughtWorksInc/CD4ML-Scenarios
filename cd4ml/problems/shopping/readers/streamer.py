@@ -1,5 +1,5 @@
-from cd4ml.readers.file_reader import CSVDictionaryReader
-from cd4ml.readers.postgres import PostgresReader
+from cd4ml.problems.shopping.readers.file_reader import CSVDictionaryReader
+from cd4ml.problems.shopping.readers.postgres import PostgresReader
 
 
 class DataStreamer:

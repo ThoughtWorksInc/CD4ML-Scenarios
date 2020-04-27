@@ -6,7 +6,7 @@ from cd4ml.validate import validate
 
 
 def run_ml_model(pipeline_params, encoder, track, date_cutoff, seed=None):
-    target_name = 'unit_sales'
+    target_name = pipeline_params['problem_params']['target_name']
 
     train_stream = (row for row in stream_data(pipeline_params) if train_filter(row, date_cutoff))
     encoded_train_stream = encoder.encode_data_stream(train_stream)
@@ -19,7 +19,7 @@ def run_ml_model(pipeline_params, encoder, track, date_cutoff, seed=None):
     # read it all in
     target = [row[target_name] for row in stream_data(pipeline_params) if train_filter(row, date_cutoff)]
 
-    model_name = pipeline_params['model_name']
+    model_name = pipeline_params['problem_params']['model_name']
     params = pipeline_params['model_params'][model_name]
 
     track.log_ml_params(params)
@@ -51,9 +51,9 @@ def run_all(pipeline_params):
             print('All model names')
             print(all_model_names)
         else:
-            all_model_names = [pipeline_params['model_name']]
+            all_model_names = [pipeline_params['problem_params']['model_name']]
 
         for model_name in all_model_names:
-            pipeline_params['model_name'] = model_name
+            pipeline_params['problem_params']['model_name'] = model_name
             trained_model, params = run_ml_model(pipeline_params, encoder, track, date_cutoff)
             validate(pipeline_params, trained_model, encoder, track, date_cutoff, max_date)
