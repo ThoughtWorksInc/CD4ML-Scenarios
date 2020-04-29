@@ -73,9 +73,6 @@ def get_prediction(item_nbr, date_string):
     if not Path(file_names['full_model']).exists():
         return "ERROR", "Model Not Loaded"
 
-    if not Path(file_names['encoder']).exists():
-        return "ERROR", "Encoder Not Loaded"
-
     loaded_model = joblib.load(file_names['full_model'])
 
     processed_row = get_processed_row(item_nbr, date_string)
