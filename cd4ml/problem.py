@@ -1,4 +1,5 @@
 import joblib
+from time import time
 from cd4ml import tracking
 from cd4ml.train import get_trained_model
 from cd4ml.get_encoder import get_encoder
@@ -23,17 +24,18 @@ class Problem:
         self.encoder = None
         self.ml_model = None
         self.tracker = None
-        self.validation_metrics = ['r2_score', 'rms_score', 'mad_score']
+        self.validation_metric_names = ['r2_score', 'rms_score', 'mad_score', 'num_validated']
 
         # methods to be implemented
 
         # when called on pipeline_params, returns a data stream
         self._stream_data = None
 
-        # when given a row of data, returns True if it is in training set
-        self.training_filter = None
+        # when given a row of data, returns True or False depending on
+        # whether is in training or validation
+        # override if need a special case
 
-        # when given a row of data, returns True if it is in validation set
+        self.training_filter = None
         self.validation_filter = None
 
         # function which runs on a function returning an iterable
@@ -47,10 +49,13 @@ class Problem:
         return self._stream_data(self.pipeline_params)
 
     def get_encoder(self, write=True, read_from_file=False):
+        start = time()
         self.encoder = get_encoder(self.stream(),
                                    self.pipeline_params['ml_fields'],
                                    write=write,
                                    read_from_file=read_from_file)
+        runtime = time()-start
+        print('Encoder time: %0.1f seconds' % runtime)
 
     def training_stream(self):
         return (row for row in self.stream() if self.training_filter(row))
@@ -59,6 +64,7 @@ class Problem:
         return (row for row in self.stream() if self.validation_filter(row))
 
     def train(self):
+        start = time()
         if self.encoder is None:
             self.get_encoder()
 
@@ -68,6 +74,8 @@ class Problem:
                                           self.tracker)
 
         self.ml_model = MLModel(self.pipeline_params, trained_model, self.encoder)
+        runtime = time() - start
+        print('Training time: %0.1f seconds' % runtime)
 
     def true_target_stream(self, stream):
         target_name = self.pipeline_params['ml_fields']['target_name']
@@ -78,12 +86,13 @@ class Problem:
         validation_predictions = list(self.ml_model.predict_stream(self.validation_stream()))
 
         write_validation_info(self.validation_metrics,
-                              self.trained_model,
                               self.tracker,
                               true_validation_target,
                               validation_predictions)
 
     def validate(self):
+        start = time()
+
         def get_validation_stream():
             true_validation_target_stream = self.true_target_stream(self.validation_stream())
             validation_prediction_stream = self.ml_model.predict_stream(self.validation_stream())
@@ -91,8 +100,10 @@ class Problem:
             validation_stream = zip(true_validation_target_stream, validation_prediction_stream)
             return validation_stream
 
-        self.validation_metrics = get_validation_metrics(self.validation_metrics, get_validation_stream)
+        self.validation_metrics = get_validation_metrics(self.validation_metric_names, get_validation_stream)
         self._write_validation_info()
+        runtime = time() - start
+        print('Validation time: %0.1f seconds' % runtime)
 
     def __repr__(self):
         # make it printable
@@ -112,6 +123,7 @@ class Problem:
         self.ml_model.save(filename)
 
     def run_all(self):
+        start = time()
         with tracking.track() as tracker:
             self.tracker = tracker
 
@@ -128,6 +140,9 @@ class Problem:
             reread_model = load_full_model()
             self.ml_model = reread_model
             self.validate()
+
+        runtime = time() - start
+        print('All ML steps time: %0.1f seconds' % runtime)
 
 
 def load_full_model():

@@ -9,9 +9,9 @@ def stream_raw(pipeline_params):
     :return: stream to raw rows of Zillow data
 
     """
-    assert pipeline_params['problem'] == 'zillow'
+    assert pipeline_params['problem_name'] == 'zillow'
 
-    year = pipeline_params['zillow_year']
+    year = pipeline_params['problem_params']['zillow_year']
     properties_filename = file_names['zillow_properties'].format(year=year)
     sales_filename = file_names['zillow_sales'].format(year=year)
 

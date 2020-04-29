@@ -1,32 +1,50 @@
-from cd4ml.date_utils import ymd_to_date_string, add_to_date_string, date_string_to_date
-from cd4ml.read_data import stream_data
+from cd4ml.utils import hash_to_uniform_random
 
 
-def get_max_date(pipeline_params):
-    # batch step
-    # '2017-08-15'
-    print('Getting max date')
-    max_date = max(date_string_to_date(row["date"]) for row in stream_data(pipeline_params))
-    print('Max date: %s' % max_date)
-    return max_date.strftime('%Y-%m-%d')
+def validate_splitting(pipeline_params):
+    assert 'problem_params' in pipeline_params
+    prob_params = pipeline_params['problem_params']
+    assert 'identifier' in prob_params
+    assert 'splitting' in prob_params
+    assert 'random_seed' in prob_params
+
+    splitting = prob_params['splitting']
+
+    # check ordered properly
+    assert splitting['training_random_start'] <= splitting['training_random_end']
+    assert splitting['validation_random_start'] <= splitting['validation_random_end']
+
+    # all within 0 to 1
+    assert 0 <= splitting['training_random_start'] <= 1
+    assert 0 <= splitting['training_random_end'] <= 1
+    assert 0 <= splitting['validation_random_start'] <= 1
+    assert 0 <= splitting['validation_random_end'] <= 1
+
+    # no overlap in range
+    one = splitting['training_random_start'] > splitting['validation_random_end']
+    the_other = splitting['validation_random_start'] > splitting['training_random_end']
+    assert one or the_other
 
 
-def get_cutoff_dates(pipeline_params):
-    # batch step, 57 days usual
-    days_back = pipeline_params['problem_params']['days_back']
-    max_date = get_max_date(pipeline_params)
-    date_cutoff = add_to_date_string(max_date, days=-days_back)
-    return date_cutoff, max_date
+def splitter(pipeline_params):
+    validate_splitting(pipeline_params)
+    identifier = pipeline_params['problem_params']['identifier']
+    seed = pipeline_params['problem_params']['random_seed']
+    splitting = pipeline_params['problem_params']['splitting']
 
+    train_start = splitting['training_random_start']
+    train_end = splitting['training_random_end']
+    validation_start = splitting['validation_random_start']
+    validation_end = splitting['validation_random_end']
 
-def get_date_from_row(row):
-    numbers = (int(row['year']), int(row['month']), int(row['day']))
-    return ymd_to_date_string(numbers)
+    def training_filter(row):
+        hash_val = hash_to_uniform_random(row[identifier], seed)
+        assert 0 <= hash_val < 1
+        return train_start <= hash_val < train_end
 
+    def validation_filter(row):
+        hash_val = hash_to_uniform_random(row[identifier], seed)
+        assert 0 <= hash_val < 1
+        return validation_start <= hash_val < validation_end
 
-def train_filter(row, cutoff_date):
-    return get_date_from_row(row) < cutoff_date
-
-
-def validate_filter(row, cutoff_date, max_date):
-    return cutoff_date <= get_date_from_row(row) <= max_date
+    return training_filter, validation_filter

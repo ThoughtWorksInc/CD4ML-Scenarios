@@ -1,6 +1,5 @@
 import os
 import json
-import joblib
 from cd4ml.filenames import file_names
 from cd4ml.validation_plots import make_validation_plot
 from cd4ml.fluentd_logging import FluentdLogger
@@ -8,8 +7,8 @@ from cd4ml.fluentd_logging import FluentdLogger
 fluentd_logger = FluentdLogger()
 
 
-def write_predictions_and_score(evaluation_metrics):
-    filename = 'results/metrics.json'
+def write_metrics(evaluation_metrics):
+    filename = file_names['metrics']
     print("Writing to {}".format(filename))
     if not os.path.exists('results'):
         os.makedirs('results')
@@ -17,13 +16,8 @@ def write_predictions_and_score(evaluation_metrics):
         json.dump(evaluation_metrics, score_file)
 
 
-def write_model(model):
-    filename = file_names['full_model']
-    print("Writing to {}".format(filename))
-    joblib.dump(model, filename)
-
-
-def write_validation_info(validation_metrics, trained_model, track,
+def write_validation_info(validation_metrics,
+                          track,
                           true_validation_target,
                           validation_predictions):
 
@@ -32,11 +26,9 @@ def write_validation_info(validation_metrics, trained_model, track,
 
     fluentd_logger.log('validation_metrics', validation_metrics)
 
-    write_predictions_and_score(validation_metrics)
+    write_metrics(validation_metrics)
 
     print("Evaluation done with metrics {}.".format(
         json.dumps(validation_metrics)))
-
-    write_model(trained_model)
 
     make_validation_plot(true_validation_target, validation_predictions, track)

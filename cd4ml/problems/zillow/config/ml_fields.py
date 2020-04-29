@@ -38,7 +38,7 @@ def get_ml_fields():
                       'landtaxvaluedollarcnt', 'taxamount', 'assessmentyear', 'taxdelinquencyyear',
                       'logerror']
 
-    target_field = 'logerrror'
+    target_field = 'logerror'
 
     ml_fields = {'categorical': categorical_n_levels_dict,
                  'numerical': numeric_fields,
