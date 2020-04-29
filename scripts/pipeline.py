@@ -1,6 +1,5 @@
 import numpy as np
 from cd4ml import pipeline_helpers as ph
-from cd4ml.pipeline_params import pipeline_params
 
 
 def main(*args):
@@ -18,5 +17,5 @@ def main(*args):
     if variable:
         print('variable: %s' % variable)
 
-    ph.download_data(pipeline_params)
-    ph.train_and_validate_model(pipeline_params)
+    ph.download_data()
+    ph.train_and_validate_model()

@@ -65,7 +65,7 @@ def get_processed_row(item_nbr, date_string):
 
 
 def replace_model_file(content):
-    with open(file_names['model'], 'w+b') as f:
+    with open(file_names['full_model'], 'w+b') as f:
         f.write(content)
 
 
@@ -75,7 +75,7 @@ def replace_encoder_file(content):
 
 
 def get_prediction(item_nbr, date_string):
-    if not Path(file_names['model']).exists():
+    if not Path(file_names['full_model']).exists():
         return "ERROR", "Model Not Loaded"
 
     if not Path(file_names['encoder']).exists():
