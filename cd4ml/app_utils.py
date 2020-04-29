@@ -69,11 +69,6 @@ def replace_model_file(content):
         f.write(content)
 
 
-def replace_encoder_file(content):
-    with open(file_names['encoder'], 'w+b') as f:
-        f.write(content)
-
-
 def get_prediction(item_nbr, date_string):
     if not Path(file_names['full_model']).exists():
         return "ERROR", "Model Not Loaded"

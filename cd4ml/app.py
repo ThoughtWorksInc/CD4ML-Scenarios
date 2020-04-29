@@ -20,21 +20,12 @@ def replace_model():
     return "OK", 200
 
 
-@app.route('/replace_encoder', methods=["POST"])
-def replace_encoder():
-    content = request.get_data(as_text=False)
-    utils.replace_encoder_file(content)
-    return "OK", 200
-
-
 @app.route('/prediction')
 def get_prediction():
     date_string = request.args.get('date')
     item_nbr = request.args.get("item_nbr")
 
-    prediction_tuple = utils.get_prediction(item_nbr, date_string)
-    status = prediction_tuple[0]
-    prediction = prediction_tuple[1]
+    status, prediction = utils.get_prediction(item_nbr, date_string)
 
     log_payload = {
         'prediction': prediction,
