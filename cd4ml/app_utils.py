@@ -1,7 +1,7 @@
 import joblib
 from cd4ml.filenames import file_names
 from cd4ml.date_utils import date_string_to_weekday
-from cd4ml.read_data import get_encoder, process
+from cd4ml.problems.shopping.readers.stream_data import process
 from pathlib import Path
 
 products = {
@@ -64,12 +64,6 @@ def get_processed_row(item_nbr, date_string):
     return row
 
 
-def get_encoded_row(item_nbr, date_string, encoder):
-    processed_row = get_processed_row(item_nbr, date_string)
-    encoded_row = encoder.encode_row(processed_row)
-    return encoded_row
-
-
 def replace_model_file(content):
     with open(file_names['model'], 'w+b') as f:
         f.write(content)
@@ -87,11 +81,8 @@ def get_prediction(item_nbr, date_string):
     if not Path(file_names['encoder']).exists():
         return "ERROR", "Encoder Not Loaded"
 
-    loaded_model = joblib.load(file_names['model'])
+    loaded_model = joblib.load(file_names['full_model'])
 
-    # pipeline_params not needed if reading from file
-    pipeline_params = None
+    processed_row = get_processed_row(item_nbr, date_string)
 
-    encoder = get_encoder(pipeline_params, read_from_file=True)
-    encoded_data = [get_encoded_row(item_nbr, date_string, encoder)]
-    return "OK", loaded_model.predict(encoded_data)[0]
+    return "OK", loaded_model.predict_row(processed_row)

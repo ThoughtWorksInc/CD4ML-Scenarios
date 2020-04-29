@@ -1,6 +1,7 @@
 # parameters specific to the problem and it's data
 
 problem_params = {'problem': 'shopping',
+                  'max_date': '2017-08-15',
                   'days_back': 57,
                   'data_source': 'file',
                   'download_data_info': {
@@ -12,4 +13,5 @@ problem_params = {'problem': 'shopping',
                   'model_name': 'random_forest',
                   'acceptance_metric': 'r2_score',
                   'acceptance_threshold_min': 0.60,
-                  'acceptance_threshold_max': 1.0}
+                  'acceptance_threshold_max': 1.0,
+                  'random_seed': 452833122}

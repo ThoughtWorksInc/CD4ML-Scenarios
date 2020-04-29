@@ -1,10 +1,10 @@
 import pytest
-
-from cd4ml.read_data import stream_data, get_encoder_from_stream
+from cd4ml.problems.shopping.readers.stream_data import stream_data
+from cd4ml.get_encoder import get_encoder_from_stream
 from cd4ml.problems.shopping.readers.file_reader import CSVDictionaryReader
 from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
-from cd4ml.pipeline_params import pipeline_params
-from cd4ml.read_data import process
+from cd4ml.problems.shopping.config.get_params import pipeline_params
+from cd4ml.problems.shopping.readers.stream_data import process
 from cd4ml.download_data import run_download_data
 
 pipeline_params['data_source'] = 'file'
@@ -68,7 +68,9 @@ def test_process():
 def test_get_encoder_from_stream():
     stream = stream_data(pipeline_params)
     stream_small = (next(stream) for _ in range(100))
-    encoder = get_encoder_from_stream(stream_small)
+    encoder = get_encoder_from_stream(stream_small,
+                                      pipeline_params['ml_fields'])
+
     assert isinstance(encoder, OneHotEncoder)
 
     stream = stream_data(pipeline_params)

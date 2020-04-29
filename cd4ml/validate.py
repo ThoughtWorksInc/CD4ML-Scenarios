@@ -1,9 +1,6 @@
-from sklearn import metrics
 import os
 import json
 import joblib
-from cd4ml.read_data import stream_data
-from cd4ml.splitter import validate_filter
 from cd4ml.filenames import file_names
 from cd4ml.validation_plots import make_validation_plot
 from cd4ml.fluentd_logging import FluentdLogger
@@ -26,19 +23,9 @@ def write_model(model):
     joblib.dump(model, filename)
 
 
-def validate(pipeline_params, model, encoder, track, date_cutoff, max_date):
-    target_name = 'unit_sales'
-    validate_stream = (row for row in stream_data(pipeline_params)
-                       if validate_filter(row, date_cutoff, max_date))
-
-    encoded_validate_stream = encoder.encode_data_stream(validate_stream)
-    validation_predictions = [float(model.predict([row])) for row in encoded_validate_stream]
-
-    target = [row[target_name] for row in stream_data(pipeline_params)
-              if validate_filter(row, date_cutoff, max_date)]
-
-    print("Calculating metrics")
-    validation_metrics = {'r2_score': metrics.r2_score(y_true=target, y_pred=validation_predictions)}
+def write_validation_info(validation_metrics, trained_model, track,
+                          true_validation_target,
+                          validation_predictions):
 
     track.log_metrics(validation_metrics)
     fluentd_logger.log('validation_metrics', validation_metrics)
@@ -48,5 +35,6 @@ def validate(pipeline_params, model, encoder, track, date_cutoff, max_date):
     print("Evaluation done with metrics {}.".format(
         json.dumps(validation_metrics)))
 
-    write_model(model)
-    make_validation_plot(target, validation_predictions, track)
+    write_model(trained_model)
+
+    make_validation_plot(true_validation_target, validation_predictions, track)

@@ -4,6 +4,9 @@ Keep all filename/path logic here rather than polluting code with hardcoded path
 import os
 from cd4ml.utils import ensure_dir_exists
 
+module_dir = os.path.dirname(os.path.realpath(__file__))
+config_dir = "%s/%s" % (module_dir, 'config')
+
 data_dir_default = 'data'
 data_dir = os.getenv('CD4ML_DATA_DIR', data_dir_default)
 data_dir = os.path.realpath(data_dir)
@@ -26,11 +29,13 @@ file_names = {
     'validation': '%s/splitter/validation.csv' % data_dir,
     'raw_data': '%s/raw/store47-2016.csv' % data_dir,
     'model': '%s/model.pkl' % model_dir,
+    'full_model': '%s/full_model.pkl' % model_dir,
     'ml_params': 'ml_model_params.py',
     'encoder': '%s/encoder.json' % model_dir,
     'validation_plot': '%s/validation_plot.html' % model_dir,
     'raw_zillow_data': '%s/zillow.zip' % data_raw,
     'zillow_properties': '%s/properties_{year}_small.csv' % zillow_dir,
     'zillow_sales': '%s/train_{year}.csv' % zillow_dir,
-    'zillow_data_dict_fields': '%s/zillow_data_dictionary_fields.csv' % zillow_dir
+    'zillow_data_dict_fields': '%s/zillow_data_dictionary_fields.csv' % zillow_dir,
+    'pipeline_config': "%s/%s" % (config_dir, 'pipeline_config.yaml')
 }

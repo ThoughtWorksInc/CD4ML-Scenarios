@@ -1,8 +1,9 @@
 from csv import DictReader
 from cd4ml.filenames import file_names
+from cd4ml.problems.zillow.config.ml_fields import get_ml_fields
 
 
-def stream_zillow_raw(pipeline_params):
+def stream_raw(pipeline_params):
     """
     :param pipeline_params: pipeline_params data structure
     :return: stream to raw rows of Zillow data
@@ -25,7 +26,7 @@ def stream_zillow_raw(pipeline_params):
         yield dict(row)
 
 
-def stream_zillow(pipeline_params, with_descriptions=False):
+def stream_data(pipeline_params, with_descriptions=False):
     """
     :param pipeline_params: pipeline_params data structure
     :param with_descriptions: Default False, if True will show full
@@ -38,7 +39,7 @@ def stream_zillow(pipeline_params, with_descriptions=False):
         def mapper(row_in):
             return process_row(row_in)
 
-    return (mapper(row) for row in stream_zillow_raw(pipeline_params))
+    return (mapper(row) for row in stream_raw(pipeline_params))
 
 
 def get_data_dict():
@@ -81,44 +82,15 @@ def float_or_zero(x):
         return 0.0
 
 
-def get_catergorical_fields():
-    categorical_fields = ['airconditioningtypeid', 'architecturalstyletypeid',
-                          'buildingqualitytypeid', 'buildingclasstypeid', 'decktypeid',
-                          'threequarterbathnbr', 'fips', 'fireplaceflag', 'hashottuborspa',
-                          'heatingorsystemtypeid', 'parcelid', 'pooltypeid10',
-                          'pooltypeid2', 'pooltypeid7', 'propertycountylandusecode',
-                          'propertylandusetypeid', 'propertyzoningdesc',
-                          'rawcensustractandblock', 'censustractandblock',
-                          'regionidcounty', 'regionidcity', 'regionidzip',
-                          'regionidneighborhood', 'storytypeid', 'typeconstructiontypeid',
-                          'taxdelinquencyflag', 'transaction_date']
-
-    return categorical_fields
-
-
-def get_numeric_fields():
-    numeric_fields = ['basementsqft', 'bathroomcnt', 'bedroomcnt', 'calculatedbathnbr',
-                      'finishedfloor1squarefeet', 'calculatedfinishedsquarefeet',
-                      'finishedsquarefeet6', 'finishedsquarefeet12', 'finishedsquarefeet13',
-                      'finishedsquarefeet15', 'finishedsquarefeet50', 'fireplacecnt',
-                      'fullbathcnt', 'garagecarcnt', 'garagetotalsqft', 'latitude', 'longitude',
-                      'lotsizesquarefeet', 'numberofstories', 'poolcnt', 'poolsizesum',
-                      'roomcnt', 'unitcnt', 'yardbuildingsqft17', 'yardbuildingsqft26',
-                      'yearbuilt', 'taxvaluedollarcnt', 'structuretaxvaluedollarcnt',
-                      'landtaxvaluedollarcnt', 'taxamount', 'assessmentyear', 'taxdelinquencyyear',
-                      'logerror']
-
-    return numeric_fields
-
-
 def process_row(row):
     """
     Process a raw row of Zillow data and give it the right schema
     :param row: raw row
     :return: processed row
     """
-    catergorical_fields = get_catergorical_fields()
-    numeric_fields = get_numeric_fields()
+    ml_fields = get_ml_fields()
+    catergorical_fields = list(ml_fields['categorical'].keys())
+    numeric_fields = ml_fields['numerical']
     # Make sure there are no overlaps
     overlap = set(catergorical_fields).intersection(numeric_fields)
     assert len(overlap) == 0

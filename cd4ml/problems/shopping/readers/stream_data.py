@@ -1,7 +1,19 @@
-import os
-from cd4ml.filenames import file_names
-from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
-from cd4ml.problems.shopping.readers.streamer import DataStreamer
+from cd4ml.problems.shopping.readers.file_reader import CSVDictionaryReader
+from cd4ml.problems.shopping.readers.postgres import PostgresReader
+
+
+class DataStreamer:
+    def __init__(self, data_source):
+        if data_source == "file":
+            self.reader = CSVDictionaryReader()
+
+        elif data_source == "postgres":
+            self.reader = PostgresReader()
+        else:
+            raise ValueError("data_source must be 'file' or 'postgres'")
+
+    def stream_data(self):
+        return (dict(row) for row in self.reader.stream_data())
 
 
 def process(row_in):
@@ -49,42 +61,3 @@ def stream_data(pipeline_params, apply_filter=True):
             continue
 
         yield process(row)
-
-
-def get_encoder_from_stream(stream):
-    categorical_n_levels_dict_all = {'item_nbr': 10000000000,
-                                     'year': 50,
-                                     'month': 13,
-                                     'day': 370,
-                                     'class': 600,
-                                     'family': 100,
-                                     'dayofweek': 10}
-
-    categorical_n_levels_dict = categorical_n_levels_dict_all
-
-    numeric_columns = ['perishable',
-                       'days_til_end_of_data',
-                       'dayoff']
-
-    encoder = OneHotEncoder(categorical_n_levels_dict, numeric_columns)
-    encoder.load_from_data_stream(stream)
-    return encoder
-
-
-def get_encoder(pipeline_params, write=True, read_from_file=False):
-    encoder_file = file_names['encoder']
-    if os.path.exists(encoder_file) and read_from_file:
-        print('Reading encoder from : %s' % encoder_file)
-        encoder_from_file = OneHotEncoder([], [])
-        encoder_from_file.load_from_file(encoder_file)
-        return encoder_from_file
-
-    print('Building encoder')
-    stream = stream_data(pipeline_params)
-    encoder = get_encoder_from_stream(stream)
-
-    if write:
-        print('Writing encoder to: %s' % encoder_file)
-        encoder.save(encoder_file)
-
-    return encoder
