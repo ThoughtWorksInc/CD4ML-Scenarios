@@ -8,9 +8,6 @@ from cd4ml.filenames import file_names
 from cd4ml.ml_model import MLModel
 
 
-track = tracking.track()
-
-
 class Problem:
     """
     Generic Problem Interface
@@ -77,10 +74,11 @@ class Problem:
         true_validation_target = list(self.true_target_stream(self.validation_stream()))
         validation_predictions = list(self.ml_model.predict_stream(self.validation_stream()))
 
-        write_validation_info(self.validation_metrics,
-                              self.trained_model, track,
-                              true_validation_target,
-                              validation_predictions)
+        with tracking.track() as track:
+            write_validation_info(self.validation_metrics,
+                                  self.trained_model, track,
+                                  true_validation_target,
+                                  validation_predictions)
 
     def validate(self):
         def get_validation_stream():
