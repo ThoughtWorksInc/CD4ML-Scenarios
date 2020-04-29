@@ -18,7 +18,7 @@ def write_predictions_and_score(evaluation_metrics):
 
 
 def write_model(model):
-    filename = file_names['model']
+    filename = file_names['full_model']
     print("Writing to {}".format(filename))
     joblib.dump(model, filename)
 

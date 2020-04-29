@@ -3,7 +3,8 @@ from cd4ml.problems.zillow.download_data.download_data import download_zillow_da
 
 
 def run_download_data(pipeline_params, use_cache=True):
-    problem = pipeline_params['problem']
+    print(pipeline_params)
+    problem = pipeline_params['problem_name']
     if problem == 'shopping':
         download_shopping_data(pipeline_params, use_cache=use_cache)
     elif problem == 'zillow':

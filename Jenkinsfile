@@ -35,8 +35,7 @@ pipeline {
 //         }
         stage('Deploy model') {
             steps {
-                sh 'curl --request POST --data-binary "@data/models/model.pkl" http://model:5005/replace_model'
-                sh 'curl --request POST --data-binary "@data/models/encoder.json" http://model:5005/replace_encoder'
+                sh 'curl --request POST --data-binary "@data/models/full_model.pkl" http://model:5005/replace_model'
             }
         }
     }

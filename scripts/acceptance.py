@@ -7,7 +7,7 @@ def main(*args):
     Check model meets acceptance threshold
     """
     problem = get_problem()
-    pipeline_params = problem['pipeline_params']
+    pipeline_params = problem.pipeline_params
 
     metric = pipeline_params['acceptance_metric']
     threshold_min = pipeline_params['acceptance_threshold_min']

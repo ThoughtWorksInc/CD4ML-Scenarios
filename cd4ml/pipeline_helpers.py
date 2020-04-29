@@ -5,7 +5,7 @@ from cd4ml.get_problem import get_problem
 def download_data():
     print('Downloading data')
     problem = get_problem()
-    run_download_data(problem['pipeline_params'])
+    run_download_data(problem.pipeline_params)
     print('Done downloading data')
 
 

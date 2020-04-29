@@ -1,4 +1,4 @@
-problem_params = {'problem': 'zillow',
+problem_params = {'problem_name': 'zillow',
                   'download_data_info': {
                        'url': "https://github.com/dave31415/zillow_data_small/archive/master.zip"
                    },

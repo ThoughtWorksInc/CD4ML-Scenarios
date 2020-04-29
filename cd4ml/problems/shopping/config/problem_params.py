@@ -1,6 +1,6 @@
 # parameters specific to the problem and it's data
 
-problem_params = {'problem': 'shopping',
+problem_params = {'problem_name': 'shopping',
                   'max_date': '2017-08-15',
                   'days_back': 57,
                   'data_source': 'file',
