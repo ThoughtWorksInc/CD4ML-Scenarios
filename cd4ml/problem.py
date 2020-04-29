@@ -22,6 +22,7 @@ class Problem:
         self.validation_metrics = None
         self.encoder = None
         self.ml_model = None
+        self.tracker = None
         self.validation_metrics = ['r2_score', 'rms_score', 'mad_score']
 
         # methods to be implemented
@@ -63,7 +64,9 @@ class Problem:
 
         trained_model = get_trained_model(self.pipeline_params,
                                           self.training_stream,
-                                          self.encoder)
+                                          self.encoder,
+                                          self.tracker)
+
         self.ml_model = MLModel(self.pipeline_params, trained_model, self.encoder)
 
     def true_target_stream(self, stream):
@@ -74,11 +77,11 @@ class Problem:
         true_validation_target = list(self.true_target_stream(self.validation_stream()))
         validation_predictions = list(self.ml_model.predict_stream(self.validation_stream()))
 
-        with tracking.track() as track:
-            write_validation_info(self.validation_metrics,
-                                  self.trained_model, track,
-                                  true_validation_target,
-                                  validation_predictions)
+        write_validation_info(self.validation_metrics,
+                              self.trained_model,
+                              self.tracker,
+                              true_validation_target,
+                              validation_predictions)
 
     def validate(self):
         def get_validation_stream():
@@ -109,10 +112,13 @@ class Problem:
         self.ml_model.save(filename)
 
     def run_all(self):
-        self.get_encoder()
-        self.train()
-        self.validate()
-        self.write_ml_model()
+        with tracking.track() as tracker:
+            self.tracker = tracker
+
+            self.get_encoder()
+            self.train()
+            self.validate()
+            self.write_ml_model()
 
         test_persistence = False
         if test_persistence:

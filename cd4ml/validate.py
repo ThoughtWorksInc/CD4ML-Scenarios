@@ -27,7 +27,9 @@ def write_validation_info(validation_metrics, trained_model, track,
                           true_validation_target,
                           validation_predictions):
 
-    track.log_metrics(validation_metrics)
+    if track is not None:
+        track.log_metrics(validation_metrics)
+
     fluentd_logger.log('validation_metrics', validation_metrics)
 
     write_predictions_and_score(validation_metrics)
