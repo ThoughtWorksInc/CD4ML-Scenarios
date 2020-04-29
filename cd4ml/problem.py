@@ -10,7 +10,7 @@ from cd4ml.ml_model import MLModel
 
 class Problem:
     """
-    Generic Problem Interface
+    Generic Problem Interface for Problems
     Implementation needs to add various data elements and methods
     """
 
