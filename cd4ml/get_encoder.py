@@ -1,6 +1,6 @@
 import os
 from cd4ml.filenames import file_names
-from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
+from wickedhot import OneHotEncoder
 
 
 def get_encoder_from_stream(stream, ml_fields):

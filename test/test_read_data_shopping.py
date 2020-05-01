@@ -2,7 +2,7 @@ import pytest
 from cd4ml.problems.shopping.readers.stream_data import stream_data
 from cd4ml.get_encoder import get_encoder_from_stream
 from cd4ml.problems.shopping.readers.file_reader import CSVDictionaryReader
-from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
+from wickedhot import OneHotEncoder
 from cd4ml.problems.shopping.config.get_params import pipeline_params
 from cd4ml.problems.shopping.readers.stream_data import process
 from cd4ml.download_data import run_download_data

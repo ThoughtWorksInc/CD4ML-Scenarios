@@ -1,5 +1,5 @@
 import joblib
-from cd4ml.one_hot.one_hot_encoder import OneHotEncoder
+from wickedhot import OneHotEncoder
 
 
 class MLModel:

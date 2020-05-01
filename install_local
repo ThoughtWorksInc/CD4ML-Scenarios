@@ -1,0 +1,13 @@
+echo installing virtualenv
+rm -rf .venv
+virtualenv .venv
+
+echo activating virtualenv
+source .venv/bin/activate
+
+echo installing requirements
+pip install -r requirements.txt
+
+echo running tests
+./run_tests.sh
+
