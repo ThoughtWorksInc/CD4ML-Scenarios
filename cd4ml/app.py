@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import cd4ml.app_utils as utils
 from cd4ml.fluentd_logging import FluentdLogger
+from cd4ml.dynamic_app import get_form_from_model
 
 app = Flask(__name__, template_folder='webapp/templates',
             static_folder='webapp/static')
@@ -45,3 +46,8 @@ def get_prediction():
 
 def log_prediction_console(log_payload):
     print('logging {}'.format(log_payload))
+
+
+@app.route('/dynamic')
+def dynamic_index():
+    return get_form_from_model()
