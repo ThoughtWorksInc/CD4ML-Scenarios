@@ -13,7 +13,7 @@ class MLModel:
         pred = self.trained_model.predict([encoded_row])[0]
         return float(pred)
 
-    def _load_from_package(self):
+    def load_encoder_from_package(self):
         print('loading encoder from packaging')
         self.encoder = OneHotEncoder([], [])
         self.encoder.load_from_packaged_data(self.packaged_encoder)
@@ -21,7 +21,7 @@ class MLModel:
     def predict_row(self, row):
         if self.encoder is None:
             # in case it has been packaged
-            self._load_from_package()
+            self.load_encoder_from_package()
             self.packaged_encoder = None
 
         encoded_row = self.encoder.encode_row(row)
