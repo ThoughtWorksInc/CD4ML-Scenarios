@@ -17,5 +17,5 @@ def get_form_from_model(initial_values=None):
     encoder = loaded_model.encoder
     assert encoder is not None
 
-    form = encoder.get_form_html_page(initial_values=initial_values)
+    form = encoder.get_form_html_page(initial_values=initial_values, post_url='/dynamic')
     return form
