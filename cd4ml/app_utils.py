@@ -78,3 +78,11 @@ def get_prediction(item_nbr, date_string):
     processed_row = get_processed_row(item_nbr, date_string)
 
     return "OK", loaded_model.predict_row(processed_row)
+
+
+def get_dynamic_prediction(input_dict):
+    if not Path(file_names['full_model']).exists():
+        return "ERROR", "Model Not Loaded"
+
+    loaded_model = joblib.load(file_names['full_model'])
+    return loaded_model.predict_row(input_dict)

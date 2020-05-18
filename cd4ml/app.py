@@ -50,4 +50,7 @@ def log_prediction_console(log_payload):
 
 @app.route('/dynamic')
 def dynamic_index():
-    return get_form_from_model()
+    form_data = request.args.get('form')
+    print('form_data')
+    print(form_data)
+    return get_form_from_model(initial_values=form_data)
