@@ -6,6 +6,7 @@ from cd4ml.utils import ensure_dir_exists
 
 module_dir = os.path.dirname(os.path.realpath(__file__))
 config_dir = "%s/%s" % (module_dir, 'config')
+template_dir = "%s/%s" % (module_dir, 'webapp/templates')
 
 data_dir_default = 'data'
 data_dir = os.getenv('CD4ML_DATA_DIR', data_dir_default)
@@ -36,5 +37,6 @@ file_names = {
     'zillow_properties': '%s/properties_{year}_small.csv' % zillow_dir,
     'zillow_sales': '%s/train_{year}.csv' % zillow_dir,
     'zillow_data_dict_fields': '%s/zillow_data_dictionary_fields.csv' % zillow_dir,
-    'pipeline_config': "%s/%s" % (config_dir, 'pipeline_config.yaml')
+    'pipeline_config': "%s/%s" % (config_dir, 'pipeline_config.yaml'),
+    'dynamic_index': "%s/%s" % (template_dir, 'index_dynamic.html')
 }

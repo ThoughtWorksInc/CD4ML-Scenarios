@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request
+from jinja2 import Template
 import cd4ml.app_utils as utils
 from cd4ml.fluentd_logging import FluentdLogger
 from cd4ml.dynamic_app import get_form_from_model
+from cd4ml.filenames import file_names
 
 app = Flask(__name__, template_folder='webapp/templates',
             static_folder='webapp/static')
@@ -41,16 +43,27 @@ def get_prediction():
     if status == "ERROR":
         return prediction, 503
     else:
-        return "%d" % prediction, 200
+        return "%0.5f" % prediction, 200
 
 
 def log_prediction_console(log_payload):
     print('logging {}'.format(log_payload))
 
 
-@app.route('/dynamic')
+@app.route('/dynamic', methods=['get', 'post'])
 def dynamic_index():
-    form_data = request.args.get('form')
+    form_data = request.form
     print('form_data')
     print(form_data)
-    return get_form_from_model(initial_values=form_data)
+    if len(form_data) == 0:
+        form_data = None
+
+    header_text, form_div, prediction = get_form_from_model(initial_values=form_data)
+
+    template_file = file_names['dynamic_index']
+    template_text = open(template_file, 'r').read()
+    template = Template(template_text)
+
+    return template.render(header_text=header_text,
+                           form_div=form_div,
+                           prediction=prediction)

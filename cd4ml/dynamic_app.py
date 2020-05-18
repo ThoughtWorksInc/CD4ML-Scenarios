@@ -17,5 +17,12 @@ def get_form_from_model(initial_values=None):
     encoder = loaded_model.encoder
     assert encoder is not None
 
-    form = encoder.get_form_html_page(initial_values=initial_values, post_url='/dynamic')
-    return form
+    header_text, form_div = encoder.get_form_html_elements(initial_values=initial_values,
+                                                           post_url='/dynamic')
+
+    if initial_values is not None:
+        prediction = loaded_model.predict_row(initial_values)
+    else:
+        prediction = ""
+
+    return header_text, form_div, prediction
