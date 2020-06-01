@@ -20,7 +20,7 @@ In order to run this workshop, you will need:
 * [Jenkins](https://jenkins.io/)
 * EFK Stack, [ElasticSearch](https://www.elastic.co/elasticsearch/), [Fluentd](https://www.fluentd.org/), [Kibana](https://www.elastic.co/kibana) 
 * [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/)
-* [MLFlow]("https://mlflow.org/")
+* [MLFlow](https://mlflow.org/)
 
 ## Workshop Instructions
 
