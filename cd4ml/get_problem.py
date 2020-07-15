@@ -16,6 +16,8 @@ def get_problem():
         from cd4ml.problems.shopping.problem import ShoppingProblem as Problem
     elif problem_name == 'zillow':
         from cd4ml.problems.zillow.problem import ZillowProblem as Problem
+    elif problem_name == 'houses':
+        from cd4ml.problems.houses.problem import HousesProblem as Problem
     else:
         raise ValueError('Problem name: %s unknown' % problem_name)
 
