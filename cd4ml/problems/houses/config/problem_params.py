@@ -10,7 +10,7 @@ problem_params = {'problem_name': 'houses',
                   'identifier': 'sale_id',
                   'splitting': {
                     'training_random_start': 0.0,
-                    'training_random_end': 0.2,
+                    'training_random_end': 0.1,
                     'validation_random_start': 0.8,
                     'validation_random_end': 1.0
                   },
