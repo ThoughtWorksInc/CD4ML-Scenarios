@@ -1,5 +1,5 @@
 def get_ml_fields():
-    categorical_n_levels_dict = {'zipcode': 50000,
+    categorical_n_levels_dict = {'zipcode': 100,
                                  'style': 50,
                                  'sale_id': 50}
 

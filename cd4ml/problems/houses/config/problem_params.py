@@ -10,8 +10,8 @@ problem_params = {'problem_name': 'houses',
                   'identifier': 'sale_id',
                   'splitting': {
                     'training_random_start': 0.0,
-                    'training_random_end': 0.3,
-                    'validation_random_start': 0.7,
+                    'training_random_end': 0.2,
+                    'validation_random_start': 0.8,
                     'validation_random_end': 1.0
                   },
                   'validation_metric_names': ['r2_score', 'rms_score', 'mad_score', 'num_validated']}
