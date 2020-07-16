@@ -11,7 +11,7 @@ app = Flask(__name__, template_folder='webapp/templates',
 fluentd_logger = FluentdLogger()
 
 
-@app.route('/')
+@app.route('/old')
 def index():
     return render_template('index.html')
 
@@ -50,7 +50,7 @@ def log_prediction_console(log_payload):
     print('logging {}'.format(log_payload))
 
 
-@app.route('/dynamic', methods=['get', 'post'])
+@app.route('/', methods=['get', 'post'])
 def dynamic_index():
     form_data = request.form
     print('form_data')
