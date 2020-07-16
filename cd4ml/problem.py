@@ -80,7 +80,6 @@ class Problem:
         if self.encoder is None:
             self.get_encoder()
 
-
         trained_model = get_trained_model(self.pipeline_params,
                                           self.training_stream,
                                           self.encoder,

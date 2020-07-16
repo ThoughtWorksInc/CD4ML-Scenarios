@@ -1,4 +1,3 @@
-from cd4ml.problems.houses.features.feature_functions import avg_price_by_zipcode
 from cd4ml.problems.houses.features.feature_functions import zipcode_to_state
 from cd4ml.feature_set import FeatureSet
 
