@@ -1,5 +1,6 @@
 import joblib
 from wickedhot import OneHotEncoder
+from cd4ml.utils import mini_batch_eval
 
 
 class MLModel:
@@ -12,6 +13,10 @@ class MLModel:
     def predict_encoded_row(self, encoded_row):
         pred = self.trained_model.predict([encoded_row])[0]
         return float(pred)
+
+    def predict_encoded_rows(self, encoded_rows):
+        preds = self.trained_model.predict(encoded_rows)
+        return [float(pred) for pred in preds]
 
     def load_encoder_from_package(self):
         print('loading encoder from packaging')
@@ -27,8 +32,21 @@ class MLModel:
         encoded_row = self.encoder.encode_row(row)
         return self.predict_encoded_row(encoded_row)
 
-    def predict_stream(self, stream):
+    def predict_rows(self, rows):
+        if self.encoder is None:
+            # in case it has been packaged
+            self.load_encoder_from_package()
+            self.packaged_encoder = None
+
+        encoded_rows = [self.encoder.encode_row(row) for row in rows]
+        return self.predict_encoded_rows(encoded_rows)
+
+    def predict_stream_slow(self, stream):
         return (self.predict_row(row) for row in stream)
+
+    def predict_stream(self, stream):
+        batch_size = 1000
+        return mini_batch_eval(stream, batch_size, self.predict_rows)
 
     def save(self, filename):
         # The encoder apparently is not pickelable.

@@ -24,6 +24,8 @@ class Problem:
         self.encoder = None
         self.ml_model = None
         self.tracker = None
+        self.feature_set = None
+        self.feature_data = None
         self.validation_metric_names = ['r2_score', 'rms_score', 'mad_score', 'num_validated']
 
         # methods to be implemented
@@ -45,40 +47,52 @@ class Problem:
         # streams when called
         self.get_validation_metrics = None
 
-    def stream(self):
+    def stream_processed(self):
         return self._stream_data(self.pipeline_params)
 
+    def stream_features(self):
+        return (self.feature_set.features(processed_row)
+                for processed_row in self.stream_processed())
+
+    def prepare_feature_data(self):
+        pass
+
     def get_encoder(self, write=True, read_from_file=False):
+        self.prepare_feature_data()
         start = time()
-        self.encoder = get_encoder(self.stream(),
-                                   self.pipeline_params['ml_fields'],
+        ml_fields = self.feature_set.ml_fields()
+        self.encoder = get_encoder(self.stream_features(),
+                                   ml_fields,
                                    write=write,
                                    read_from_file=read_from_file)
         runtime = time()-start
         print('Encoder time: %0.1f seconds' % runtime)
 
     def training_stream(self):
-        return (row for row in self.stream() if self.training_filter(row))
+        return (row for row in self.stream_processed() if self.training_filter(row))
 
     def validation_stream(self):
-        return (row for row in self.stream() if self.validation_filter(row))
+        return (row for row in self.stream_processed() if self.validation_filter(row))
 
     def train(self):
+        print('Training')
         start = time()
         if self.encoder is None:
             self.get_encoder()
 
+
         trained_model = get_trained_model(self.pipeline_params,
                                           self.training_stream,
                                           self.encoder,
-                                          self.tracker)
+                                          self.tracker,
+                                          self.feature_set.target_field)
 
         self.ml_model = MLModel(self.pipeline_params, trained_model, self.encoder)
         runtime = time() - start
         print('Training time: %0.1f seconds' % runtime)
 
     def true_target_stream(self, stream):
-        target_name = self.pipeline_params['ml_fields']['target_name']
+        target_name = self.feature_set.target_field
         return (row[target_name] for row in stream)
 
     def _write_validation_info(self):
@@ -91,6 +105,7 @@ class Problem:
                               validation_predictions)
 
     def validate(self):
+        print('Validating')
         start = time()
 
         def get_validation_stream():
@@ -100,7 +115,9 @@ class Problem:
             validation_stream = zip(true_validation_target_stream, validation_prediction_stream)
             return validation_stream
 
+        print('Getting validation metrics')
         self.validation_metrics = get_validation_metrics(self.validation_metric_names, get_validation_stream)
+        print('Writing validation info')
         self._write_validation_info()
         runtime = time() - start
         print('Validation time: %0.1f seconds' % runtime)

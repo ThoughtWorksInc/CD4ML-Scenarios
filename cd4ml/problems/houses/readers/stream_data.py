@@ -1,6 +1,6 @@
 from csv import DictReader
 from cd4ml.filenames import file_names
-from cd4ml.problems.houses.config.ml_fields import get_ml_fields
+from cd4ml.problems.houses.config.raw_schema import raw_schema
 
 
 def stream_raw(pipeline_params):
@@ -18,8 +18,8 @@ def stream_data(pipeline_params):
     :param pipeline_params: pipeline_params data structure
     :return: stream to processed rows of house sales data
     """
-
-    return (process_row(row) for row in stream_raw(pipeline_params))
+    schema = raw_schema
+    return (process_row(row, schema) for row in stream_raw(pipeline_params))
 
 
 def float_or_zero(x):
@@ -34,15 +34,17 @@ def float_or_zero(x):
         return 0.0
 
 
-def process_row(row):
+def process_row(row, schema):
     """
     Process a raw row of house data and give it the right schema
     :param row: raw row
+    :param schema: raw_schema_dict
     :return: processed row
     """
-    ml_fields = get_ml_fields()
-    catergorical_fields = list(ml_fields['categorical'].keys())
-    numeric_fields = ml_fields['numerical']
+
+    catergorical_fields = list(schema['categorical'])
+    numeric_fields = schema['numerical']
+
     # Make sure there are no overlaps
     overlap = set(catergorical_fields).intersection(numeric_fields)
     assert len(overlap) == 0

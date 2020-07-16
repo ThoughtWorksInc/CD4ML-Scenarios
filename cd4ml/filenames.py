@@ -35,6 +35,7 @@ file_names = {
     'validation_plot': '%s/validation_plot.html' % model_dir,
     'raw_zillow_data': '%s/zillow.zip' % data_raw,
     'raw_house_data': '%s/house_sales.csv' % data_raw,
+    'house_data_zip_lookup': '%s/zip_lookup.csv' % data_raw,
     'zillow_properties': '%s/properties_{year}_small.csv' % zillow_dir,
     'zillow_sales': '%s/train_{year}.csv' % zillow_dir,
     'zillow_data_dict_fields': '%s/zillow_data_dictionary_fields.csv' % zillow_dir,

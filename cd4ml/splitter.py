@@ -21,8 +21,8 @@ def validate_splitting(pipeline_params):
     assert 0 <= splitting['validation_random_end'] <= 1
 
     # no overlap in range
-    one = splitting['training_random_start'] > splitting['validation_random_end']
-    the_other = splitting['validation_random_start'] > splitting['training_random_end']
+    one = splitting['training_random_start'] >= splitting['validation_random_end']
+    the_other = splitting['validation_random_start'] >= splitting['training_random_end']
     assert one or the_other
 
 

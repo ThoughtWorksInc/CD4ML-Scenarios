@@ -1,6 +1,7 @@
 import os
 from hashlib import sha256
 from struct import unpack
+from itertools import takewhile, islice, count
 
 
 def ensure_dir_exists(directory):
@@ -67,3 +68,17 @@ def flatten_dict(pyobj, keystring=''):
                 yield from flatten_dict(lelm, keystring)
     else:
         yield keystring, pyobj
+
+
+def mini_batch(stream, batch_size):
+    return takewhile(bool, (list(islice(stream, batch_size)) for _ in count()))
+
+
+def mini_batch_eval(stream, batch_size, multi_function):
+    # for functions which are more efficient when running on
+    # batches of data, e.g. large calling overhead
+    mini_batch_stream = mini_batch(stream, batch_size)
+    for batch in mini_batch_stream:
+        evaluated_batch = multi_function(batch)
+        for evaluated in evaluated_batch:
+            yield evaluated
