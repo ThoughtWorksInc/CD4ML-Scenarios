@@ -2,7 +2,7 @@ import joblib
 from time import time
 from cd4ml import tracking
 from cd4ml.train import get_trained_model
-from cd4ml.get_encoder import get_encoder
+from cd4ml.get_encoder import get_trained_encoder
 from cd4ml.validate import write_validation_info
 from cd4ml.validation_metrics import get_validation_metrics
 from cd4ml.filenames import file_names
@@ -61,11 +61,12 @@ class Problem:
         self.prepare_feature_data()
         start = time()
         ml_fields = self.feature_set.ml_fields()
-        self.encoder = get_encoder(self.stream_features(),
-                                   ml_fields,
-                                   write=write,
-                                   read_from_file=read_from_file)
-        runtime = time()-start
+        self.encoder = get_trained_encoder(self.stream_features(),
+                                           ml_fields,
+                                           write=write,
+                                           read_from_file=read_from_file,
+                                           base_features_omitted=self.feature_set.params['base_features_omitted'])
+        runtime = time() - start
         print('Encoder time: %0.1f seconds' % runtime)
 
     def training_stream(self):

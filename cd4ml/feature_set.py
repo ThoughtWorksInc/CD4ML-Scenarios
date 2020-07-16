@@ -23,11 +23,10 @@ class FeatureSet:
         return {k: base_dict[k] for k in base_cat}
 
     def ml_fields(self):
-        categorical_n_levels_dict = {k: v for k, v in self.params['base_categorical_n_levels_dict'].items()
-                                     if k in self.params['base_features_categorical_retain']}
+        categorical_n_levels_dict = self.params['base_categorical_n_levels_dict'].copy()
 
         categorical_n_levels_dict.update(self.params['derived_categorical_n_levels_dict'])
-        numeric_fields = self.params['base_features_numerical_retain'] + \
+        numeric_fields = self.params['base_numeric_fields'] + \
             self.params['derived_numerical_fields']
 
         return {'categorical': categorical_n_levels_dict,

@@ -17,7 +17,7 @@ class FeatureSet1(FeatureSet):
     def __init__(self, zip_lookup):
         super(FeatureSet1, self).__init__()
         self.zip_lookup = zip_lookup
-        self.params = feature_set_1_params
+        self.params = feature_set_1_params.copy()
 
     # actually derive the fields
 

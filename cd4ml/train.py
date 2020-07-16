@@ -17,6 +17,9 @@ def get_trained_model(pipeline_params, training_stream_function, encoder, track,
     print('Encoding data')
     # batch step, read it all in
     encoded_train_data = list(encoded_train_stream)
+    n_rows = len(encoded_train_data)
+    n_cols = len(encoded_train_data[0])
+    print('n_rows: %s, n_cols: %s' % (n_rows, n_cols))
 
     print('Getting target')
     # read it all in
