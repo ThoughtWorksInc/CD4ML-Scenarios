@@ -19,12 +19,6 @@ class FeatureSet1(FeatureSet):
                                     'kitchen_refurbished', 'square_feet', 'pool',
                                     'parking', 'multi_family', 'price']
 
-        # derived field info
-
-        self.derived_categorical_n_levels_dict = {'state': 100}
-        # self.derived_numerical_fields = ['avg_price_for_zip']
-        self.derived_numerical_fields = []
-
         self.base_features_categorical_retain = ['style']
         self.base_features_numerical_retain = ['lot_size_sf', 'beds',
                                                'baths', 'year_built',
@@ -32,6 +26,11 @@ class FeatureSet1(FeatureSet):
                                                'square_feet', 'pool',
                                                'parking', 'multi_family',
                                                'price']
+
+        # aactually derive the fields
+        self.derived_categorical_n_levels_dict = {'state': 100}
+        # self.derived_numerical_fields = ['avg_price_for_zip']
+        self.derived_numerical_fields = []
 
     def derived_features_categorical(self, base_features):
         # assert False
