@@ -14,11 +14,13 @@ class FeatureSet:
         assert isinstance(base_features, dict)
         return {}
 
-    def base_features_categorical_retained(self, base_features):
-        return {k: base_features[k] for k in self.params['base_features_categorical_retain']}
+    def base_numerical_features(self, base_dict):
+        base_num = self.params['base_numeric_fields']
+        return {k: base_dict[k] for k in base_num}
 
-    def base_features_numerical_retained(self, base_features):
-        return {k: base_features[k] for k in self.params['base_features_numerical_retain']}
+    def base_categorical_features(self, base_dict):
+        base_cat = list(self.params['base_categorical_n_levels_dict'].keys())
+        return {k: base_dict[k] for k in base_cat}
 
     def ml_fields(self):
         categorical_n_levels_dict = {k: v for k, v in self.params['base_categorical_n_levels_dict'].items()
@@ -32,9 +34,13 @@ class FeatureSet:
                 'numerical': numeric_fields,
                 'target_name': self.params['target_field']}
 
-    def features(self, base_features):
-        features = self.base_features_numerical_retained(base_features)
-        features.update(self.derived_features_numerical(base_features))
-        features.update(self.base_features_categorical_retained(base_features))
-        features.update(self.derived_features_categorical(base_features))
+    def features(self, base_features_dict):
+        base_num = self.base_numerical_features(base_features_dict)
+        base_cat = self.base_categorical_features(base_features_dict)
+
+        features = base_num
+        features.update(base_cat)
+        features.update(self.derived_features_numerical(base_features_dict))
+        features.update(self.derived_features_categorical(base_features_dict))
+
         return features
