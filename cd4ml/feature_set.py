@@ -11,14 +11,6 @@ class FeatureSet:
         self.derived_numerical_fields = None
         self.target_field = None
 
-    def base_features_categorical_retained(self, base_features):
-        assert isinstance(base_features, dict)
-        return {}
-
-    def base_features_numerical_retained(self, base_features):
-        assert isinstance(base_features, dict)
-        return {}
-
     def derived_features_categorical(self, base_features):
         assert isinstance(base_features, dict)
         return {}
@@ -26,6 +18,12 @@ class FeatureSet:
     def derived_features_numerical(self, base_features):
         assert isinstance(base_features, dict)
         return {}
+
+    def base_features_categorical_retained(self, base_features):
+        return {k: base_features[k] for k in self.base_features_categorical_retain}
+
+    def base_features_numerical_retained(self, base_features):
+        return {k: base_features[k] for k in self.base_features_numerical_retain}
 
     def ml_fields(self):
         categorical_n_levels_dict = {k: v for k, v in self.base_categorical_n_levels_dict.items()

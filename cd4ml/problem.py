@@ -114,6 +114,9 @@ class Problem:
             validation_stream = zip(true_validation_target_stream, validation_prediction_stream)
             return validation_stream
 
+        # one downside of these next two steps is that they score the same data twice
+        # but that isn't really a major performance hit overall
+
         print('Getting validation metrics')
         self.validation_metrics = get_validation_metrics(self.validation_metric_names, get_validation_stream)
         print('Writing validation info')

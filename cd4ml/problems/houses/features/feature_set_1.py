@@ -11,7 +11,7 @@ class FeatureSet1(FeatureSet):
         self.target_field = 'price'
 
         # base field info
-        self.base_categorical_n_levels_dict = {'zipcode': 50,
+        self.base_categorical_n_levels_dict = {'zipcode': 50000,
                                                'style': 50,
                                                'sale_id': 50}
 
@@ -32,12 +32,6 @@ class FeatureSet1(FeatureSet):
                                                'square_feet', 'pool',
                                                'parking', 'multi_family',
                                                'price']
-
-    def base_features_categorical_retained(self, base_features):
-        return {k: base_features[k] for k in self.base_features_categorical_retain}
-
-    def base_features_numerical_retained(self, base_features):
-        return {k: base_features[k] for k in self.base_features_numerical_retain}
 
     def derived_features_categorical(self, base_features):
         # assert False

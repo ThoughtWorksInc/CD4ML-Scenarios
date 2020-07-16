@@ -42,9 +42,12 @@ class MLModel:
         return self.predict_encoded_rows(encoded_rows)
 
     def predict_stream_slow(self, stream):
+        # one by one scoring
         return (self.predict_row(row) for row in stream)
 
     def predict_stream(self, stream):
+        # minibatch prediction is much faster because of overhear
+        # of model scoring call
         batch_size = 1000
         return mini_batch_eval(stream, batch_size, self.predict_rows)
 
