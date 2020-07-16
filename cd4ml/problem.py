@@ -84,14 +84,14 @@ class Problem:
                                           self.training_stream,
                                           self.encoder,
                                           self.tracker,
-                                          self.feature_set.target_field)
+                                          self.feature_set.params['target_field'])
 
         self.ml_model = MLModel(self.pipeline_params, trained_model, self.encoder)
         runtime = time() - start
         print('Training time: %0.1f seconds' % runtime)
 
     def true_target_stream(self, stream):
-        target_name = self.feature_set.target_field
+        target_name = self.feature_set.params['target_field']
         return (row[target_name] for row in stream)
 
     def _write_validation_info(self):
