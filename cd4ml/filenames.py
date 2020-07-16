@@ -15,7 +15,6 @@ data_dir = os.path.realpath(data_dir)
 data_raw = "%s/raw" % data_dir
 data_source = "%s/source" % data_dir
 model_dir = "%s/models" % data_dir
-zillow_dir = "%s/zillow_data_small-master" % data_raw
 
 ensure_dir_exists(data_dir)
 ensure_dir_exists("%s/results" % data_dir)
@@ -33,12 +32,8 @@ file_names = {
     'ml_params': 'ml_model_params.py',
     'encoder': '%s/encoder.json' % model_dir,
     'validation_plot': '%s/validation_plot.html' % model_dir,
-    'raw_zillow_data': '%s/zillow.zip' % data_raw,
     'raw_house_data': '%s/house_sales.csv' % data_raw,
     'house_data_zip_lookup': '%s/zip_lookup.csv' % data_raw,
-    'zillow_properties': '%s/properties_{year}_small.csv' % zillow_dir,
-    'zillow_sales': '%s/train_{year}.csv' % zillow_dir,
-    'zillow_data_dict_fields': '%s/zillow_data_dictionary_fields.csv' % zillow_dir,
     'pipeline_config': "%s/%s" % (config_dir, 'pipeline_config.yaml'),
     'dynamic_index': "%s/%s" % (template_dir, 'index_dynamic.html')
 }
