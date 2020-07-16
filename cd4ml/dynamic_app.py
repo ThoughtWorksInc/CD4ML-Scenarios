@@ -18,7 +18,7 @@ def get_form_from_model(initial_values=None):
     assert encoder is not None
 
     header_text, form_div = encoder.get_form_html_elements(initial_values=initial_values,
-                                                           post_url='/')
+                                                           post_url='/', omitted_fields=['sale_id', 'state'])
 
     if initial_values is not None:
         prediction = loaded_model.predict_row(initial_values)
