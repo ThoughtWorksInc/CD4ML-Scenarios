@@ -1,6 +1,28 @@
 from pathlib import Path
 import joblib
 from cd4ml.filenames import file_names
+from cd4ml.get_problem import get_problem
+
+
+def get_omits_and_extras(encoder):
+    problem = get_problem()
+    params = problem.feature_set.params
+
+    base_cat = list(params['base_categorical_n_levels_dict'].keys())
+    base_num = params['base_numeric_fields']
+    base_features = base_num + base_cat
+
+    retained_fields = params['base_features_numerical_retain'] + \
+        params['base_features_categorical_retain']
+
+    encoder_numeric = encoder.numeric_cols
+    encoder_cat = list(encoder.one_hot_encoder_dicts.keys())
+    encoder_features = encoder_numeric + encoder_cat
+
+    omitted_fields = [field for field in encoder_features if field not in base_features]
+
+    extra_numeric = [field for field in base_num if field not in encoder_features]
+    extra_cat = [field for field in base_cat if field not in encoder_features]
 
 
 def load_model():
