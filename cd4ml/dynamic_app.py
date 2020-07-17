@@ -1,6 +1,7 @@
 from pathlib import Path
 import joblib
 from cd4ml.filenames import file_names
+from cd4ml.get_problem import get_problem
 
 
 def load_model():
@@ -28,7 +29,9 @@ def get_form_from_model(initial_values=None):
                                                            omitted_fields=omitted_fields)
 
     if initial_values is not None:
-        prediction = loaded_model.predict_row(initial_values)
+        problem = get_problem()
+        features = problem.feature_set.features(initial_values)
+        prediction = loaded_model.predict_row(features)
     else:
         prediction = ""
 
