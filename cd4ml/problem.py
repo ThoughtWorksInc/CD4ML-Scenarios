@@ -72,7 +72,9 @@ class Problem:
         pass
 
     def get_encoder(self, write=True, read_from_file=False):
+        # TODO: perhaps ths should be called somewhere else before here
         self.prepare_feature_data()
+
         start = time()
         ml_fields = self.feature_set.ml_fields()
         self.encoder = get_trained_encoder(self.stream_features(),
@@ -127,7 +129,7 @@ class Problem:
 
     def _write_validation_info(self):
         true_validation_target = list(self.true_target_stream(self.validation_stream()))
-        validation_predictions = list(self.ml_model.predict_stream(self.validation_stream()))
+        validation_predictions = list(self.ml_model.predict_stream(self.validation_features_stream()))
 
         write_validation_info(self.validation_metrics,
                               self.tracker,
