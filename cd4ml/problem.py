@@ -9,6 +9,19 @@ from cd4ml.filenames import file_names
 from cd4ml.ml_model import MLModel
 
 
+def get_feature_importance(trained_model, encoder):
+    try:
+        importances = list(trained_model.feature_importances_)
+        n = len(importances)
+        names = [encoder.index_to_column(i) for i in range(n)]
+        feature_importance = {k: v for k, v in zip(names, importances)}
+
+    except AttributeError:
+        feature_importance = None
+
+    return feature_importance
+
+
 class Problem:
     """
     Generic Problem Interface for Problems
@@ -26,6 +39,7 @@ class Problem:
         self.tracker = None
         self.feature_set = None
         self.feature_data = None
+        self.importance = None
         self.validation_metric_names = ['r2_score', 'rms_score', 'mad_score', 'num_validated']
 
         # methods to be implemented
@@ -75,6 +89,12 @@ class Problem:
     def validation_stream(self):
         return (row for row in self.stream_processed() if self.validation_filter(row))
 
+    def training_features_stream(self):
+        return (self.feature_set.features(row) for row in self.training_stream())
+
+    def validation_features_stream(self):
+        return (self.feature_set.features(row) for row in self.validation_stream())
+
     def train(self):
         print('Training')
         start = time()
@@ -82,12 +102,22 @@ class Problem:
             self.get_encoder()
 
         trained_model = get_trained_model(self.pipeline_params,
-                                          self.training_stream,
+                                          self.training_stream(),
+                                          self.training_features_stream(),
                                           self.encoder,
                                           self.tracker,
                                           self.feature_set.params['target_field'])
 
         self.ml_model = MLModel(self.pipeline_params, trained_model, self.encoder)
+
+        self.importance = get_feature_importance(trained_model, self.encoder)
+
+        importance_pairs = sorted(self.importance.items(), key=lambda x: -x[1])
+        print('Feature Importance')
+        print("-"*40)
+        for pair in importance_pairs:
+            print(pair)
+
         runtime = time() - start
         print('Training time: %0.1f seconds' % runtime)
 
@@ -110,7 +140,7 @@ class Problem:
 
         def get_validation_stream():
             true_validation_target_stream = self.true_target_stream(self.validation_stream())
-            validation_prediction_stream = self.ml_model.predict_stream(self.validation_stream())
+            validation_prediction_stream = self.ml_model.predict_stream(self.validation_features_stream())
 
             validation_stream = zip(true_validation_target_stream, validation_prediction_stream)
             return validation_stream

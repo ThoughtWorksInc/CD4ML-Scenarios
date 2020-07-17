@@ -11,4 +11,12 @@ def zipcode_to_state(zipcode, lookup):
 
 
 def avg_price_by_zipcode(zipcode, lookup):
-    return zipcode_to_feature(zipcode, lookup, 'avg_price')
+    return zipcode_to_feature(zipcode, lookup, 'avg_price_in_zip')
+
+
+def avg_price_by_zipcode_no_smooth(zipcode, lookup):
+    return zipcode_to_feature(zipcode, lookup, 'avg_price_in_zip_no_smooth')
+
+
+def num_in_zipcode(zipcode, lookup):
+    return zipcode_to_feature(zipcode, lookup, 'num_in_zip')

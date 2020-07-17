@@ -54,4 +54,6 @@ def process_row(row, schema):
     for field in numeric_fields:
         row_out[field] = float_or_zero(row[field])
 
+    row_out['price'] = max(row_out['price'], 50000)
+
     return row_out

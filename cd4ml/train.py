@@ -11,8 +11,14 @@ def train_model(train_data, target, model_name, params, seed=None):
     return trained_model
 
 
-def get_trained_model(pipeline_params, training_stream_function, encoder, track, target_name):
-    encoded_train_stream = encoder.encode_data_stream(training_stream_function())
+def get_trained_model(pipeline_params,
+                      training_stream,
+                      training_features_stream,
+                      encoder,
+                      track,
+                      target_name):
+
+    encoded_train_stream = encoder.encode_data_stream(training_features_stream)
 
     print('Encoding data')
     # batch step, read it all in
@@ -23,7 +29,7 @@ def get_trained_model(pipeline_params, training_stream_function, encoder, track,
 
     print('Getting target')
     # read it all in
-    target = [row[target_name] for row in training_stream_function()]
+    target = [row[target_name] for row in training_stream]
 
     model_name = pipeline_params['problem_params']['model_name']
     params = pipeline_params['model_params'][model_name]
