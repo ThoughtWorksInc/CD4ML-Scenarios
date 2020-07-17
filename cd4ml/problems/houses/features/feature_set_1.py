@@ -1,8 +1,9 @@
 from cd4ml.problems.houses.features.feature_functions import zipcode_to_state, num_in_zipcode
-from cd4ml.problems.houses.features.feature_functions import avg_price_by_zipcode, avg_price_by_zipcode_no_smooth
+from cd4ml.problems.houses.features.feature_functions import avg_price_by_zipcode
 from cd4ml.feature_set import FeatureSet
 
-feature_set_1_params = {'target_field': 'price',
+feature_set_1_params = {'feature_set_name': 'feature_set_1',
+                        'target_field': 'price',
                         'base_categorical_n_levels_dict': {'zipcode': 50000,
                                                            'style': 50},
                         'base_numeric_fields': ['lot_size_sf', 'beds', 'baths', 'year_built',
@@ -10,9 +11,7 @@ feature_set_1_params = {'target_field': 'price',
                                                 'parking', 'multi_family', 'price'],
                         'base_features_omitted': ['zipcode'],
                         'derived_categorical_n_levels_dict': {'state': 100},
-                        'derived_numerical_fields': ['avg_price_in_zip',
-                                                     'avg_price_in_zip_no_smooth',
-                                                     'num_in_zip']}
+                        'derived_numerical_fields': ['avg_price_in_zip', 'num_in_zip']}
 
 
 class FeatureSet1(FeatureSet):
@@ -24,16 +23,16 @@ class FeatureSet1(FeatureSet):
     # actually derive the fields
 
     def derived_features_categorical(self, base_features):
-        # assert False
+        # some of these might not selected above
         zipcode = base_features['zipcode']
         features = {'state': zipcode_to_state(zipcode, self.zip_lookup)}
         return {k: features[k] for k in self.params['derived_categorical_n_levels_dict'].keys()}
 
     def derived_features_numerical(self, base_features):
+        # some of these might not selected above
         zipcode = base_features['zipcode']
 
         features = {'avg_price_in_zip': avg_price_by_zipcode(zipcode, self.zip_lookup),
-                    'avg_price_in_zip_no_smooth': avg_price_by_zipcode_no_smooth(zipcode, self.zip_lookup),
                     'num_in_zip': num_in_zipcode(zipcode, self.zip_lookup)}
 
         return {k: features[k] for k in self.params['derived_numerical_fields']}

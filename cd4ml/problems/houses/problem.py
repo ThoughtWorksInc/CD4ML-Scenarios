@@ -28,32 +28,53 @@ class HousesProblem(Problem):
             self.feature_set = None
 
     def prepare_feature_data(self):
-        zip_lookup = get_zip_lookup()
+        # do the work required to look up derived features
         if self.feature_set is not None:
-            self.feature_set.zip_lookup = zip_lookup
+            self.feature_set.zip_lookup = get_zip_lookup()
 
         train_data = self.training_stream()
 
-        sum_price_by_zip = defaultdict(float)
-        n_by_zip = defaultdict(int)
-
-        for row in train_data:
-            zipcode = row['zipcode']
-            price = row['price']
-            sum_price_by_zip[zipcode] += price
-            n_by_zip[zipcode] += 1
-
-        zipcodes = list(sum_price_by_zip.keys())
-
         avg_price_prior = 350000.0
-        alpha_prior = 5
+        prior_num = 5
 
-        avg_look = {z: (sum_price_by_zip[z] + alpha_prior * avg_price_prior)/(alpha_prior + n_by_zip[z])
-                    for z in zipcodes}
-
-        avg_look_exact = {z: sum_price_by_zip[z] / n_by_zip[z] for z in zipcodes}
+        averages = average_by(train_data, 'price', 'zipcode',
+                              prior_num=prior_num, prior_value=avg_price_prior)
 
         for k, v in self.feature_set.zip_lookup.items():
-            v['avg_price_in_zip'] = avg_look.get(k, avg_price_prior)
-            v['avg_price_in_zip_no_smooth'] = avg_look_exact.get(k, avg_price_prior)
-            v['num_in_zip'] = n_by_zip.get(k, 0)
+            # modify the zip_lookup values in place
+            average_count = averages.get(k)
+            if average_count is None:
+                v['avg_price_in_zip'] = avg_price_prior
+                v['num_in_zip'] = 0
+            else:
+                average, count = average_count
+                v['avg_price_in_zip'] = average
+                v['num_in_zip'] = count
+
+
+def average_by(stream, averaged_field, by_field, prior_num=0, prior_value=0.0):
+    """
+    Average a value by some other field and return a dict of the averages
+    Uses Laplace smoothing to deal with the noise from low numbers
+    per group to reduce over-fitting
+    :param stream: stream of data
+    :param averaged_field: field to be averaged
+    :param by_field: fields to be grouped by
+    :param prior_num: Laplace smoothing, number of synthetic samples
+    :param prior_value: Laplace smoothing, prior estimate of average
+    :return: dict of (average, count) pairs
+    """
+    summation = defaultdict(float)
+    count = defaultdict(int)
+
+    for row in stream:
+        by = row[by_field]
+        value = row[averaged_field]
+        summation[by] += value
+        count[by] += 1
+
+    keys = summation.keys()
+    prior_summation = prior_num * prior_value
+    averages = {k: ((summation[k] + prior_summation)/(count[k] + prior_num), count[k]) for k in keys}
+
+    return averages

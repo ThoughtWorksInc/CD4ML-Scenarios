@@ -17,10 +17,10 @@ def get_form_from_model(initial_values=None):
     encoder = loaded_model.encoder
     assert encoder is not None
 
+    # TODO, remove these hard coded values and get from the right place
     omitted_fields = ['sale_id',
                       'state',
                       'avg_price_in_zip',
-                      'avg_price_in_zip_no_smooth',
                       'num_in_zip']
 
     header_text, form_div = encoder.get_form_html_elements(initial_values=initial_values,
