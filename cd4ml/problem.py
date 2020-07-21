@@ -6,26 +6,7 @@ from cd4ml.validate import write_validation_info
 from cd4ml.validation_metrics import get_validation_metrics
 from cd4ml.filenames import file_names
 from cd4ml.ml_model import MLModel
-
-
-def get_feature_importance(trained_model, encoder, print_features=True):
-    try:
-        importances = list(trained_model.feature_importances_)
-        n = len(importances)
-        names = [encoder.index_to_column(i) for i in range(n)]
-        feature_importance = {k: v for k, v in zip(names, importances)}
-
-    except AttributeError:
-        feature_importance = None
-
-    if print_features:
-        importance_pairs = sorted(feature_importance.items(), key=lambda x: -x[1])
-        print('Feature Importance')
-        print("-" * 40)
-        for pair in importance_pairs:
-            print(pair)
-
-    return feature_importance
+from cd4ml.feature_importance import get_feature_importance
 
 
 class Problem:
@@ -109,7 +90,8 @@ class Problem:
 
         self.ml_model.train(self.training_stream())
 
-        self.importance = get_feature_importance(self.ml_model.trained_model, self.encoder)
+        model_name = self.pipeline_params['problem_params']['model_name']
+        self.importance = get_feature_importance(self.ml_model.trained_model, model_name, self.encoder)
 
         runtime = time() - start
         print('Training time: %0.1f seconds' % runtime)

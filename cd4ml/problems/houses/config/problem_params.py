@@ -3,7 +3,7 @@ problem_params = {'problem_name': 'houses',
                        'url': "https://github.com/dave31415/house_price/raw/master/data/house_data_100000.csv",
                        'url_lookup': "https://github.com/dave31415/house_price/raw/master/data/zip_lookup.csv"
                    },
-                  'model_name': 'random_forest',
+                  'model_name': 'gradient_boosting',
                   'acceptance_metric': 'rms_score',
                   'acceptance_threshold_min': 0.0,
                   'acceptance_threshold_max': 125000,
@@ -13,7 +13,7 @@ problem_params = {'problem_name': 'houses',
                   'feature_set_name': 'feature_set_1',
                   'splitting': {
                     'training_random_start': 0.0,
-                    'training_random_end': 0.1,
+                    'training_random_end': 0.7,
                     'validation_random_start': 0.7,
                     'validation_random_end': 1.0
                   },

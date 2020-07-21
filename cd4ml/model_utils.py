@@ -1,5 +1,6 @@
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
+from sklearn.linear_model import Ridge, Lasso
 
 
 def get_model_class(model_name):
@@ -7,8 +8,11 @@ def get_model_class(model_name):
         'random_forest': RandomForestRegressor,
         'adaboost': AdaBoostRegressor,
         'gradient_boosting': GradientBoostingRegressor,
-        'decision_tree': DecisionTreeRegressor
+        'decision_tree': DecisionTreeRegressor,
+        'ridge': Ridge,
+        'lasso': Lasso
     }
+
     return model_classes[model_name]
 
 
