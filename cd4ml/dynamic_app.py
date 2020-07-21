@@ -1,12 +1,6 @@
 from pathlib import Path
-import joblib
 from cd4ml.filenames import file_names
-
-
-def load_model():
-    loaded_model = joblib.load(file_names['full_model'])
-    loaded_model.load_encoder_from_package()
-    return loaded_model
+from cd4ml.model_utils import load_model
 
 
 def get_form_from_model(initial_values=None):
@@ -14,7 +8,6 @@ def get_form_from_model(initial_values=None):
         return "ERROR", "Model Not Loaded"
 
     loaded_model = load_model()
-    assert loaded_model.encoder is not None
 
     # TODO, remove these hard coded values and get from the right place
     omitted_fields = ['sale_id',

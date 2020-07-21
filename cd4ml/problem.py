@@ -1,4 +1,3 @@
-import joblib
 from time import time
 from cd4ml import tracking
 from cd4ml.get_encoder import get_trained_encoder
@@ -16,18 +15,12 @@ class Problem:
     """
 
     def __init__(self):
-        # attributes to be filled in
+        self.validation_metric_names = ['r2_score', 'rms_score', 'mad_score', 'num_validated']
+
+        # attributes to be filled in by derived class
         self.pipeline_params = None
         self.problem_name = None
-        self.trained_model = None
-        self.validation_metrics = None
-        self.encoder = None
-        self.ml_model = None
-        self.tracker = None
         self.feature_set = None
-        self.feature_data = None
-        self.importance = None
-        self.validation_metric_names = ['r2_score', 'rms_score', 'mad_score', 'num_validated']
 
         # methods to be implemented
 
@@ -46,7 +39,17 @@ class Problem:
         # and returns a dictionary of metrics
         # might have to run multiple times so needs to create new
         # streams when called
+
         self.get_validation_metrics = None
+
+        # filled in by methods in base class
+        self.trained_model = None
+        self.validation_metrics = None
+        self.encoder = None
+        self.ml_model = None
+        self.tracker = None
+        self.feature_data = None
+        self.importance = None
 
     def stream_processed(self):
         return self._stream_data(self.pipeline_params)
@@ -58,11 +61,11 @@ class Problem:
         pass
 
     def get_encoder(self, write=True, read_from_file=False):
-        # TODO: perhaps ths should be called somewhere else before here
         self.prepare_feature_data()
 
         start = time()
         ml_fields = self.feature_set.ml_fields()
+
         self.encoder = get_trained_encoder(self.stream_features(),
                                            ml_fields,
                                            write=write,
@@ -157,20 +160,5 @@ class Problem:
             self.validate()
             self.write_ml_model()
 
-        test_persistence = False
-        if test_persistence:
-            # Test the read and write.
-            # Validate a second time after rereading the model
-            # from file
-            reread_model = load_full_model()
-            self.ml_model = reread_model
-            self.validate()
-
         runtime = time() - start
         print('All ML steps time: %0.1f seconds' % runtime)
-
-
-def load_full_model():
-    filename = file_names['full_model']
-    print("Loading full model from: %s" % filename)
-    return joblib.load(filename)
