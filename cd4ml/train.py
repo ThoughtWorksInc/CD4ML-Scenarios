@@ -1,37 +1,24 @@
 from cd4ml.model_utils import get_model_class
 
 
-def train_model(train_data, target, model_name, params, seed=None):
+def train_model(encoded_train_data, target, model_name, params, seed=None):
     model_class = get_model_class(model_name)
 
     print("Training %s model" % model_name)
     clf = model_class(random_state=seed, **params)
 
-    trained_model = clf.fit(train_data, target)
+    trained_model = clf.fit(encoded_train_data, target)
     return trained_model
 
 
 def get_trained_model(pipeline_params,
-                      training_stream,
-                      training_features_stream,
-                      encoder,
+                      encoded_train_data,
                       track,
-                      target_name):
+                      target_data):
 
-    encoded_train_stream = encoder.encode_data_stream(training_features_stream)
-
-    print('Encoding data')
-    # batch step, read it all in
-    # TODO: use a sparse matrix to reduce memory usage
-
-    encoded_train_data = list(encoded_train_stream)
     n_rows = len(encoded_train_data)
     n_cols = len(encoded_train_data[0])
     print('n_rows: %s, n_cols: %s' % (n_rows, n_cols))
-
-    print('Getting target')
-    # read it all in
-    target = [row[target_name] for row in training_stream]
 
     model_name = pipeline_params['problem_params']['model_name']
     params = pipeline_params['model_params'][model_name]
@@ -41,6 +28,7 @@ def get_trained_model(pipeline_params,
         track.log_pipeline_params(pipeline_params)
 
     seed = pipeline_params['problem_params']['random_seed']
-    trained_model = train_model(encoded_train_data, target, model_name, params, seed=seed)
+
+    trained_model = train_model(encoded_train_data, target_data, model_name, params, seed=seed)
 
     return trained_model

@@ -8,11 +8,12 @@ problem_params = {'problem_name': 'houses',
                   'acceptance_threshold_min': 0.0,
                   'acceptance_threshold_max': 125000,
                   'random_seed': 1299472653,
+                  'training_seed': 4548276,
                   'identifier': 'sale_id',
                   'feature_set_name': 'feature_set_1',
                   'splitting': {
                     'training_random_start': 0.0,
-                    'training_random_end': 0.7,
+                    'training_random_end': 0.1,
                     'validation_random_start': 0.7,
                     'validation_random_end': 1.0
                   },

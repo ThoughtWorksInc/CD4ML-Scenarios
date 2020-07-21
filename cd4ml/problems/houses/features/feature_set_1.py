@@ -8,7 +8,7 @@ feature_set_1_params = {'feature_set_name': 'feature_set_1',
                                                            'style': 50},
                         'base_numeric_fields': ['lot_size_sf', 'beds', 'baths', 'year_built',
                                                 'kitchen_refurbished', 'square_feet', 'pool',
-                                                'parking', 'multi_family', 'price'],
+                                                'parking', 'multi_family'],
                         'base_features_omitted': ['zipcode'],
                         'derived_categorical_n_levels_dict': {'state': 100},
                         'derived_numerical_fields': ['avg_price_in_zip', 'num_in_zip']}

@@ -10,3 +10,17 @@ def get_model_class(model_name):
         'decision_tree': DecisionTreeRegressor
     }
     return model_classes[model_name]
+
+
+def get_target_id_features_lists(pipeline_params, feature_set, processed_stream):
+    identifier_name = pipeline_params['problem_params']['identifier']
+    target_field = feature_set.params['target_field']
+    features = []
+    identifiers = []
+    targets = []
+    for row in processed_stream:
+        features.append(feature_set.features(row))
+        identifiers.append(row[identifier_name])
+        targets.append(row[target_field])
+
+    return targets, identifiers, features

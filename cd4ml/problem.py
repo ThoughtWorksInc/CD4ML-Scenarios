@@ -1,7 +1,6 @@
 import joblib
 from time import time
 from cd4ml import tracking
-from cd4ml.train import get_trained_model
 from cd4ml.get_encoder import get_trained_encoder
 from cd4ml.validate import write_validation_info
 from cd4ml.validation_metrics import get_validation_metrics
@@ -9,7 +8,7 @@ from cd4ml.filenames import file_names
 from cd4ml.ml_model import MLModel
 
 
-def get_feature_importance(trained_model, encoder):
+def get_feature_importance(trained_model, encoder, print_features=True):
     try:
         importances = list(trained_model.feature_importances_)
         n = len(importances)
@@ -18,6 +17,13 @@ def get_feature_importance(trained_model, encoder):
 
     except AttributeError:
         feature_importance = None
+
+    if print_features:
+        importance_pairs = sorted(feature_importance.items(), key=lambda x: -x[1])
+        print('Feature Importance')
+        print("-" * 40)
+        for pair in importance_pairs:
+            print(pair)
 
     return feature_importance
 
@@ -65,8 +71,7 @@ class Problem:
         return self._stream_data(self.pipeline_params)
 
     def stream_features(self):
-        return (self.feature_set.features(processed_row)
-                for processed_row in self.stream_processed())
+        return (self.feature_set.features(processed_row) for processed_row in self.stream_processed())
 
     def prepare_feature_data(self):
         pass
@@ -91,34 +96,20 @@ class Problem:
     def validation_stream(self):
         return (row for row in self.stream_processed() if self.validation_filter(row))
 
-    def training_features_stream(self):
-        return (self.feature_set.features(row) for row in self.training_stream())
-
-    def validation_features_stream(self):
-        return (self.feature_set.features(row) for row in self.validation_stream())
-
     def train(self):
         print('Training')
         start = time()
         if self.encoder is None:
             self.get_encoder()
 
-        trained_model = get_trained_model(self.pipeline_params,
-                                          self.training_stream(),
-                                          self.training_features_stream(),
-                                          self.encoder,
-                                          self.tracker,
-                                          self.feature_set.params['target_field'])
+        self.ml_model = MLModel(self.pipeline_params,
+                                self.feature_set,
+                                self.encoder,
+                                self.tracker)
 
-        self.ml_model = MLModel(self.pipeline_params, trained_model, self.encoder)
+        self.ml_model.train(self.training_stream())
 
-        self.importance = get_feature_importance(trained_model, self.encoder)
-
-        importance_pairs = sorted(self.importance.items(), key=lambda x: -x[1])
-        print('Feature Importance')
-        print("-"*40)
-        for pair in importance_pairs:
-            print(pair)
+        self.importance = get_feature_importance(self.ml_model.trained_model, self.encoder)
 
         runtime = time() - start
         print('Training time: %0.1f seconds' % runtime)
@@ -129,7 +120,7 @@ class Problem:
 
     def _write_validation_info(self):
         true_validation_target = list(self.true_target_stream(self.validation_stream()))
-        validation_predictions = list(self.ml_model.predict_stream(self.validation_features_stream()))
+        validation_predictions = list(self.ml_model.predict_processed_rows(self.validation_stream()))
 
         write_validation_info(self.validation_metrics,
                               self.tracker,
@@ -142,7 +133,7 @@ class Problem:
 
         def get_validation_stream():
             true_validation_target_stream = self.true_target_stream(self.validation_stream())
-            validation_prediction_stream = self.ml_model.predict_stream(self.validation_features_stream())
+            validation_prediction_stream = self.ml_model.predict_processed_rows(self.validation_stream())
 
             validation_stream = zip(true_validation_target_stream, validation_prediction_stream)
             return validation_stream
