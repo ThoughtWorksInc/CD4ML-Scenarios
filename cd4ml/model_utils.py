@@ -19,7 +19,7 @@ def get_model_class(model_name):
 
 
 def get_target_id_features_lists(pipeline_params, feature_set, processed_stream):
-    identifier_name = pipeline_params['problem_params']['identifier']
+    identifier_name = pipeline_params['problem_params']['identifier_field']
     target_field = feature_set.params['target_field']
     features = []
     identifiers = []

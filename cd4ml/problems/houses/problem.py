@@ -4,7 +4,7 @@ from cd4ml.problems.houses.readers.stream_data import stream_data
 from cd4ml.problems.houses.readers.zip_lookup import get_zip_lookup
 from cd4ml.splitter import splitter
 from cd4ml.problem import Problem
-from collections import defaultdict
+from cd4ml.utils import average_by
 
 
 def get_params():
@@ -27,6 +27,9 @@ class HousesProblem(Problem):
             self.feature_set = FeatureSet({})
         else:
             self.feature_set = None
+
+        # this will call whatever generic steps should be done after derived class init
+        self._post_init()
 
     def prepare_feature_data(self):
         # do the work required to look up derived features
@@ -51,31 +54,3 @@ class HousesProblem(Problem):
                 average, count = average_count
                 v['avg_price_in_zip'] = average
                 v['num_in_zip'] = count
-
-
-def average_by(stream, averaged_field, by_field, prior_num=0, prior_value=0.0):
-    """
-    Average a value by some other field and return a dict of the averages
-    Uses Laplace smoothing to deal with the noise from low numbers
-    per group to reduce over-fitting
-    :param stream: stream of data
-    :param averaged_field: field to be averaged
-    :param by_field: fields to be grouped by
-    :param prior_num: Laplace smoothing, number of synthetic samples
-    :param prior_value: Laplace smoothing, prior estimate of average
-    :return: dict of (average, count) pairs
-    """
-    summation = defaultdict(float)
-    count = defaultdict(int)
-
-    for row in stream:
-        by = row[by_field]
-        value = row[averaged_field]
-        summation[by] += value
-        count[by] += 1
-
-    keys = summation.keys()
-    prior_summation = prior_num * prior_value
-    averages = {k: ((summation[k] + prior_summation)/(count[k] + prior_num), count[k]) for k in keys}
-
-    return averages

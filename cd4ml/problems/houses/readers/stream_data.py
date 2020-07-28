@@ -1,6 +1,7 @@
 from csv import DictReader
 from cd4ml.filenames import file_names
 from cd4ml.problems.houses.config.raw_schema import raw_schema
+from cd4ml.utils import float_or_zero
 
 
 def stream_raw(pipeline_params):
@@ -20,18 +21,6 @@ def stream_data(pipeline_params):
     """
     schema = raw_schema
     return (process_row(row, schema) for row in stream_raw(pipeline_params))
-
-
-def float_or_zero(x):
-    """
-    :param x: any value
-    :return: converted to float if possible, otherwise 0.0
-    """
-    try:
-        return float(x)
-
-    except ValueError:
-        return 0.0
 
 
 def process_row(row, schema):

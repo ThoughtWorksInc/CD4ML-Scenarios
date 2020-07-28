@@ -2,6 +2,10 @@ import os
 from hashlib import sha256
 from struct import unpack
 from itertools import takewhile, islice, count
+from collections import defaultdict
+from time import time
+import urllib
+from random import Random
 
 
 def ensure_dir_exists(directory):
@@ -82,3 +86,112 @@ def mini_batch_eval(stream, batch_size, multi_function):
         evaluated_batch = multi_function(batch)
         for evaluated in evaluated_batch:
             yield evaluated
+
+
+def float_or_zero(x):
+    """
+    :param x: any value
+    :return: converted to float if possible, otherwise 0.0
+    """
+    if x is None:
+        return 0
+
+    try:
+        return float(x)
+
+    except ValueError:
+        return 0.0
+
+
+def average_by(stream, averaged_field, by_field, prior_num=0, prior_value=0.0):
+    """
+    Average a value by some other field and return a dict of the averages
+    Uses Laplace smoothing to deal with the noise from low numbers
+    per group to reduce over-fitting
+    :param stream: stream of data
+    :param averaged_field: field to be averaged
+    :param by_field: fields to be grouped by
+    :param prior_num: Laplace smoothing, number of synthetic samples
+    :param prior_value: Laplace smoothing, prior estimate of average
+    :return: dict of (average, count) pairs
+    """
+    summation = defaultdict(float)
+    number = defaultdict(int)
+
+    for row in stream:
+        by = row[by_field]
+        value = row[averaged_field]
+        summation[by] += value
+        number[by] += 1
+
+    keys = summation.keys()
+    prior_summation = prior_num * prior_value
+    averages = {k: ((summation[k] + prior_summation)/(number[k] + prior_num), number[k]) for k in keys}
+
+    return averages
+
+
+def download_to_file_from_url(url, filename, use_cache=True):
+    if not os.path.exists(filename) or not use_cache:
+        print('Data file download from url: %s' % url)
+        start = time()
+        urllib.request.urlretrieve(url, filename)
+        runtime = time()-start
+        print('Download took %0.2f seconds' % runtime)
+        return 1
+    else:
+        print('Used cached file')
+        return 0
+
+
+def create_lookup(stream, derived_fields, index_field):
+    """
+    Build a lookup table from an indexed field to a set of derived fields.
+    Ensures that there is a unique relation, raises assertion if violated
+    :param stream: stream of records
+    :param derived_fields: list of derived fields assumed to be a function of the
+        indexed field only
+    :param index_field: the index field which determined the others
+    :return: lookup table from index to dict of derived fields
+    """
+    lookup = {}
+    for row in stream:
+        index = row[index_field]
+        if index not in lookup:
+            # put info in lookup
+            lookup[index] = {}
+            for derived_field in derived_fields:
+                value = row[derived_field]
+                lookup[index][derived_field] = value
+        else:
+            # ensure there is a single unique derived field
+            for derived_field in derived_fields:
+                value = row[derived_field]
+                assert lookup[index][derived_field] == value
+
+    return lookup
+
+
+def shuffle_csv_file(filename, filename_shuffled, seed=3623365):
+    """
+    Shuffle the rows of a csv file while keeping the header
+    at the top. Deterministic unless you provide it with seed=None
+    :param filename: a csv file
+    :param filename_shuffled: a shuffled csv file to write to
+    :param seed: a random seed, defaults to a particular one
+    :return: None
+    """
+    rand = Random()
+    rand.seed(seed)
+    fp = open(filename, 'r')
+    lines = fp.readlines()
+    fp.close()
+
+    fp = open(filename_shuffled, 'w')
+    header = lines[0]
+    fp.writelines([header])
+    lines = lines[1:]
+    rand.shuffle(lines)
+    fp.writelines(lines)
+    fp.close()
+

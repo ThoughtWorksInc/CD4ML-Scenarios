@@ -25,6 +25,7 @@ def get_validation_metrics(metric_names, true_prediction_function):
     print('Getting predictions')
     data = list(true_prediction_function())
     print('Done with predictions')
+    assert len(data) > 0
     true_target, prediction = zip(*data)
 
     true_target = np.array(true_target)

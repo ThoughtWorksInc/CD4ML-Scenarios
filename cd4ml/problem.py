@@ -51,6 +51,10 @@ class Problem:
         self.feature_data = None
         self.importance = None
 
+    def _post_init(self):
+        # Call this after the derived class __init__ is called
+        self.feature_set.identifier_field = self.pipeline_params['problem_params']['identifier_field']
+
     def stream_processed(self):
         return self._stream_data(self.pipeline_params)
 
@@ -61,16 +65,21 @@ class Problem:
         pass
 
     def get_encoder(self, write=True, read_from_file=False):
+        # TODO: train on all featuress of just training?
         self.prepare_feature_data()
 
         start = time()
         ml_fields = self.feature_set.ml_fields()
+        omitted = self.feature_set.params['encoder_untransformed_fields']
 
         self.encoder = get_trained_encoder(self.stream_features(),
                                            ml_fields,
                                            write=write,
                                            read_from_file=read_from_file,
-                                           base_features_omitted=self.feature_set.params['base_features_omitted'])
+                                           base_features_omitted=omitted)
+
+        self.encoder.add_numeric_stats(self.stream_features())
+
         runtime = time() - start
         print('Encoder time: %0.1f seconds' % runtime)
 
