@@ -4,7 +4,7 @@ from copy import deepcopy
 
 problem_params_minimal = {
     'random_seed': 1299472653,
-    'identifier': 'some_identifier',
+    'identifier_field': 'some_identifier',
     'splitting': {
         'training_random_start': 0.0,
         'training_random_end': 0.2,

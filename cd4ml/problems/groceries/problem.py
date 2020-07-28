@@ -37,9 +37,7 @@ class GroceriesProblem(Problem):
                                     'date')
 
         train_data = self.training_stream()
-        item_nbr_lookup = create_lookup(train_data,
-                                             ['class', 'family'],
-                                             'item_nbr')
+        item_nbr_lookup = create_lookup(train_data, ['class', 'family'], 'item_nbr')
 
         if self.feature_set is not None:
             self.feature_set.date_lookup = date_lookup

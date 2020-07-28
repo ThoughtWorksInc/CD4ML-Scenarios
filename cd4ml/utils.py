@@ -194,4 +194,3 @@ def shuffle_csv_file(filename, filename_shuffled, seed=3623365):
     rand.shuffle(lines)
     fp.writelines(lines)
     fp.close()
-
