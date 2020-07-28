@@ -16,7 +16,7 @@ feature_set_1_params = {'feature_set_name': 'feature_set_1',
                                                               'product_family': 100},
                         'derived_fields_numerical': ['day', 'day_off', 'days_until_end', 'transactions_in_day'],
                         'encoder_excluded_fields': [],
-                        'encoder_untransformed_fields': []}
+                        'encoder_untransformed_fields': ['date']}
 
 
 class FeatureSet1(FeatureSet):
