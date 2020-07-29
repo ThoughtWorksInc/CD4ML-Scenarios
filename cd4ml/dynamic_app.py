@@ -31,8 +31,6 @@ def get_form_from_model(problem_name, initial_values=None):
     else:
         input_data = None
 
-    del initial_values
-
     post_url = '/%s' % problem_name
     header_text, form_div = loaded_model.encoder.get_form_html_elements(initial_values=input_data,
                                                                         post_url=post_url,
