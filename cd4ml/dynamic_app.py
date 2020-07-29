@@ -18,8 +18,8 @@ def form_values_to_input_data(form_data, numeric_cols):
 
 def get_form_from_model(problem_name, initial_values=None):
     file_names = get_filenames(problem_name)
-    if not Path(file_names['full_model']).exists():
-        return "ERROR", "Model Not Loaded"
+    if not Path(file_names['full_model_deployed']).exists():
+        return "ERROR", "Model Not Loaded", None
 
     loaded_model = load_deployed_model(problem_name)
 

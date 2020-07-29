@@ -40,9 +40,9 @@ def dynamic_index_for_problem(problem_name):
     if len(form_data) == 0:
         form_data = None
 
-    return "FOO"
-
     header_text, form_div, prediction = get_form_from_model(problem_name, initial_values=form_data)
+    if header_text == "ERROR":
+        return "Error, model not loaded"
 
     file_names = get_filenames(problem_name)
 
