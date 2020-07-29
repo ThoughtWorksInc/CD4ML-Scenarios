@@ -44,7 +44,6 @@ def dynamic_index_for_problem(problem_name):
 
     header_text, form_div, prediction = get_form_from_model(problem_name, initial_values=form_data)
 
-
     file_names = get_filenames(problem_name)
 
     template_file = file_names['dynamic_index']
