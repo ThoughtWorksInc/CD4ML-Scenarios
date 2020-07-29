@@ -1,5 +1,5 @@
 from csv import DictReader
-from cd4ml.filenames import file_names
+from cd4ml.filenames import get_filenames
 from cd4ml.problems.houses.config.raw_schema import raw_schema
 from cd4ml.utils import float_or_zero
 
@@ -9,6 +9,7 @@ def stream_raw(pipeline_params):
     :param pipeline_params: pipeline_params data structure
     :return: stream to raw rows of house sales data
     """
+    file_names = get_filenames(pipeline_params['problem_name'])
     assert pipeline_params['problem_name'] == 'houses'
     filename = file_names['raw_house_data']
     return (dict(row) for row in DictReader(open(filename, 'r')))

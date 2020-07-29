@@ -1,6 +1,6 @@
 from pathlib import Path
-from cd4ml.filenames import file_names
-from cd4ml.model_utils import load_model
+from cd4ml.filenames import get_filenames
+from cd4ml.model_utils import load_deployed_model
 from cd4ml.utils import float_or_zero
 
 
@@ -16,11 +16,12 @@ def form_values_to_input_data(form_data, numeric_cols):
     return input_data
 
 
-def get_form_from_model(initial_values=None):
+def get_form_from_model(problem_name, initial_values=None):
+    file_names = get_filenames(problem_name)
     if not Path(file_names['full_model']).exists():
         return "ERROR", "Model Not Loaded"
 
-    loaded_model = load_model()
+    loaded_model = load_deployed_model(problem_name)
 
     omitted_fields = loaded_model.feature_set.omitted_feature_fields_for_input()
 
@@ -32,8 +33,9 @@ def get_form_from_model(initial_values=None):
 
     del initial_values
 
+    post_url = '/%s' % problem_name
     header_text, form_div = loaded_model.encoder.get_form_html_elements(initial_values=input_data,
-                                                                        post_url='/',
+                                                                        post_url=post_url,
                                                                         omitted_fields=omitted_fields)
 
     if input_data is not None:

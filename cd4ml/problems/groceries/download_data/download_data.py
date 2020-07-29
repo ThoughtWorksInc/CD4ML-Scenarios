@@ -1,10 +1,11 @@
 import os
 from cd4ml.utils import download_to_file_from_url, shuffle_csv_file
-from cd4ml.filenames import data_raw
+from cd4ml.filenames import get_filenames
 
 
 def get_grocery_url_and_files(pipeline_params):
-    path = data_raw
+    file_names = get_filenames(pipeline_params['problem_name'])
+    path = file_names['raw_data_dir']
     data_info = pipeline_params['problem_params']['download_data_info']
     key = data_info['key']
     gcs_bucket = data_info['gcs_bucket']

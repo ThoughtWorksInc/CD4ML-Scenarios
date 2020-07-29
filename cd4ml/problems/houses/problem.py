@@ -34,7 +34,7 @@ class HousesProblem(Problem):
     def prepare_feature_data(self):
         # do the work required to look up derived features
         if self.feature_set is not None:
-            self.feature_set.zip_lookup = get_zip_lookup()
+            self.feature_set.zip_lookup = get_zip_lookup(self.pipeline_params)
 
         train_data = self.training_stream()
 

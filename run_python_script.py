@@ -2,7 +2,7 @@ import cProfile
 import sys
 
 
-script_names = ["pipeline", "acceptance"]
+script_names = ["pipeline", "acceptance", "deploy_model"]
 
 script_names_str = script_names.__repr__()
 
@@ -28,6 +28,9 @@ def run_python_script(script_name, *args, **kwargs):
 
     elif script_name == "acceptance":
         from scripts import acceptance as script
+
+    elif script_name == "deploy_model":
+        from scripts import deploy_model as script
 
     else:
         message = "Error, script_name (%s) must be one of %s" % (script_name,

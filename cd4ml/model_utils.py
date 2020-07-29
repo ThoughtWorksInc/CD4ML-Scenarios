@@ -2,7 +2,7 @@ import joblib
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
 from sklearn.linear_model import Ridge, Lasso
-from cd4ml.filenames import file_names
+from cd4ml.filenames import get_filenames
 
 
 def get_model_class(model_name):
@@ -32,7 +32,17 @@ def get_target_id_features_lists(pipeline_params, feature_set, processed_stream)
     return targets, identifiers, features
 
 
-def load_model():
+def load_model(problem_name):
+    file_names = get_filenames(problem_name)
     loaded_model = joblib.load(file_names['full_model'])
     loaded_model.load_encoder_from_package()
     return loaded_model
+
+
+def load_deployed_model(problem_name):
+    file_names = get_filenames(problem_name)
+    loaded_model = joblib.load(file_names['full_model_deployed'])
+    loaded_model.load_encoder_from_package()
+    return loaded_model
+
+

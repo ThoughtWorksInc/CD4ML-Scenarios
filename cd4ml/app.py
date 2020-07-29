@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, request
 from jinja2 import Template
-import cd4ml.app_utils as utils
 from cd4ml.fluentd_logging import FluentdLogger
 from cd4ml.dynamic_app import get_form_from_model
-from cd4ml.filenames import file_names
+from cd4ml.filenames import get_filenames
+
 
 app = Flask(__name__, template_folder='webapp/templates',
             static_folder='webapp/static')
@@ -11,54 +11,34 @@ app = Flask(__name__, template_folder='webapp/templates',
 fluentd_logger = FluentdLogger()
 
 
-@app.route('/old')
-def index():
-    return render_template('index.html')
+def replace_model_file(content, problem_name):
+    file_names = get_filenames(problem_name)
+    with open(file_names['full_model_deployed'], 'w+b') as f:
+        f.write(content)
 
 
-@app.route('/replace_model', methods=["POST"])
-def replace_model():
+@app.route('/replace_model/<problem_name>', methods=["post", "get"])
+def replace_model(problem_name):
+    print('Replacing model for problem: %s' % problem_name)
     content = request.get_data(as_text=False)
-    utils.replace_model_file(content)
+    data_length = len(content)
+    print('data size: %s' % data_length)
+    replace_model_file(content, problem_name)
     return "OK", 200
-
-
-@app.route('/prediction')
-def get_prediction():
-    date_string = request.args.get('date')
-    item_nbr = request.args.get("item_nbr")
-
-    status, prediction = utils.get_prediction(item_nbr, date_string)
-
-    log_payload = {
-        'prediction': prediction,
-        'itemid': item_nbr,
-        'item_name': utils.get_product_name_from_id(item_nbr),
-        'date_string': date_string
-    }
-
-    log_prediction_console(log_payload)
-    fluentd_logger.log('prediction', log_payload)
-
-    if status == "ERROR":
-        return prediction, 503
-    else:
-        return "%0.5f" % prediction, 200
 
 
 def log_prediction_console(log_payload):
     print('logging {}'.format(log_payload))
 
 
-@app.route('/', methods=['get', 'post'])
-def dynamic_index():
+def dynamic_index_for_problem(problem_name):
     form_data = request.form
-    print('form_data')
-    print(form_data)
     if len(form_data) == 0:
         form_data = None
 
-    header_text, form_div, prediction = get_form_from_model(initial_values=form_data)
+    header_text, form_div, prediction = get_form_from_model(problem_name, initial_values=form_data)
+
+    file_names = get_filenames(problem_name)
 
     template_file = file_names['dynamic_index']
     template_text = open(template_file, 'r').read()
@@ -67,3 +47,21 @@ def dynamic_index():
     return template.render(header_text=header_text,
                            form_div=form_div,
                            prediction=prediction)
+
+
+@app.route('/houses', methods=['get', 'post'])
+def dynamic_index_houses():
+    return dynamic_index_for_problem('houses')
+
+
+@app.route('/groceries', methods=['get', 'post'])
+def dynamic_index_groceries():
+    return dynamic_index_for_problem('groceries')
+
+
+@app.route('/', methods=['get', 'post'])
+def not_a_route():
+    messages = ["Must specify the problem",
+                " Use /houses or /groceries routes"]
+
+    return "\n".join(messages)

@@ -1,5 +1,5 @@
 from bokeh.plotting import figure, save
-from cd4ml.filenames import file_names
+from cd4ml.filenames import get_filenames
 
 
 def get_validation_plot(true_value, prediction):
@@ -27,7 +27,8 @@ def get_validation_plot(true_value, prediction):
     return plot
 
 
-def make_validation_plot(true_value, prediction, track):
+def make_validation_plot(true_value, prediction, track, problem_name):
+    file_names = get_filenames(problem_name)
     plot = get_validation_plot(true_value, prediction)
     filename = file_names['validation_plot']
     print('Writing validation plot: %s' % filename)

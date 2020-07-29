@@ -1,5 +1,5 @@
 import os
-from cd4ml.filenames import file_names
+from cd4ml.filenames import get_filenames
 from wickedhot import OneHotEncoder
 
 
@@ -14,8 +14,9 @@ def get_encoder_from_stream(stream, ml_fields, omit_cols=None):
     return encoder
 
 
-def get_trained_encoder(stream, ml_fields, write=True,
+def get_trained_encoder(stream, ml_fields, problem_name, write=True,
                         read_from_file=False, base_features_omitted=None):
+    file_names = get_filenames(problem_name)
     encoder_file = file_names['encoder']
     if os.path.exists(encoder_file) and read_from_file:
         print('Reading encoder from : %s' % encoder_file)

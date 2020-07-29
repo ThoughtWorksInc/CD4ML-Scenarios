@@ -3,7 +3,7 @@ from cd4ml import tracking
 from cd4ml.get_encoder import get_trained_encoder
 from cd4ml.validate import write_validation_info
 from cd4ml.validation_metrics import get_validation_metrics
-from cd4ml.filenames import file_names
+from cd4ml.filenames import get_filenames
 from cd4ml.ml_model import MLModel
 from cd4ml.feature_importance import get_feature_importance
 
@@ -64,7 +64,7 @@ class Problem:
     def prepare_feature_data(self):
         pass
 
-    def get_encoder(self, write=True, read_from_file=False):
+    def get_encoder(self, write=False, read_from_file=False):
         # TODO: train on all featuress of just training?
         self.prepare_feature_data()
 
@@ -74,6 +74,7 @@ class Problem:
 
         self.encoder = get_trained_encoder(self.stream_features(),
                                            ml_fields,
+                                           self.pipeline_params['problem_name'],
                                            write=write,
                                            read_from_file=read_from_file,
                                            base_features_omitted=omitted)
@@ -119,7 +120,8 @@ class Problem:
         write_validation_info(self.validation_metrics,
                               self.tracker,
                               true_validation_target,
-                              validation_predictions)
+                              validation_predictions,
+                              self.problem_name)
 
     def validate(self):
         print('Validating')
@@ -155,6 +157,7 @@ class Problem:
         return '\n'.join(messages)
 
     def write_ml_model(self):
+        file_names = get_filenames(self.problem_name)
         filename = file_names['full_model']
         print("Writing full model to: %s" % filename)
         self.ml_model.save(filename)
