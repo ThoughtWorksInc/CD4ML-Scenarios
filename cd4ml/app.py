@@ -1,3 +1,7 @@
+"""
+Web app
+"""
+
 from flask import Flask, request
 from jinja2 import Template
 from cd4ml.fluentd_logging import FluentdLogger
