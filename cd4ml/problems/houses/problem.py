@@ -23,7 +23,7 @@ class HousesProblem(Problem):
         self.training_filter, self.validation_filter = splitter(self.pipeline_params)
 
         if self.pipeline_params['problem_params']['feature_set_name'] == 'feature_set_1':
-            from cd4ml.problems.houses.features.feature_set_1 import FeatureSet1 as FeatureSet
+            from cd4ml.problems.houses.features.feature_set_1 import FeatureSet
             self.feature_set = FeatureSet({})
         else:
             self.feature_set = None
