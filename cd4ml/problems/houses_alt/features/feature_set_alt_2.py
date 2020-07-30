@@ -1,7 +1,7 @@
 from cd4ml.problems.houses_alt.features import feature_functions as ff
 from cd4ml.feature_set import FeatureSetBase
 
-feature_set_params = {'feature_set_name': 'feature_set_alt_1',
+feature_set_params = {'feature_set_name': 'feature_set_alt_2',
                       'target_field': 'price',
                       'extra_information_fields': [],
                       'base_categorical_n_levels_dict': {'zipcode': 50000,
@@ -10,9 +10,7 @@ feature_set_params = {'feature_set_name': 'feature_set_alt_1',
                                                 'kitchen_refurbished', 'square_feet', 'pool',
                                                 'parking', 'multi_family'],
                       'derived_categorical_n_levels_dict': {'state': 100},
-                      'derived_fields_numerical': ['avg_price_in_zip', 'num_in_zip',
-                                                   'avg_price_in_state', 'num_in_state',
-                                                   ],
+                      'derived_fields_numerical': [],
                       'encoder_excluded_fields': [],
                       'encoder_untransformed_fields': ['zipcode']}
 
