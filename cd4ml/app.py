@@ -61,7 +61,7 @@ def dynamic_index_houses():
 
 
 @app.route('/houses_alt', methods=['get', 'post'])
-def dynamic_index_houses():
+def dynamic_index_houses_alt():
     return dynamic_index_for_problem('houses_alt')
 
 
