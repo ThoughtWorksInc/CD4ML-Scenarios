@@ -1,6 +1,6 @@
 from cd4ml.problems.groceries.features import feature_functions as ff
 
-from cd4ml.feature_set import FeatureSet
+from cd4ml.feature_set import FeatureSetBase
 
 feature_set_1_params = {'feature_set_name': 'feature_set_1',
                         'target_field': 'unit_sales',
@@ -19,9 +19,9 @@ feature_set_1_params = {'feature_set_name': 'feature_set_1',
                         'encoder_untransformed_fields': ['date']}
 
 
-class FeatureSet1(FeatureSet):
+class FeatureSet(FeatureSetBase):
     def __init__(self, date_lookup, item_nbr_lookup):
-        super(FeatureSet1, self).__init__()
+        super(FeatureSet, self).__init__()
         self.date_lookup = date_lookup
         self.item_nbr_lookup = item_nbr_lookup
         self.params = feature_set_1_params.copy()

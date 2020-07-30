@@ -1,5 +1,5 @@
 from cd4ml.problems.houses_alt.features import feature_functions as ff
-from cd4ml.feature_set import FeatureSet
+from cd4ml.feature_set import FeatureSetBase
 
 feature_set_1_params = {'feature_set_name': 'feature_set_alt_1',
                         'target_field': 'price',
@@ -17,9 +17,9 @@ feature_set_1_params = {'feature_set_name': 'feature_set_alt_1',
                         'encoder_untransformed_fields': ['zipcode']}
 
 
-class FeatureSetAlt1(FeatureSet):
+class FeatureSet(FeatureSetBase):
     def __init__(self, zip_lookup):
-        super(FeatureSetAlt1, self).__init__()
+        super(FeatureSet, self).__init__()
         self.params = feature_set_1_params.copy()
 
         # lookup table

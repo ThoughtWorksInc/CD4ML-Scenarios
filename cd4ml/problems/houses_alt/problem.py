@@ -1,3 +1,5 @@
+from importlib import import_module
+import os
 from cd4ml.problems.houses_alt.config.problem_params import problem_params
 from cd4ml.problems.houses_alt.config.ml_model_params import model_parameters
 from cd4ml.problems.houses_alt.readers.stream_data import stream_data
@@ -5,6 +7,7 @@ from cd4ml.problems.houses_alt.readers.zip_lookup import get_zip_lookup
 from cd4ml.splitter import splitter
 from cd4ml.problem import Problem
 from cd4ml.utils import average_by
+from cd4ml.feature_set import get_feature_set_class
 
 
 def get_params():
@@ -14,7 +17,7 @@ def get_params():
 
 
 class HousesProblemAlt(Problem):
-    def __init__(self):
+    def __init__(self, feature_set_name='default'):
         super(HousesProblemAlt, self).__init__()
         self.pipeline_params = get_params()
         self.problem_name = self.pipeline_params['problem_name']
@@ -22,11 +25,11 @@ class HousesProblemAlt(Problem):
         self._stream_data = stream_data
         self.training_filter, self.validation_filter = splitter(self.pipeline_params)
 
-        if self.pipeline_params['problem_params']['feature_set_name'] == 'feature_set_alt_1':
-            from cd4ml.problems.houses_alt.features.feature_set_1 import FeatureSetAlt1 as FeatureSet
-            self.feature_set = FeatureSet({})
-        else:
-            self.feature_set = None
+        if feature_set_name == 'default':
+            feature_set_name = 'feature_set_alt_1'
+
+        feature_set_class = get_feature_set_class(feature_set_name, __file__)
+        self.feature_set = feature_set_class({})
 
         # this will call whatever generic steps should be done after derived class init
         self._post_init()

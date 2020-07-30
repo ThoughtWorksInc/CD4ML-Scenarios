@@ -1,6 +1,6 @@
 from cd4ml.problems.houses.features.feature_functions import zipcode_to_state, num_in_zipcode
 from cd4ml.problems.houses.features.feature_functions import avg_price_by_zipcode
-from cd4ml.feature_set import FeatureSet
+from cd4ml.feature_set import FeatureSetBase
 
 feature_set_1_params = {'feature_set_name': 'feature_set_1',
                         'target_field': 'price',
@@ -16,9 +16,9 @@ feature_set_1_params = {'feature_set_name': 'feature_set_1',
                         'encoder_untransformed_fields': ['zipcode']}
 
 
-class FeatureSet1(FeatureSet):
+class FeatureSet(FeatureSetBase):
     def __init__(self, zip_lookup):
-        super(FeatureSet1, self).__init__()
+        super(FeatureSet, self).__init__()
         self.params = feature_set_1_params.copy()
 
         # lookup table

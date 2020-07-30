@@ -1,3 +1,6 @@
+from cd4ml.utils import import_relative_module
+
+
 def _exclude(fields, excluded):
     return [field for field in fields if field not in excluded]
 
@@ -10,7 +13,20 @@ def _combine_dicts(*args):
     return results
 
 
-class FeatureSet:
+def get_feature_set_class(feature_set_name, this_file):
+    """
+    Get the FeatureSet class corresponding to the feature_set_name
+    using relative paths
+    :param feature_set_name: feature set base filename
+    :param this_file: __file__ from local scope of calling function
+    :return: loaded module
+    """
+    module = import_relative_module(this_file, 'features', feature_set_name)
+    feature_class = module.FeatureSet
+    return feature_class
+
+
+class FeatureSetBase:
     """
     Generic interface for feature sets
     """

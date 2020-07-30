@@ -53,6 +53,7 @@ class Problem:
 
     def _post_init(self):
         # Call this after the derived class __init__ is called
+        # TODO: a little awkward, where does identifier_field really belong
         self.feature_set.identifier_field = self.pipeline_params['problem_params']['identifier_field']
 
     def stream_processed(self):

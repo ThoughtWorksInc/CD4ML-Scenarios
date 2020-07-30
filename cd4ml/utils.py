@@ -6,6 +6,7 @@ from collections import defaultdict
 from time import time
 import urllib
 from random import Random
+from importlib import import_module
 
 
 def ensure_dir_exists(directory):
@@ -202,3 +203,16 @@ def shuffle_csv_file(filename, filename_shuffled, seed=3623365):
     rand.shuffle(lines)
     fp.writelines(lines)
     fp.close()
+
+
+def import_relative_module(this_file_name,
+                           relative_path_from_this_file,
+                           module_file_name):
+    this_path = os.path.dirname(this_file_name)
+    print('path', this_path)
+    tag = 'CD4ML-Scenarios/cd4ml'
+    index = this_path.index(tag)+len('CD4ML-Scenarios/')
+    relative_path_root = this_path[index:]
+    module_string = relative_path_root.replace('/', '.') + '.' + relative_path_from_this_file + '.' + module_file_name
+    module = import_module(module_string)
+    return module
