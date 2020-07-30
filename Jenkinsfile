@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+        choice(name: 'problem_name', choices: ['houses', 'groceries'], description: 'Choose the problem name')
     }
     triggers { 
         // Poll SCM every minute for new changes
