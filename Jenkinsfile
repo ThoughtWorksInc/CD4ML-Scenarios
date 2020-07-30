@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        choice(name: 'problem_name', choices: ['houses', 'groceries'], description: 'Choose the problem name')
+        choice(name: 'problem_name', choices: ['houses', 'houses_alt', 'groceries'], description: 'Choose the problem name')
     }
     triggers { 
         // Poll SCM every minute for new changes
