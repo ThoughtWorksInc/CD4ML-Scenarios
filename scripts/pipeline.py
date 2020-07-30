@@ -12,5 +12,10 @@ def main(*args):
 
     print('Problem name desired: %s' % problem_name)
 
+    if len(args) > 1:
+        feature_set_name = args[1]
+    else:
+        feature_set_name = 'default'
+
     ph.download_data(problem_name)
-    ph.train_and_validate_model(problem_name)
+    ph.train_and_validate_model(problem_name, feature_set_name)

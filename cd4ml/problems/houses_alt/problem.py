@@ -16,17 +16,17 @@ def get_params():
 
 class HousesProblemAlt(Problem):
     def __init__(self, feature_set_name='default'):
-        super(HousesProblemAlt, self).__init__()
+        super(HousesProblemAlt, self).__init__(feature_set_name=feature_set_name)
         self.pipeline_params = get_params()
         self.problem_name = self.pipeline_params['problem_name']
 
         self._stream_data = stream_data
         self.training_filter, self.validation_filter = splitter(self.pipeline_params)
 
-        if feature_set_name == 'default':
-            feature_set_name = 'feature_set_alt_1'
+        if self.feature_set_name == 'default':
+            self.feature_set_name = 'feature_set_alt_1'
 
-        feature_set_class = get_feature_set_class(feature_set_name, __file__)
+        feature_set_class = get_feature_set_class(self.feature_set_name, __file__)
         self.feature_set = feature_set_class({})
 
         # this will call whatever generic steps should be done after derived class init

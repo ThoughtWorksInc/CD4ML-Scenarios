@@ -9,8 +9,8 @@ def download_data(problem_name):
     print('Done downloading data')
 
 
-def train_and_validate_model(problem_name):
+def train_and_validate_model(problem_name, feature_set_name):
     print('Training and validating model')
-    problem = get_problem(problem_name)
+    problem = get_problem(problem_name, feature_set_name=feature_set_name)
     problem.run_all()
     print('Done training and validating model')

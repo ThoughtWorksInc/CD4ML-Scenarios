@@ -23,4 +23,4 @@ def get_problem(problem_name,
     else:
         raise ValueError('Problem name: %s unknown' % problem_name)
 
-    return Problem()
+    return Problem(feature_set_name=feature_set_name)

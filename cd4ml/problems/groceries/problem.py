@@ -13,8 +13,8 @@ def get_params():
 
 
 class GroceriesProblem(Problem):
-    def __init__(self):
-        super(GroceriesProblem, self).__init__()
+    def __init__(self, feature_set_name='default'):
+        super(GroceriesProblem, self).__init__(feature_set_name=feature_set_name)
         self.pipeline_params = get_params()
         self.problem_name = self.pipeline_params['problem_name']
 
@@ -24,7 +24,7 @@ class GroceriesProblem(Problem):
         self.item_nbr_lookup = None
 
         if self.pipeline_params['problem_params']['feature_set_name'] == 'feature_set_1':
-            from cd4ml.problems.groceries.features.feature_set_1 import FeatureSet1 as FeatureSet
+            from cd4ml.problems.groceries.features.feature_set_1 import FeatureSet
             self.feature_set = FeatureSet({}, {})
         else:
             self.feature_set = None

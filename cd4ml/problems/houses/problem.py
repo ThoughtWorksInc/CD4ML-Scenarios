@@ -14,8 +14,8 @@ def get_params():
 
 
 class HousesProblem(Problem):
-    def __init__(self):
-        super(HousesProblem, self).__init__()
+    def __init__(self, feature_set_name='default'):
+        super(HousesProblem, self).__init__(feature_set_name=feature_set_name)
         self.pipeline_params = get_params()
         self.problem_name = self.pipeline_params['problem_name']
 

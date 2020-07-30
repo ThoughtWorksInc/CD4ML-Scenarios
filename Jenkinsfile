@@ -43,7 +43,7 @@ pipeline {
         stage('Deploy model') {
             steps {
                 // sh 'curl --request POST --data-binary "@data/models/full_model.pkl" http://model:5005/replace_model'
-                 sh 'python3 run_python_script.py deploy_model http://model:5005 ${problem_name}'
+                 sh 'python3 run_python_script.py deploy_model http://model:5005 ${problem_name} ${feature_set_name}'
             }
         }
     }
