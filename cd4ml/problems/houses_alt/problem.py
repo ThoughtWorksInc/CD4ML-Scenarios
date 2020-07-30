@@ -1,5 +1,3 @@
-from importlib import import_module
-import os
 from cd4ml.problems.houses_alt.config.problem_params import problem_params
 from cd4ml.problems.houses_alt.config.ml_model_params import model_parameters
 from cd4ml.problems.houses_alt.readers.stream_data import stream_data
