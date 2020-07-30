@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Run ML pipeline') {
             steps {
-                sh 'python3 run_python_script.py pipeline'
+                sh 'python3 run_python_script.py pipeline ${problem_name}'
             }
         }
 //         stage('Acceptance test') {
@@ -39,7 +39,7 @@ pipeline {
         stage('Deploy model') {
             steps {
                 // sh 'curl --request POST --data-binary "@data/models/full_model.pkl" http://model:5005/replace_model'
-                 sh 'python3 run_python_script.py deploy_model http://model:5005'
+                 sh 'python3 run_python_script.py deploy_model http://model:5005 ${problem_name}'
             }
         }
     }

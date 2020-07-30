@@ -8,9 +8,9 @@ def get_pipeline_config():
     return yaml.safe_load(open(filename, 'r'))
 
 
-def get_problem():
-    pipeline_config = get_pipeline_config()
-    problem_name = pipeline_config['problem_name']
+def get_problem(problem_name):
+    # pipeline_config = get_pipeline_config()
+    # problem_name = pipeline_config['problem_name']
 
     if problem_name == 'groceries':
         from cd4ml.problems.groceries.problem import GroceriesProblem as Problem

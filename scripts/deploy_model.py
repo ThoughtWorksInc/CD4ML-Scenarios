@@ -7,13 +7,6 @@ def main(*args):
     Check model meets acceptance threshold
     """
     args = args[0]
-    print('args')
-    print(args)
-    if len(args) > 0:
-        host_name = args[0]
-    else:
-        host_name = None
-
-    problem = get_problem()
-    problem_name = problem.problem_name
+    host_name = args[0]
+    problem_name = args[1]
     deploy_model(problem_name, host_name=host_name)
