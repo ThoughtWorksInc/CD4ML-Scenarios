@@ -2,10 +2,10 @@ pipeline {
     agent any
     parameters {
         choice(name: 'problem_name', choices: ['houses', 'houses_alt', 'groceries'], description: 'Choose the problem name')
-        string(name: 'feature_set_name', defaultValue: 'default', description: 'Specify the feature_set name/file')
-        string(name: 'problem_params_name', defaultValue: 'default', description: 'Specify the problem_params file')
-        string(name: 'ml_model_params', defaultValue: 'default', description: 'Specify the ml_model_params file')
-        string(name: 'algorithm_name', defaultValue: 'default', description: 'Specify the algorithm (overrides value in problem_params')
+        string(name: 'feature_set_name', defaultValue: 'default', description: 'Specify the feature_set name/file [not-wired-yet]')
+        string(name: 'problem_params_name', defaultValue: 'default', description: 'Specify the problem_params file [not-wired-yet]')
+        string(name: 'ml_model_params', defaultValue: 'default', description: 'Specify the ml_model_params file [not-wired-yet]')
+        string(name: 'algorithm_name', defaultValue: 'default', description: 'Specify the algorithm (overrides value in problem_params [not-wired-yet]')
     }
     triggers { 
         // Poll SCM every minute for new changes
