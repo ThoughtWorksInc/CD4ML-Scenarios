@@ -103,7 +103,7 @@ def float_or_zero(x):
         return 0.0
 
 
-def average_by(stream, averaged_field, by_field, prior_num=0, prior_value=0.0):
+def average_by(stream, averaged_field, by_field, prior_num=0, prior_value=0.0, transform=None):
     """
     Average a value by some other field and return a dict of the averages
     Uses Laplace smoothing to deal with the noise from low numbers
@@ -113,6 +113,8 @@ def average_by(stream, averaged_field, by_field, prior_num=0, prior_value=0.0):
     :param by_field: fields to be grouped by
     :param prior_num: Laplace smoothing, number of synthetic samples
     :param prior_value: Laplace smoothing, prior estimate of average
+    :param transform: function or lambda to apply to by_field
+        before aggregation
     :return: dict of (average, count) pairs
     """
     summation = defaultdict(float)
@@ -120,9 +122,15 @@ def average_by(stream, averaged_field, by_field, prior_num=0, prior_value=0.0):
 
     for row in stream:
         by = row[by_field]
+
+        if transform is not None:
+            aggregate_key = transform(by)
+        else:
+            aggregate_key = by
+
         value = row[averaged_field]
-        summation[by] += value
-        number[by] += 1
+        summation[aggregate_key] += value
+        number[aggregate_key] += 1
 
     keys = summation.keys()
     prior_summation = prior_num * prior_value

@@ -60,6 +60,11 @@ def dynamic_index_houses():
     return dynamic_index_for_problem('houses')
 
 
+@app.route('/houses_alt', methods=['get', 'post'])
+def dynamic_index_houses():
+    return dynamic_index_for_problem('houses_alt')
+
+
 @app.route('/groceries', methods=['get', 'post'])
 def dynamic_index_groceries():
     return dynamic_index_for_problem('groceries')

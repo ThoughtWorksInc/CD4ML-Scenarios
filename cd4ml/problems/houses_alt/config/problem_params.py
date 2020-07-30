@@ -1,4 +1,4 @@
-problem_params = {'problem_name': 'houses',
+problem_params = {'problem_name': 'houses_alt',
                   'download_data_info': {
                        'url': "https://github.com/dave31415/house_price/raw/master/data/house_data_100000.csv",
                        'url_lookup': "https://github.com/dave31415/house_price/raw/master/data/zip_lookup.csv"
@@ -10,7 +10,7 @@ problem_params = {'problem_name': 'houses',
                   'random_seed': 1299472653,
                   'training_seed': 4548276,
                   'identifier_field': 'sale_id',
-                  'feature_set_name': 'feature_set_1',
+                  'feature_set_name': 'feature_set_alt_1',
                   'max_rows_to_read': None,
                   'splitting': {
                     'training_random_start': 0.0,

@@ -9,7 +9,7 @@ def run_download_data(pipeline_params, use_cache=True):
     problem = pipeline_params['problem_name']
     if problem == 'groceries':
         download_grocery_data(pipeline_params, use_cache=use_cache)
-    elif problem == 'houses':
+    elif problem in ['houses', 'houses_alt']:
         download_house_data(pipeline_params, use_cache=use_cache)
     else:
         raise ValueError('Do not know problem: %s' % problem)
