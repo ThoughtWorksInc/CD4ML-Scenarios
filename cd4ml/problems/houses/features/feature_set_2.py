@@ -2,7 +2,10 @@ from cd4ml.problems.houses.features.feature_functions import zipcode_to_state, n
 from cd4ml.problems.houses.features.feature_functions import avg_price_by_zipcode
 from cd4ml.feature_set import FeatureSetBase
 
-feature_set_params = {'feature_set_name': 'feature_set_1',
+# differs from feature_set_1
+# remove ['avg_price_in_zip', 'num_in_zip'] from derived fields
+
+feature_set_params = {'feature_set_name': 'feature_set_2',
                       'target_field': 'price',
                       'extra_information_fields': [],
                       'base_categorical_n_levels_dict': {'zipcode': 50000,
@@ -11,7 +14,7 @@ feature_set_params = {'feature_set_name': 'feature_set_1',
                                                 'kitchen_refurbished', 'square_feet', 'pool',
                                                 'parking', 'multi_family'],
                       'derived_categorical_n_levels_dict': {'state': 100},
-                      'derived_fields_numerical': ['avg_price_in_zip', 'num_in_zip'],
+                      'derived_fields_numerical': [],
                       'encoder_excluded_fields': [],
                       'encoder_untransformed_fields': ['zipcode']}
 

@@ -39,7 +39,7 @@ def get_problem_params(problem_params_file, this_file):
     :param this_file: __file__ from local scope of calling function
     :return: loaded module
     """
-    module = import_relative_module(this_file, 'config', problem_params_file)
+    module = import_relative_module(this_file, 'config.problem_params', problem_params_file)
     return module.problem_params
 
 
@@ -51,7 +51,7 @@ def get_ml_params(ml_params_file, this_file):
     :param this_file: __file__ from local scope of calling function
     :return: loaded module
     """
-    module = import_relative_module(this_file, 'config', ml_params_file)
+    module = import_relative_module(this_file, 'config.ml_model_params', ml_params_file)
     return module.model_parameters
 
 
