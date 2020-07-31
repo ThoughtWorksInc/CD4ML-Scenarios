@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Run ML pipeline') {
             steps {
-                sh 'python3 run_python_script.py pipeline ${problem_name}'
+                sh 'python3 run_python_script.py pipeline ${problem_name} ${feature_set_name} ${problem_params_name} ${ml_model_params} ${algorithm_name}'
             }
         }
 //         stage('Acceptance test') {
