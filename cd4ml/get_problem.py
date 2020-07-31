@@ -10,6 +10,8 @@ def get_pipeline_params(problem_name,
                         algorithm_name,
                         this_file):
 
+    problem_string = ":".join([problem_name, problem_params_name, ml_params_name, algorithm_name])
+
     if problem_params_name == 'default':
         problem_params_name = 'problem_params'
     if ml_params_name == 'default':
@@ -21,7 +23,8 @@ def get_pipeline_params(problem_name,
     if algorithm_name != 'default':
         problem_params['model_name'] = algorithm_name
 
-    return {'problem_name': problem_name,
+    return {'problem_string': problem_string,
+            'problem_name': problem_name,
             'problem_params': problem_params,
             'model_params': ml_params}
 
