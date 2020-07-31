@@ -2,18 +2,18 @@ from cd4ml.problems.houses.features.feature_functions import zipcode_to_state, n
 from cd4ml.problems.houses.features.feature_functions import avg_price_by_zipcode
 from cd4ml.feature_set import FeatureSetBase
 
-feature_set_1_params = {'feature_set_name': 'feature_set_1',
-                        'target_field': 'price',
-                        'extra_information_fields': [],
-                        'base_categorical_n_levels_dict': {'zipcode': 50000,
-                                                           'style': 50},
-                        'base_fields_numerical': ['lot_size_sf', 'beds', 'baths', 'year_built',
-                                                  'kitchen_refurbished', 'square_feet', 'pool',
-                                                  'parking', 'multi_family'],
-                        'derived_categorical_n_levels_dict': {'state': 100},
-                        'derived_fields_numerical': ['avg_price_in_zip', 'num_in_zip'],
-                        'encoder_excluded_fields': [],
-                        'encoder_untransformed_fields': ['zipcode']}
+feature_set_params = {'feature_set_name': 'feature_set_1',
+                      'target_field': 'price',
+                      'extra_information_fields': [],
+                      'base_categorical_n_levels_dict': {'zipcode': 50000,
+                                                         'style': 50},
+                      'base_fields_numerical': ['lot_size_sf', 'beds', 'baths', 'year_built',
+                                                'kitchen_refurbished', 'square_feet', 'pool',
+                                                'parking', 'multi_family'],
+                      'derived_categorical_n_levels_dict': {'state': 100},
+                      'derived_fields_numerical': ['avg_price_in_zip', 'num_in_zip'],
+                      'encoder_excluded_fields': [],
+                      'encoder_untransformed_fields': ['zipcode']}
 
 
 class FeatureSet(FeatureSetBase):
