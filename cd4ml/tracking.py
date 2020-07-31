@@ -15,6 +15,7 @@ class track:
             mlflow.set_tracking_uri(uri=MLFLOW_TRACKING_URL)
             mlflow.set_experiment(TENANT)
             mlflow.start_run(run_name=RUN_LABEL)
+            mlflow.set_tracking_uri(MLFLOW_TRACKING_URL)
 
             print("MLFLOW_TRACKING_URL: ", MLFLOW_TRACKING_URL)
             self.artifact_uri = mlflow.get_artifact_uri()
