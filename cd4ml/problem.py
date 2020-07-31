@@ -8,7 +8,7 @@ from cd4ml.ml_model import MLModel
 from cd4ml.feature_importance import get_feature_importance
 
 
-class Problem:
+class ProblemBase:
     """
     Generic Problem Interface for Problems
     Implementation needs to add various data elements and methods

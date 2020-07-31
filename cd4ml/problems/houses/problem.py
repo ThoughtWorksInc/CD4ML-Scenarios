@@ -1,5 +1,5 @@
 from cd4ml.splitter import splitter
-from cd4ml.problem import Problem
+from cd4ml.problem import ProblemBase
 from cd4ml.utils import average_by
 from cd4ml.feature_set import get_feature_set_class
 from cd4ml.get_problem import get_pipeline_params
@@ -9,16 +9,16 @@ stream_data = import_relative_module(__file__, 'readers', 'stream_data').stream_
 get_zip_lookup = import_relative_module(__file__, 'readers', 'zip_lookup').get_zip_lookup
 
 
-class HousesProblem(Problem):
+class Problem(ProblemBase):
     def __init__(self, feature_set_name='default',
                  problem_params_name='default',
                  ml_params_name='default',
                  algorithm_name='default'):
 
-        super(HousesProblem, self).__init__(feature_set_name=feature_set_name,
-                                            problem_params_name=problem_params_name,
-                                            ml_params_name=ml_params_name,
-                                            algorithm_name=algorithm_name)
+        super(Problem, self).__init__(feature_set_name=feature_set_name,
+                                      problem_params_name=problem_params_name,
+                                      ml_params_name=ml_params_name,
+                                      algorithm_name=algorithm_name)
 
         self.problem_name = 'houses'
 

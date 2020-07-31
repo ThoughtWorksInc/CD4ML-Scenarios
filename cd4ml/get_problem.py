@@ -64,12 +64,17 @@ def get_problem(problem_name,
                 ml_params_name='default',
                 algorithm_name='default'):
 
-    if problem_name == 'groceries':
-        from cd4ml.problems.groceries.problem import GroceriesProblem as Problem
-    elif problem_name == 'houses':
-        from cd4ml.problems.houses.problem import HousesProblem as Problem
+    if False:
+        if problem_name == 'groceries':
+            from cd4ml.problems.groceries.problem import GroceriesProblem as Problem
+        elif problem_name == 'houses':
+            from cd4ml.problems.houses.problem import HousesProblem as Problem
+        else:
+            raise ValueError('Problem name: %s unknown' % problem_name)
     else:
-        raise ValueError('Problem name: %s unknown' % problem_name)
+        Problem = import_relative_module(__file__, 'problems.' + problem_name, 'problem').Problem
+
+    print(Problem)
 
     return Problem(feature_set_name=feature_set_name,
                    problem_params_name=problem_params_name,
