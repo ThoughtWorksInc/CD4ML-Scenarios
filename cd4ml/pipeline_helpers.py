@@ -22,5 +22,7 @@ def train_and_validate_model(problem_name,
                           ml_params_name=ml_params_name,
                           algorithm_name=algorithm_name)
 
+    print(problem.pipeline_params)
+
     problem.run_all()
     print('Done training and validating model')
