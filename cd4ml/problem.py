@@ -171,6 +171,7 @@ class Problem:
         filename = file_names['full_model']
         print("Writing full model to: %s" % filename)
         self.ml_model.save(filename)
+        self.tracker.log_artifact(filename)
 
     def run_all(self):
         start = time()
