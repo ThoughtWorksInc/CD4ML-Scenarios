@@ -1,17 +1,9 @@
-from cd4ml.problems.groceries.config.problem_params import problem_params
-from cd4ml.problems.groceries.config.ml_model_params import model_parameters
 from cd4ml.problems.groceries.readers.stream_data import stream_data
 from cd4ml.problems.groceries.splitting import get_training_validation_filters
 from cd4ml.problem import Problem
 from cd4ml.utils import create_lookup
 from cd4ml.feature_set import get_feature_set_class
 from cd4ml.get_problem import get_pipeline_params
-
-
-def get_params():
-    return {'problem_name': 'groceries',
-            'problem_params': problem_params,
-            'model_params': model_parameters}
 
 
 class GroceriesProblem(Problem):
