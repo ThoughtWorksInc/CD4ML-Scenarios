@@ -68,8 +68,6 @@ def get_problem(problem_name,
         from cd4ml.problems.groceries.problem import GroceriesProblem as Problem
     elif problem_name == 'houses':
         from cd4ml.problems.houses.problem import HousesProblem as Problem
-    elif problem_name == 'houses_alt':
-        from cd4ml.problems.houses_alt.problem import HousesProblemAlt as Problem
     else:
         raise ValueError('Problem name: %s unknown' % problem_name)
 

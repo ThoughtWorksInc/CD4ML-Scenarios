@@ -1,5 +1,5 @@
-from cd4ml.problems.houses_alt.readers.stream_data import stream_data
-from cd4ml.problems.houses_alt.readers.zip_lookup import get_zip_lookup
+from cd4ml.problems.houses.readers.stream_data import stream_data
+from cd4ml.problems.houses.readers.zip_lookup import get_zip_lookup
 from cd4ml.splitter import splitter
 from cd4ml.problem import Problem
 from cd4ml.utils import average_by
@@ -7,18 +7,18 @@ from cd4ml.feature_set import get_feature_set_class
 from cd4ml.get_problem import get_pipeline_params
 
 
-class HousesProblemAlt(Problem):
+class HousesProblem(Problem):
     def __init__(self, feature_set_name='default',
                  problem_params_name='default',
                  ml_params_name='default',
                  algorithm_name='default'):
 
-        super(HousesProblemAlt, self).__init__(feature_set_name=feature_set_name,
-                                               problem_params_name=problem_params_name,
-                                               ml_params_name=ml_params_name,
-                                               algorithm_name=algorithm_name)
+        super(HousesProblem, self).__init__(feature_set_name=feature_set_name,
+                                            problem_params_name=problem_params_name,
+                                            ml_params_name=ml_params_name,
+                                            algorithm_name=algorithm_name)
 
-        self.problem_name = 'houses_alt'
+        self.problem_name = 'houses'
 
         self.pipeline_params = get_pipeline_params(self.problem_name,
                                                    problem_params_name,
@@ -31,7 +31,7 @@ class HousesProblemAlt(Problem):
 
         # feature set
         if self.feature_set_name == 'default':
-            self.feature_set_name = 'feature_set_alt_1'
+            self.feature_set_name = 'feature_set_1'
 
         feature_set_class = get_feature_set_class(self.feature_set_name, __file__)
         self.feature_set = feature_set_class({})
