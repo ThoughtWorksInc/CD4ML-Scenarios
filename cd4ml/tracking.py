@@ -50,4 +50,4 @@ class track:
     @staticmethod
     def log_artifact(filename):
         if USE_MLFLOW:
-            mlflow.log_artifact(filename, artifact_path=MLFLOW_TRACKING_URL)
+            mlflow.log_artifact(filename, artifact_path=MLFLOW_TRACKING_URL + 'mlruns/1')
