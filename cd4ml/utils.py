@@ -209,7 +209,6 @@ def import_relative_module(this_file_name,
                            relative_path_from_this_file,
                            module_file_name):
     this_path = os.path.dirname(this_file_name)
-    print('path', this_path)
     tag = 'CD4ML-Scenarios/cd4ml'
     index = this_path.index(tag)+len('CD4ML-Scenarios/')
     relative_path_root = this_path[index:]

@@ -14,14 +14,22 @@ class Problem:
     Implementation needs to add various data elements and methods
     """
 
-    def __init__(self, feature_set_name='default'):
+    def __init__(self, feature_set_name='default',
+                 problem_params_name='default',
+                 ml_params_name='default',
+                 algorithm_name='default'):
+
         self.validation_metric_names = ['r2_score', 'rms_score', 'mad_score', 'num_validated']
 
         # attributes to be filled in by derived class
         self.pipeline_params = None
         self.problem_name = None
         self.feature_set = None
+
         self.feature_set_name = feature_set_name
+        self.problem_params_name = problem_params_name
+        self.ml_params_name = ml_params_name
+        self.algorithm_name = algorithm_name
 
         # methods to be implemented
 

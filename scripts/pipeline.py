@@ -17,5 +17,25 @@ def main(*args):
     else:
         feature_set_name = 'default'
 
+    if len(args) > 2:
+        problem_params_name = args[2]
+    else:
+        problem_params_name = 'default'
+
+    if len(args) > 3:
+        ml_params_name = args[3]
+    else:
+        ml_params_name = 'default'
+
+    if len(args) > 4:
+        algorithm_name = args[4]
+    else:
+        algorithm_name = 'default'
+
     ph.download_data(problem_name)
-    ph.train_and_validate_model(problem_name, feature_set_name)
+
+    ph.train_and_validate_model(problem_name,
+                                feature_set_name=feature_set_name,
+                                problem_params_name=problem_params_name,
+                                ml_params_name=ml_params_name,
+                                algorithm_name=algorithm_name)

@@ -9,8 +9,18 @@ def download_data(problem_name):
     print('Done downloading data')
 
 
-def train_and_validate_model(problem_name, feature_set_name):
+def train_and_validate_model(problem_name,
+                             feature_set_name='default',
+                             problem_params_name='default',
+                             ml_params_name='default',
+                             algorithm_name='default'):
+
     print('Training and validating model')
-    problem = get_problem(problem_name, feature_set_name=feature_set_name)
+    problem = get_problem(problem_name,
+                          feature_set_name=feature_set_name,
+                          problem_params_name=problem_params_name,
+                          ml_params_name=ml_params_name,
+                          algorithm_name=algorithm_name)
+
     problem.run_all()
     print('Done training and validating model')
