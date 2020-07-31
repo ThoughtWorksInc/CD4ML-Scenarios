@@ -21,11 +21,11 @@ def get_trained_model(pipeline_params,
     print('n_rows: %s, n_cols: %s' % (n_rows, n_cols))
 
     model_name = pipeline_params['problem_params']['model_name']
-    params = pipeline_params['model_params'][model_name]
+    params = pipeline_params['model_params']
 
     if track is not None:
-        track.log_ml_params(params)
         track.log_pipeline_params(pipeline_params)
+        track.log_ml_params(params)
 
     seed = pipeline_params['problem_params']['random_seed']
 

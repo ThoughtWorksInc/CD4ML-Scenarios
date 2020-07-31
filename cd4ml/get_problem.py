@@ -18,7 +18,7 @@ def get_pipeline_params(problem_name,
         ml_params_name = 'ml_model_params'
 
     problem_params = get_problem_params(problem_params_name, this_file)
-    ml_params = get_ml_params(ml_params_name, this_file)
+    ml_params_all = get_ml_params(ml_params_name, this_file)
 
     if algorithm_name != 'default':
         problem_params['model_name'] = algorithm_name
@@ -26,7 +26,7 @@ def get_pipeline_params(problem_name,
     return {'problem_string': problem_string,
             'problem_name': problem_name,
             'problem_params': problem_params,
-            'model_params': ml_params}
+            'model_params': ml_params_all[problem_params['model_name']]}
 
 
 def get_pipeline_config_deprecated_():
