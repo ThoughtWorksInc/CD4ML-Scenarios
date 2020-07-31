@@ -1,9 +1,12 @@
-from cd4ml.problems.groceries.readers.stream_data import stream_data
-from cd4ml.problems.groceries.splitting import get_training_validation_filters
 from cd4ml.problem import Problem
 from cd4ml.utils import create_lookup
 from cd4ml.feature_set import get_feature_set_class
 from cd4ml.get_problem import get_pipeline_params
+from cd4ml.utils import import_relative_module
+from .splitting import get_training_validation_filters
+
+ff = import_relative_module(__file__, 'features', 'feature_functions')
+stream_data = import_relative_module(__file__, 'readers', 'stream_data').stream_data
 
 
 class GroceriesProblem(Problem):

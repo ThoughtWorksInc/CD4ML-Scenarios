@@ -1,6 +1,8 @@
-from cd4ml.problems.groceries.features import feature_functions as ff
-
+from cd4ml.utils import import_relative_module
 from cd4ml.feature_set import FeatureSetBase
+
+ff = import_relative_module(__file__, '.', 'feature_functions')
+
 
 feature_set_1_params = {'feature_set_name': 'feature_set_1',
                         'target_field': 'unit_sales',

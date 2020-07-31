@@ -1,10 +1,12 @@
-from cd4ml.problems.houses.readers.stream_data import stream_data
-from cd4ml.problems.houses.readers.zip_lookup import get_zip_lookup
 from cd4ml.splitter import splitter
 from cd4ml.problem import Problem
 from cd4ml.utils import average_by
 from cd4ml.feature_set import get_feature_set_class
 from cd4ml.get_problem import get_pipeline_params
+from cd4ml.utils import import_relative_module
+
+stream_data = import_relative_module(__file__, 'readers', 'stream_data').stream_data
+get_zip_lookup = import_relative_module(__file__, 'readers', 'zip_lookup').get_zip_lookup
 
 
 class HousesProblem(Problem):

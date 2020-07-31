@@ -212,6 +212,11 @@ def import_relative_module(this_file_name,
     tag = 'cd4ml'
     index = this_path.index(tag)
     relative_path_root = this_path[index:]
-    module_string = relative_path_root.replace('/', '.') + '.' + relative_path_from_this_file + '.' + module_file_name
+    if relative_path_from_this_file == '.':
+        module_string = relative_path_root.replace('/', '.') + '.' + module_file_name
+    else:
+        module_string = relative_path_root.replace('/', '.') + \
+                        '.' + relative_path_from_this_file + '.' + module_file_name
+
     module = import_module(module_string)
     return module

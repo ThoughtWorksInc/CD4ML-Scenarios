@@ -1,5 +1,7 @@
-from cd4ml.problems.houses.features import feature_functions as ff
 from cd4ml.feature_set import FeatureSetBase
+from cd4ml.utils import import_relative_module
+
+ff = import_relative_module(__file__, 'features', 'feature_functions')
 
 feature_set_params = {'feature_set_name': 'feature_set_2',
                       'target_field': 'price',
