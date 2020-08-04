@@ -18,22 +18,22 @@ def get_feature_set_class(problem_name, feature_set_name, this_file):
 class Specification:
     def __init__(self,
                  problem_name,
-                 feature_set_name,
                  ml_pipeline_params_name,
+                 feature_set_name,
                  algorithm_name,
                  algorithm_params_name,
                  algorithm_name_actual):
 
         self.spec = {'problem_name': problem_name,
-                     'feature_set_name': feature_set_name,
                      'ml_pipeline_params_name': ml_pipeline_params_name,
+                     'feature_set_name': feature_set_name,
                      'algorithm_name': algorithm_name,
                      'algorithm_name_actual': algorithm_name_actual,
                      'algorithm_params_name': algorithm_params_name,
                      'git_hash': get_git_hash()}
 
-    def problem_specification_name(self, with_git_hash=True):
-        sep = "#"
+    def problem_specification_name(self, with_git_hash=False):
+        sep = "$"
 
         parts = ['{problem_name}',
                  '{ml_pipeline_params_name}',

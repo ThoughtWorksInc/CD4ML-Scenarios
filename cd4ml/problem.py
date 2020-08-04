@@ -31,8 +31,8 @@ class ProblemBase:
             algorithm_name_actual = algorithm_name
 
         self.specification = Specification(problem_name,
-                                           feature_set_name,
                                            ml_pipeline_params_name,
+                                           feature_set_name,
                                            algorithm_name,
                                            algorithm_params_name,
                                            algorithm_name_actual)

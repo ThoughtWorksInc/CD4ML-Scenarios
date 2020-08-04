@@ -30,15 +30,17 @@ def get_target_id_features_lists(identifier_field, target_field, feature_set, pr
     return targets, identifiers, features
 
 
-def load_model(problem_name):
-    file_names = get_filenames(problem_name)
+def load_model(spec_name):
+    problem_name = spec_name.split('#')[0]
+    file_names = get_filenames(problem_name, problem_specification_name=spec_name)
     loaded_model = joblib.load(file_names['full_model'])
     loaded_model.load_encoder_from_package()
     return loaded_model
 
 
-def load_deployed_model(problem_name):
-    file_names = get_filenames(problem_name)
+def load_deployed_model(spec_name):
+    problem_name = spec_name.split('#')[0]
+    file_names = get_filenames(problem_name, problem_specification_name=spec_name)
     loaded_model = joblib.load(file_names['full_model_deployed'])
     loaded_model.load_encoder_from_package()
     return loaded_model
