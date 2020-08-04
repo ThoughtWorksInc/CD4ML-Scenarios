@@ -25,7 +25,8 @@ class ProblemBase:
                  algorithm_params_name='default'):
 
         self.ml_pipeline_params = get_ml_pipeline_params(problem_name, ml_pipeline_params_name, __file__)
-        if algorithm_params_name == 'default':
+
+        if algorithm_name == 'default':
             algorithm_name_actual = self.ml_pipeline_params['default_algorithm']
         else:
             algorithm_name_actual = algorithm_name
