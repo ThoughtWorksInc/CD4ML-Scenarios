@@ -62,8 +62,27 @@ def dynamic_index_houses(spec_name):
     return dynamic_index_for_problem(spec_name)
 
 
+def spec_to_dict(spec, num):
+    fields = ['problem_name', 'ml_pipeline_params_name', 'feature_set_name',
+              'algorithm_name', 'algorithm_params_name']
+
+    values = spec.split('$')
+    data = {f: v for f, v in zip(fields, values)}
+    data['num'] = num
+    data['spec'] = spec
+    data['url'] = '/'+spec
+    return data
+
+
 @app.route('/', methods=['get', 'post'])
 def not_a_route():
-    available_models = list_available_models()
-    message = available_models.__repr__()
-    return message
+    available_models = sorted(list_available_models())
+    model_data = [spec_to_dict(spec, num) for num, spec in enumerate(available_models)]
+
+    file_names = get_filenames('')
+    template_file = file_names['index_models']
+    template_text = open(template_file, 'r').read()
+    template = Template(template_text)
+
+    print(model_data)
+    return template.render(rows=model_data)

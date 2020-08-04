@@ -32,7 +32,8 @@ _file_names = {
     'raw_house_data': '%s/house_sales.csv' % _raw_data_dir,
     'house_data_zip_lookup': '%s/zip_lookup.csv' % _raw_data_dir,
     'pipeline_config': "%s/%s" % (config_dir, 'pipeline_config.yaml'),
-    'dynamic_index': "%s/%s" % (template_dir, 'index_dynamic.html')
+    'dynamic_index': "%s/%s" % (template_dir, 'index_dynamic.html'),
+    'index_models': "%s/%s" % (template_dir, 'index_models.html')
 }
 
 
