@@ -11,24 +11,21 @@ def train_model(encoded_train_data, target, model_name, params, seed=None):
     return trained_model
 
 
-def get_trained_model(pipeline_params,
+def get_trained_model(algorithm_name,
+                      algorithm_params,
                       encoded_train_data,
                       track,
-                      target_data):
+                      target_data,
+                      seed):
 
     n_rows = len(encoded_train_data)
     n_cols = len(encoded_train_data[0])
     print('n_rows: %s, n_cols: %s' % (n_rows, n_cols))
 
-    model_name = pipeline_params['problem_params']['model_name']
-    params = pipeline_params['model_params']
-
     if track is not None:
-        track.log_pipeline_params(pipeline_params)
-        track.log_ml_params(params)
+        track.log_ml_params(algorithm_params)
 
-    seed = pipeline_params['problem_params']['random_seed']
-
-    trained_model = train_model(encoded_train_data, target_data, model_name, params, seed=seed)
+    trained_model = train_model(encoded_train_data, target_data, algorithm_name,
+                                algorithm_params, seed=seed)
 
     return trained_model

@@ -1,9 +1,9 @@
 from cd4ml.date_utils import ymd_to_date_string, add_to_date_string
 
 
-def get_cutoff_dates(pipeline_params):
-    days_back = pipeline_params['problem_params']['days_back']
-    max_date = pipeline_params['problem_params']['max_date']
+def get_cutoff_dates(ml_pipeline_params):
+    days_back = ml_pipeline_params['days_back']
+    max_date = ml_pipeline_params['max_date']
     date_cutoff = add_to_date_string(max_date, days=-days_back)
     return date_cutoff, max_date
 
@@ -13,8 +13,8 @@ def get_date_from_row(row):
     return ymd_to_date_string(numbers)
 
 
-def get_training_validation_filters(pipeline_params):
-    cutoff_date, max_date = get_cutoff_dates(pipeline_params)
+def get_training_validation_filters(ml_pipeline_params):
+    cutoff_date, max_date = get_cutoff_dates(ml_pipeline_params)
 
     def train_filter(row):
         return get_date_from_row(row) < cutoff_date

@@ -1,22 +1,18 @@
 from cd4ml.utils import hash_to_uniform_random
 
 
-def validate_splitting(pipeline_params):
+def validate_splitting(ml_pipeline_params):
     """
     Validate the splitting data structure
     It's important to get this right to ensure you are never
     validating data that you trained with (a common error in ML).
     Either raises an assertion or passes
-    :param pipeline_params: pipeline_params data structure
+    :param ml_pipeline_params: pipeline_params data structure
     :return: None
     """
-    assert 'problem_params' in pipeline_params
-    prob_params = pipeline_params['problem_params']
-    assert 'identifier_field' in prob_params
-    assert 'splitting' in prob_params
-    assert 'random_seed' in prob_params
 
-    splitting = prob_params['splitting']
+    assert 'splitting' in ml_pipeline_params
+    splitting = ml_pipeline_params['splitting']
 
     # check ordered properly
     assert splitting['training_random_start'] <= splitting['training_random_end']
@@ -34,11 +30,16 @@ def validate_splitting(pipeline_params):
     assert one or the_other
 
 
-def splitter(pipeline_params):
-    validate_splitting(pipeline_params)
-    identifier = pipeline_params['problem_params']['identifier_field']
-    seed = pipeline_params['problem_params']['random_seed']
-    splitting = pipeline_params['problem_params']['splitting']
+def splitter(ml_pipeline_params):
+    identifier = ml_pipeline_params['identifier_field']
+    splitting = ml_pipeline_params.get('splitting')
+
+    if splitting is None:
+        return None, None
+    else:
+        validate_splitting(ml_pipeline_params)
+
+    seed = splitting['random_seed']
 
     train_start = splitting['training_random_start']
     train_end = splitting['training_random_end']

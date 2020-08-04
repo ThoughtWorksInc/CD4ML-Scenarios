@@ -1,7 +1,7 @@
 from csv import DictReader
-from cd4ml.problems.groceries.config.raw_schema import raw_schema
-from cd4ml.utils import float_or_zero
-from cd4ml.problems.groceries.download_data.download_data import get_grocery_url_and_files
+from cd4ml.utils import float_or_zero, import_relative_module
+from cd4ml.filenames import get_filenames
+raw_schema = import_relative_module(__file__, '.', 'raw_schema').raw_schema
 
 
 def filter_func(row):
@@ -17,36 +17,22 @@ def filter_func(row):
     return False
 
 
-def stream_raw_unfiltered(pipeline_params):
-    """
-
-    :param pipeline_params: pipeline_params data structure
-    :return: stream to all raw rows of grocery data
-    """
-    assert pipeline_params['problem_name'] == 'groceries'
-    _, __, filename_shuffled = get_grocery_url_and_files(pipeline_params)
+def stream_raw_unfiltered(problem_name):
+    file_names = get_filenames(problem_name)
+    filename_shuffled = file_names['grocery_data_shuffled']
     return (dict(row) for row in DictReader(open(filename_shuffled, 'r')))
 
 
-def stream_raw(pipeline_params):
-    """
-    :param pipeline_params: pipeline_params data structure
-    :return: stream to filtered rows of grocery data
-    """
-    stream = stream_raw_unfiltered(pipeline_params)
+def stream_raw(problem_name):
+    stream = stream_raw_unfiltered(problem_name)
     return (row for row in stream if filter_func(row))
 
 
-def stream_data(pipeline_params):
-    """
-    :param pipeline_params: pipeline_params data structure
-    :return: stream to processed rows of house sales data
-    """
+def stream_data(problem_name, max_rows_to_read=None):
     schema = raw_schema
-    max_rows = pipeline_params['problem_params']['max_rows_to_read']
-    for row_num, row in enumerate(stream_raw(pipeline_params)):
-        if max_rows and row_num == max_rows:
-            print('Stopped reading file after %s rows' % max_rows)
+    for row_num, row in enumerate(stream_raw(problem_name)):
+        if max_rows_to_read and row_num == max_rows_to_read:
+            print('Stopped reading file after %s rows' % max_rows_to_read)
             break
         yield process_row(row, schema)
 

@@ -7,6 +7,8 @@ from time import time
 import urllib
 from random import Random
 from importlib import import_module
+import subprocess
+import urllib.request
 
 
 def ensure_dir_exists(directory):
@@ -220,3 +222,22 @@ def import_relative_module(this_file_name,
 
     module = import_module(module_string)
     return module
+
+
+def get_git_hash():
+    """
+    Get the git hash of the current code if there are not uncommitted changes
+    otherwise return 'uncommitted'
+    :return: string, get hash or 'uncommitted'
+    """
+    # must be run from root like all other code
+    path = "."
+    a = subprocess.Popen(['%s/get_git_hash.sh' % path],
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT)
+
+    stdout, stderr = a.communicate()
+    assert stderr is None
+    stdout = stdout.decode().strip()
+    assert len(stdout) == 40 or stdout == "uncommitted"
+    return stdout

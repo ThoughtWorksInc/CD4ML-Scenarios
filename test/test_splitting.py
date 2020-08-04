@@ -2,87 +2,85 @@ import pytest
 from cd4ml.splitter import splitter, validate_splitting
 from copy import deepcopy
 
-problem_params_minimal = {
-    'random_seed': 1299472653,
+ml_pipeline_params_minimal = {
     'identifier_field': 'some_identifier',
     'splitting': {
+        'random_seed': 1299472653,
         'training_random_start': 0.0,
         'training_random_end': 0.2,
         'validation_random_start': 0.6,
         'validation_random_end': 1.0
     }}
 
-pipeline_params_minimal = {'problem_params': problem_params_minimal}
-
 
 def test_validate_splitting_raises_assertions():
-    validate_splitting(pipeline_params_minimal)
+    validate_splitting(ml_pipeline_params_minimal)
 
     with pytest.raises(AssertionError):
         validate_splitting({})
 
     with pytest.raises(AssertionError):
-        validate_splitting({'problem_params': {}})
+        validate_splitting({})
 
     with pytest.raises(AssertionError):
-        validate_splitting({'problem_params': {'identifier': 0}})
+        validate_splitting({'identifier': 0})
 
 
 def test_validate_splitting_check_ranges_0_1():
-    params = deepcopy(pipeline_params_minimal)
+    params = deepcopy(ml_pipeline_params_minimal)
     validate_splitting(params)
     with pytest.raises(AssertionError):
-        params = deepcopy(pipeline_params_minimal)
-        params['problem_params']['splitting']['training_random_start'] = -1.0
+        params = deepcopy(ml_pipeline_params_minimal)
+        params['splitting']['training_random_start'] = -1.0
         validate_splitting(params)
 
     with pytest.raises(AssertionError):
-        params = deepcopy(pipeline_params_minimal)
-        params['problem_params']['splitting']['training_random_start'] = 1.6
+        params = deepcopy(ml_pipeline_params_minimal)
+        params['splitting']['training_random_start'] = 1.6
         validate_splitting(params)
 
     with pytest.raises(AssertionError):
-        params = deepcopy(pipeline_params_minimal)
-        params['problem_params']['splitting']['training_random_start'] = 0.1
-        params['problem_params']['splitting']['training_random_end'] = 0.06
-        params['problem_params']['splitting']['validation_random_start'] = 0.5
-        params['problem_params']['splitting']['validation_random_end'] = 0.6
+        params = deepcopy(ml_pipeline_params_minimal)
+        params['splitting']['training_random_start'] = 0.1
+        params['splitting']['training_random_end'] = 0.06
+        params['splitting']['validation_random_start'] = 0.5
+        params['splitting']['validation_random_end'] = 0.6
 
         validate_splitting(params)
 
     with pytest.raises(AssertionError):
-        params = deepcopy(pipeline_params_minimal)
-        params['problem_params']['splitting']['training_random_start'] = 0.0
-        params['problem_params']['splitting']['training_random_end'] = 0.06
-        params['problem_params']['splitting']['validation_random_start'] = 0.5
-        params['problem_params']['splitting']['validation_random_end'] = 0.4
+        params = deepcopy(ml_pipeline_params_minimal)
+        params['splitting']['training_random_start'] = 0.0
+        params['splitting']['training_random_end'] = 0.06
+        params['splitting']['validation_random_start'] = 0.5
+        params['splitting']['validation_random_end'] = 0.4
 
         validate_splitting(params)
 
 
 def test_validate_splitting_check_ranges_overlap():
-    params = deepcopy(pipeline_params_minimal)
+    params = deepcopy(ml_pipeline_params_minimal)
     validate_splitting(params)
     with pytest.raises(AssertionError):
-        params = deepcopy(pipeline_params_minimal)
-        params['problem_params']['splitting']['training_random_start'] = 0.1
-        params['problem_params']['splitting']['training_random_end'] = 0.3
-        params['problem_params']['splitting']['validation_random_start'] = 0.2
-        params['problem_params']['splitting']['validation_random_end'] = 0.7
+        params = deepcopy(ml_pipeline_params_minimal)
+        params['splitting']['training_random_start'] = 0.1
+        params['splitting']['training_random_end'] = 0.3
+        params['splitting']['validation_random_start'] = 0.2
+        params['splitting']['validation_random_end'] = 0.7
 
         validate_splitting(params)
 
     with pytest.raises(AssertionError):
-        params = deepcopy(pipeline_params_minimal)
-        params['problem_params']['splitting']['validation_random_start'] = 0.1
-        params['problem_params']['splitting']['validation_random_end'] = 0.3
-        params['problem_params']['splitting']['training_random_start'] = 0.2
-        params['problem_params']['splitting']['training_random_end'] = 0.7
+        params = deepcopy(ml_pipeline_params_minimal)
+        params['splitting']['validation_random_start'] = 0.1
+        params['splitting']['validation_random_end'] = 0.3
+        params['splitting']['training_random_start'] = 0.2
+        params['splitting']['training_random_end'] = 0.7
         validate_splitting(params)
 
 
 def test_splitting_sanity_no_overlapping_sets():
-    training_filter, validation_filter = splitter(pipeline_params_minimal)
+    training_filter, validation_filter = splitter(ml_pipeline_params_minimal)
     num = 1000
     data = [{'some_identifier': str(i)} for i in range(num)]
     data = data + data

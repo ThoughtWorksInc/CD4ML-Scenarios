@@ -1,6 +1,3 @@
-from cd4ml.utils import import_relative_module
-
-
 def _exclude(fields, excluded):
     return [field for field in fields if field not in excluded]
 
@@ -13,30 +10,19 @@ def _combine_dicts(*args):
     return results
 
 
-def get_feature_set_class(feature_set_name, this_file):
-    """
-    Get the FeatureSet class corresponding to the feature_set_name
-    using relative paths
-    :param feature_set_name: feature set base filename
-    :param this_file: __file__ from local scope of calling function
-    :return: loaded module
-    """
-    module = import_relative_module(this_file, 'features', feature_set_name)
-    feature_class = module.FeatureSet
-    return feature_class
-
-
 class FeatureSetBase:
     """
     Generic interface for feature sets
     """
-    def __init__(self):
+    def __init__(self, identifier_field, target_field):
         # fields to be filled out in derived class
         self.params = None
-        self.identifier__field = None
+        self.info = None
+        self.identifier_field = identifier_field
+        self.target_field = target_field
 
     def fields_excluded_from_features(self):
-        id_target = [self.identifier__field, self.params['target_field']]
+        id_target = [self.identifier_field, self.target_field]
         return id_target + self.params['extra_information_fields']
 
     def _exclude_non_features(self, fields):
@@ -134,4 +120,4 @@ class FeatureSetBase:
 
         return {'categorical': cat_encoded,
                 'numerical': numeric_fields,
-                'target_name': self.params['target_field']}
+                'target_name': self.target_field}

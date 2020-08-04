@@ -6,8 +6,16 @@ from cd4ml.model_utils import get_target_id_features_lists
 
 
 class MLModel:
-    def __init__(self, pipeline_params, feature_set, encoder, tracker):
-        self.pipeline_params = pipeline_params
+    def __init__(self, algorithm_name,
+                 algorithm_params,
+                 feature_set,
+                 encoder,
+                 tracker,
+                 random_seed):
+
+        self.algorithm_name = algorithm_name
+        self.algorithm_params = algorithm_params
+        self.random_seed = random_seed
         self.trained_model = None
         self.encoder = encoder
         self.feature_set = feature_set
@@ -48,7 +56,8 @@ class MLModel:
 
     def _get_target_id_features_lists_training(self, training_processed_stream):
 
-        return get_target_id_features_lists(self.pipeline_params,
+        return get_target_id_features_lists(self.feature_set.identifier_field,
+                                            self.feature_set.target_field,
                                             self.feature_set,
                                             training_processed_stream)
 
@@ -58,10 +67,14 @@ class MLModel:
         target_data, identifiers, features = self._get_target_id_features_lists_training(training_processed_stream)
         encoded_training_data = [self.encoder.encode_row(feature_row) for feature_row in features]
         del features, identifiers
-        self.trained_model = get_trained_model(self.pipeline_params,
+
+        self.trained_model = get_trained_model(self.algorithm_name,
+                                               self.algorithm_params,
                                                encoded_training_data,
                                                self.tracker,
-                                               target_data)
+                                               target_data,
+                                               self.random_seed)
+
         del encoded_training_data
 
     def save(self, filename):

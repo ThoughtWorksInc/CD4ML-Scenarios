@@ -1,7 +1,7 @@
 from cd4ml.feature_set import FeatureSetBase
 from cd4ml.utils import import_relative_module
 
-ff = import_relative_module(__file__, '.', 'feature_functions')
+ff = import_relative_module(__file__, 'feature_functions', 'feature_functions')
 
 feature_set_params = {'feature_set_name': 'feature_set_1',
                       'target_field': 'price',
@@ -12,16 +12,14 @@ feature_set_params = {'feature_set_name': 'feature_set_1',
                                                 'kitchen_refurbished', 'square_feet', 'pool',
                                                 'parking', 'multi_family'],
                       'derived_categorical_n_levels_dict': {'state': 100},
-                      'derived_fields_numerical': ['avg_price_in_zip', 'num_in_zip',
-                                                   'avg_price_in_state', 'num_in_state',
-                                                   ],
+                      'derived_fields_numerical': [],
                       'encoder_excluded_fields': [],
                       'encoder_untransformed_fields': ['zipcode']}
 
 
 class FeatureSet(FeatureSetBase):
-    def __init__(self, zip_lookup):
-        super(FeatureSet, self).__init__()
+    def __init__(self, identifier_field, target_field, zip_lookup):
+        super(FeatureSet, self).__init__(identifier_field, target_field)
         self.params = feature_set_params.copy()
 
         # lookup table

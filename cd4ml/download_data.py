@@ -1,18 +1,16 @@
 from time import time
-from cd4ml.problems.groceries.download_data.download_data import download_grocery_data
-from cd4ml.problems.houses.download_data.download_data import download_house_data
+from cd4ml.utils import import_relative_module
 
 
-def run_download_data(pipeline_params, use_cache=True):
+def run_download_data(problem_name, use_cache=True):
     start = time()
 
-    problem = pipeline_params['problem_name']
-    if problem == 'groceries':
-        download_grocery_data(pipeline_params, use_cache=use_cache)
-    elif problem in ['houses', 'houses_alt']:
-        download_house_data(pipeline_params, use_cache=use_cache)
-    else:
-        raise ValueError('Do not know problem: %s' % problem)
+    module = import_relative_module(__file__,
+                                    'problems.%s.download_data' % problem_name,
+                                    'download_data')
+    download = module.download
+
+    download(problem_name, use_cache=use_cache)
 
     runtime = time() - start
     print('Download time: %0.1f seconds' % runtime)

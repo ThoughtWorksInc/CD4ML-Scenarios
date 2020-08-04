@@ -59,24 +59,15 @@ def get_ml_params(ml_params_file, this_file):
 
 
 def get_problem(problem_name,
+                ml_pipeline_params_name='default',
                 feature_set_name='default',
-                problem_params_name='default',
-                ml_params_name='default',
-                algorithm_name='default'):
+                algorithm_name='default',
+                algorithm_params_name='default'):
 
-    if False:
-        if problem_name == 'groceries':
-            from cd4ml.problems.groceries.problem import GroceriesProblem as Problem
-        elif problem_name == 'houses':
-            from cd4ml.problems.houses.problem import HousesProblem as Problem
-        else:
-            raise ValueError('Problem name: %s unknown' % problem_name)
-    else:
-        Problem = import_relative_module(__file__, 'problems.' + problem_name, 'problem').Problem
+    Problem = import_relative_module(__file__, 'problems.' + problem_name, 'problem').Problem
 
-    print(Problem)
-
-    return Problem(feature_set_name=feature_set_name,
-                   problem_params_name=problem_params_name,
-                   ml_params_name=ml_params_name,
-                   algorithm_name=algorithm_name)
+    return Problem(problem_name,
+                   ml_pipeline_params_name=ml_pipeline_params_name,
+                   feature_set_name=feature_set_name,
+                   algorithm_name=algorithm_name,
+                   algorithm_params_name=algorithm_params_name)

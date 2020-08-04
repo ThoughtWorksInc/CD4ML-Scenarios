@@ -1,26 +1,28 @@
 from csv import DictReader
 from cd4ml.filenames import get_filenames
-from cd4ml.problems.houses.config.raw_schema import raw_schema
 from cd4ml.utils import float_or_zero
+from cd4ml.utils import import_relative_module
+
+raw_schema = import_relative_module(__file__, '.', 'raw_schema').raw_schema
 
 
-def stream_raw(pipeline_params):
+def stream_raw(problem_name):
     """
-    :param pipeline_params: pipeline_params data structure
+    :param problem_name: name of problem
     :return: stream to raw rows of house sales data
     """
-    file_names = get_filenames(pipeline_params['problem_name'])
+    file_names = get_filenames(problem_name)
     filename = file_names['raw_house_data']
     return (dict(row) for row in DictReader(open(filename, 'r')))
 
 
-def stream_data(pipeline_params):
+def stream_data(problem_name):
     """
-    :param pipeline_params: pipeline_params data structure
+    :param problem_name: name of problem
     :return: stream to processed rows of house sales data
     """
     schema = raw_schema
-    return (process_row(row, schema) for row in stream_raw(pipeline_params))
+    return (process_row(row, schema) for row in stream_raw(problem_name))
 
 
 def process_row(row, schema):

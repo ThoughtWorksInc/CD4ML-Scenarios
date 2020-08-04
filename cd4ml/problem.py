@@ -6,6 +6,9 @@ from cd4ml.validation_metrics import get_validation_metrics
 from cd4ml.filenames import get_filenames
 from cd4ml.ml_model import MLModel
 from cd4ml.feature_importance import get_feature_importance
+from cd4ml.splitter import splitter
+from cd4ml.problem_utils import get_ml_pipeline_params, Specification
+from cd4ml.problem_utils import get_feature_set_class, get_algorithm_params
 
 
 class ProblemBase:
@@ -14,22 +17,25 @@ class ProblemBase:
     Implementation needs to add various data elements and methods
     """
 
-    def __init__(self, feature_set_name='default',
-                 problem_params_name='default',
-                 ml_params_name='default',
-                 algorithm_name='default'):
+    def __init__(self,
+                 problem_name,
+                 feature_set_name='default',
+                 ml_pipeline_params_name='default',
+                 algorithm_name='default',
+                 algorithm_params_name='default'):
 
-        self.validation_metric_names = ['r2_score', 'rms_score', 'mad_score', 'num_validated']
+        self.ml_pipeline_params = get_ml_pipeline_params(problem_name, ml_pipeline_params_name, __file__)
+        if algorithm_params_name == 'default':
+            algorithm_name_actual = self.ml_pipeline_params['default_algorithm']
+        else:
+            algorithm_name_actual = algorithm_name
 
-        # attributes to be filled in by derived class
-        self.pipeline_params = None
-        self.problem_name = None
-        self.feature_set = None
-
-        self.feature_set_name = feature_set_name
-        self.problem_params_name = problem_params_name
-        self.ml_params_name = ml_params_name
-        self.algorithm_name = algorithm_name
+        self.specification = Specification(problem_name,
+                                           feature_set_name,
+                                           ml_pipeline_params_name,
+                                           algorithm_name,
+                                           algorithm_params_name,
+                                           algorithm_name_actual)
 
         # methods to be implemented
 
@@ -60,13 +66,21 @@ class ProblemBase:
         self.feature_data = None
         self.importance = None
 
-    def _post_init(self):
-        # Call this after the derived class __init__ is called
-        # TODO: a little awkward, where does identifier_field really belong
-        self.feature_set.identifier_field = self.pipeline_params['problem_params']['identifier_field']
+        self.training_filter, self.validation_filter = splitter(self.ml_pipeline_params)
+
+        feature_set_class = get_feature_set_class(problem_name, feature_set_name, __file__)
+
+        self.feature_set = feature_set_class(self.ml_pipeline_params['identifier_field'],
+                                             self.ml_pipeline_params['target_field'],
+                                             {})
+
+        self.algorithm_params = get_algorithm_params(__file__,
+                                                     problem_name,
+                                                     algorithm_name_actual,
+                                                     algorithm_params_name)
 
     def stream_processed(self):
-        return self._stream_data(self.pipeline_params)
+        return self._stream_data(self.specification.spec['problem_name'])
 
     def stream_features(self):
         return (self.feature_set.features(processed_row) for processed_row in self.stream_processed())
@@ -84,7 +98,7 @@ class ProblemBase:
 
         self.encoder = get_trained_encoder(self.stream_features(),
                                            ml_fields,
-                                           self.pipeline_params['problem_name'],
+                                           self.specification.spec['problem_name'],
                                            write=write,
                                            read_from_file=read_from_file,
                                            base_features_omitted=omitted)
@@ -106,24 +120,29 @@ class ProblemBase:
         if self.encoder is None:
             self.get_encoder()
 
-        self.ml_model = MLModel(self.pipeline_params,
+        self.ml_model = MLModel(self.specification.spec['algorithm_name_actual'],
+                                self.algorithm_params,
                                 self.feature_set,
                                 self.encoder,
-                                self.tracker)
+                                self.tracker,
+                                self.ml_pipeline_params['training_random_seed'])
 
         self.ml_model.train(self.training_stream())
 
-        model_name = self.pipeline_params['problem_params']['model_name']
+        model_name = self.specification.spec['algorithm_name_actual']
         self.importance = get_feature_importance(self.ml_model.trained_model, model_name, self.encoder)
 
         runtime = time() - start
         print('Training time: %0.1f seconds' % runtime)
 
     def true_target_stream(self, stream):
-        target_name = self.feature_set.params['target_field']
+        target_name = self.feature_set.target_field
         return (row[target_name] for row in stream)
 
     def _write_validation_info(self):
+        file_names = get_filenames(self.specification.spec['problem_name'],
+                                   self.specification.problem_specification_name())
+
         true_validation_target = list(self.true_target_stream(self.validation_stream()))
         validation_predictions = list(self.ml_model.predict_processed_rows(self.validation_stream()))
 
@@ -131,7 +150,7 @@ class ProblemBase:
                               self.tracker,
                               true_validation_target,
                               validation_predictions,
-                              self.problem_name)
+                              file_names)
 
     def validate(self):
         print('Validating')
@@ -148,7 +167,9 @@ class ProblemBase:
         # but that isn't really a major performance hit overall
 
         print('Getting validation metrics')
-        self.validation_metrics = get_validation_metrics(self.validation_metric_names, get_validation_stream)
+
+        validation_metric_names = self.ml_pipeline_params['validation_metric_names']
+        self.validation_metrics = get_validation_metrics(validation_metric_names, get_validation_stream)
         print('Writing validation info')
         self._write_validation_info()
         runtime = time() - start
@@ -167,7 +188,9 @@ class ProblemBase:
         return '\n'.join(messages)
 
     def write_ml_model(self):
-        file_names = get_filenames(self.problem_name)
+        file_names = get_filenames(self.specification.spec['problem_name'],
+                                   self.specification.problem_specification_name())
+
         filename = file_names['full_model']
         print("Writing full model to: %s" % filename)
         self.ml_model.save(filename)
