@@ -1,4 +1,4 @@
-from cd4ml.utils import hash_to_uniform_random
+from cd4ml.utils.utils import hash_to_uniform_random
 
 
 def validate_splitting(ml_pipeline_params):

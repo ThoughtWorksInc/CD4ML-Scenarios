@@ -1,5 +1,15 @@
 version: "3.7"
 services:
+  welcome:
+    container_name: welcome_server
+    image: httpd:2.4-alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./public-html:/usr/local/apache2/htdocs/
+    networks:
+      - jenkins_nw
+
   jenkins:
     container_name: jenkins
     image: ericnaglertw/cd4ml-build-master:2

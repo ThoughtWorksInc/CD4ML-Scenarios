@@ -1,37 +1,39 @@
-from cd4ml.problem import ProblemBase
-from cd4ml.utils import average_by
-from cd4ml.utils import import_relative_module
-
-stream_data = import_relative_module(__file__, 'readers', 'stream_data').stream_data
-get_zip_lookup = import_relative_module(__file__, 'readers', 'zip_lookup').get_zip_lookup
-
-
-def get_ml_pipeline_params(ml_pipeline_params_name):
-    module = import_relative_module(__file__, 'ml_pipelines', ml_pipeline_params_name)
-    return module.ml_pipeline_params
+from cd4ml.problems.problem_base import ProblemBase
+import cd4ml.problems.houses.readers.stream_data as stream_data
+import cd4ml.problems.houses.readers.zip_lookup as zip_lookup
+from cd4ml.utils.utils import average_by
 
 
 class Problem(ProblemBase):
     def __init__(self,
                  problem_name,
+                 data_downloader='default',
                  feature_set_name='default',
                  ml_pipeline_params_name='default',
                  algorithm_name='default',
                  algorithm_params_name='default'):
 
         super(Problem, self).__init__(problem_name,
+                                      data_downloader=data_downloader,
                                       feature_set_name=feature_set_name,
                                       ml_pipeline_params_name=ml_pipeline_params_name,
                                       algorithm_name=algorithm_name,
                                       algorithm_params_name=algorithm_params_name)
+        self.zip_lookup = zip_lookup.get_zip_lookup
 
-        self._stream_data = stream_data
+        self._stream_data = stream_data.stream_data
+
+    def get_feature_set_class(self, feature_set_name):
+        if (feature_set_name == 'default'):
+            import cd4ml.problems.houses.feature_sets.default as default_features
+            return default_features.FeatureSet
+        else:
+            raise ValueError("Featureset name {} is not valid".format(feature_set_name))
 
     def prepare_feature_data(self):
         # do the work required to look up derived features
         if self.feature_set is not None:
-            prob_name = self.specification.spec['problem_name']
-            self.feature_set.info['zip_lookup'] = get_zip_lookup(prob_name)
+            self.feature_set.info['zip_lookup'] = zip_lookup.get_zip_lookup(self.problem_name)
 
         train_data = self.training_stream()
         avg_price_prior = 350000.0
@@ -44,8 +46,7 @@ class Problem(ProblemBase):
         train_data = self.training_stream()
 
         def zipcode_to_state(zipcode):
-            state = self.feature_set.info['zip_lookup'][zipcode]['state']
-            return state
+            return self.feature_set.info['zip_lookup'][zipcode]['state']
 
         averages_state = average_by(train_data, 'price', 'zipcode',
                                     prior_num=prior_num,
@@ -72,3 +73,7 @@ class Problem(ProblemBase):
                 v['num_in_zip'] = count
                 v['avg_price_in_state'] = average_state
                 v['num_in_state'] = count_state
+
+    def download_data(self):
+        import cd4ml.problems.houses.download_data.download_data as dd
+        dd.download()

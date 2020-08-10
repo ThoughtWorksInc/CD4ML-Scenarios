@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        choice(name: 'problem_name', choices: ['houses', 'groceries'], description: 'Choose the problem name')
+        choice(name: 'problem_name', choices: ['houses', 'groceries'], defaultValue: 'houses', description: 'Choose the problem name')
         string(name: 'ml_pipeline_params_name', defaultValue: 'default', description: 'Specify the ml_pipeline_params file')
         string(name: 'feature_set_name', defaultValue: 'default', description: 'Specify the feature_set name/file')
         string(name: 'algorithm_name', defaultValue: 'default', description: 'Specify the algorithm (overrides problem_params)')
@@ -42,7 +42,7 @@ pipeline {
 //         }
         stage('Deploy model') {
             steps {
-                 sh 'python3 run_python_script.py deploy_model http://model:5005 ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name}'
+                 sh 'python3 run_python_script.py deploy_model http://mlflow:5000 ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name} yes'
             }
         }
     }

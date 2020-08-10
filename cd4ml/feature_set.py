@@ -1,3 +1,6 @@
+import logging
+
+
 def _exclude(fields, excluded):
     return [field for field in fields if field not in excluded]
 
@@ -16,6 +19,7 @@ class FeatureSetBase:
     """
     def __init__(self, identifier_field, target_field):
         # fields to be filled out in derived class
+        self.logger = logging.getLogger(__name__)
         self.params = None
         self.info = None
         self.identifier_field = identifier_field
@@ -110,12 +114,12 @@ class FeatureSetBase:
         intersection = set(cat_encoded.keys()).intersection(numeric_fields)
 
         if intersection:
-            print('categorical')
-            print(cat_encoded)
-            print('numerical')
-            print(numeric_fields)
-            print('intersection')
-            print(intersection)
+            self.logger.info('categorical')
+            self.logger.info(cat_encoded)
+            self.logger.info('numerical')
+            self.logger.info(numeric_fields)
+            self.logger.info('intersection')
+            self.logger.info(intersection)
             raise ValueError('categorical and numeric overlap')
 
         return {'categorical': cat_encoded,

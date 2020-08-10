@@ -1,8 +1,13 @@
 from csv import DictReader
-from cd4ml.utils import float_or_zero, import_relative_module
-from cd4ml.filenames import get_filenames
-raw_schema = import_relative_module(__file__, '.', 'raw_schema').raw_schema
 
+from cd4ml.filenames import get_filenames
+import logging
+
+from cd4ml.utils.utils import float_or_zero
+
+logger = logging.getLogger(__name__)
+
+# TODO Read the appropriate schema files and assign "raw_schema"
 
 def filter_func(row):
     """
@@ -11,10 +16,7 @@ def filter_func(row):
     :return: True if it should be included, False if skipped
     """
     items_to_keep = {"99197", "105574", "1963838"}
-    if row['item_nbr'] in items_to_keep:
-        return True
-
-    return False
+    return row['item_nbr'] in items_to_keep
 
 
 def stream_raw_unfiltered(problem_name):
@@ -29,30 +31,25 @@ def stream_raw(problem_name):
 
 
 def stream_data(problem_name, max_rows_to_read=None):
-    schema = raw_schema
+    from cd4ml.problems import read_schema_file
+    from pathlib import Path
+    categorical_fields, numeric_fields = read_schema_file(Path(Path(__file__).parent, "raw_schema.json"))
+
     for row_num, row in enumerate(stream_raw(problem_name)):
         if max_rows_to_read and row_num == max_rows_to_read:
-            print('Stopped reading file after %s rows' % max_rows_to_read)
+            logger.info('Stopped reading file after {} rows'.format(max_rows_to_read))
             break
-        yield process_row(row, schema)
+        yield process_row(row, categorical_fields, numeric_fields)
 
 
-def process_row(row, schema):
+def process_row(row, categorical_fields, numeric_fields):
     """
     Process a raw row of house data and give it the right schema
     :param row: raw row
     :param schema: raw_schema_dict
     :return: processed row
     """
-
-    catergorical_fields = list(schema['categorical'])
-    numeric_fields = schema['numerical']
-
-    # Make sure there are no overlaps
-    overlap = set(catergorical_fields).intersection(numeric_fields)
-    assert len(overlap) == 0
-
-    row_out = {k: row[k] for k in catergorical_fields}
+    row_out = {k: row[k] for k in categorical_fields}
 
     for field in numeric_fields:
         row_out[field] = float_or_zero(row[field])

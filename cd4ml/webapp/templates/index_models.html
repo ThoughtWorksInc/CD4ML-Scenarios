@@ -11,38 +11,31 @@
     </head>
     <body>
         <div class="container">
+            <h3> Available Models for {{ printable_scenario_name }}</h3>
+            <table class="table">
+                <thead>
+                    <th>Build Number</th>
+                    <th>ML pipeline</th>
+                    <th>Feature set</th>
+                    <th>Algorithm name</th>
+                    <th>Algorithm params name</th>
+                    <th>Passed Acceptance Test</th>
+                </thead>
 
-            <div class="container">
-
-                <h3> Available Models </h3>
-
-                <table class="table">
-                    <thead>
-                        <th>Number</th>
-                        <th>Problem</th>
-                        <th>ML pipeline</th>
-                        <th>Feature set</th>
-                        <th>Algorithm name</th>
-                        <th>Algorithm params name</th>
-                    </thead>
-
-                    <tbody>
-
-                        {% for row in rows %}
-                            <tr>
-                                <td><a href={{ row['url'] }}> {{row['num']}} </a></td>
-                                <td>{{ row['problem_name'] }}</td>
-                                <td>{{ row['ml_pipeline_params_name'] }}</td>
-                                <td>{{ row['feature_set_name'] }}</td>
-                                <td>{{ row['algorithm_name'] }}</td>
-                                <td>{{ row['algorithm_params_name'] }}</td>
-                            </tr>
-                        {% endfor %}
-
-                    </tbody>
-                </table>
-            </div>
+                <tbody>
+                    {% for row in rows %}
+                        <tr>
+                            <td>{{ row['end_time'] }}</td>
+                            <td>{{ row['ml_pipeline_params_name'] }}</td>
+                            <td>{{ row['feature_set_name'] }}</td>
+                            <td>{{ row['algorithm_name'] }}</td>
+                            <td>{{ row['algorithm_params_name'] }}</td>
+                            <td>{{ row['passed_acceptance_test'] }}</td>
+                            <td><a href=/{{ scenario_name }}/{{ row['run_id'] }}> Open </a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    <p></p>
     </body>
 </html>

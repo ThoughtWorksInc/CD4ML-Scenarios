@@ -1,5 +1,5 @@
-from cd4ml.utils import download_to_file_from_url, shuffle_csv_file
 from cd4ml.filenames import get_filenames
+from cd4ml.utils.utils import download_to_file_from_url, shuffle_csv_file
 
 download_params = {'key': 'store47-2016.csv',
                    'gcs_bucket': 'continuous-intelligence',

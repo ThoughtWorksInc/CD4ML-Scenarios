@@ -44,3 +44,8 @@ def load_deployed_model(spec_name):
     loaded_model = joblib.load(file_names['full_model_deployed'])
     loaded_model.load_encoder_from_package()
     return loaded_model
+
+def load_deployed_model_from_local_file(file_name):
+    loaded_model = joblib.load(file_name)
+    loaded_model.load_encoder_from_package()
+    return loaded_model

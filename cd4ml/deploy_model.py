@@ -1,6 +1,25 @@
-import requests
+import json
+import os
+from pathlib import Path
+
+import mlflow
+from mlflow import log_param, log_metric, log_artifacts, set_tag
+
 from cd4ml.filenames import get_filenames
-from cd4ml.problem_utils import Specification
+
+
+def log_metrics_file(file_path):
+    with open(file_path, "r") as f:
+        json_content = json.load(f)
+        for key, val in json_content.items():
+            log_metric(key, val)
+
+
+def log_parameters_file(file_path):
+    with open(file_path, "r") as f:
+        json_content = json.load(f)
+        for key, val in json_content.items():
+            log_param(key, val)
 
 
 def deploy_model(problem_name,
@@ -8,31 +27,21 @@ def deploy_model(problem_name,
                  feature_set_name,
                  algorithm_name,
                  algorithm_params_name,
+                 did_pass_acceptance_test,
                  host_name=None):
+    mlflow.set_registry_uri(uri=host_name)
+    mlflow.set_experiment(problem_name)
+    run_name = os.environ["BUILD_NUMBER"]
 
-    spec = Specification(problem_name,
-                         feature_set_name,
-                         ml_pipeline_params_name,
-                         algorithm_name,
-                         algorithm_params_name,
-                         '')
+    results_folder = Path(get_filenames(problem_name, problem_name).get('results_dir'))
 
-    spec_name = spec.problem_specification_name()
-    print('spec_name', spec_name)
-    file_names = get_filenames(problem_name, problem_specification_name=spec_name)
-    model_file = file_names['full_model']
-
-    if host_name is None:
-        host_name = "http://localhost:5005"
-
-    # maybe choose a better separator?
-    url = "{host_name}/replace_model/{spec_name}".format(spec_name=spec_name,
-                                                         host_name=host_name)
-    with open(model_file, 'rb') as fp:
-        data_binary = fp.read()
-
-    print('data_binary size:', len(data_binary))
-
-    print('url: ', url)
-    res = requests.post(url=url, data=data_binary)
-    print(res.status_code)
+    with mlflow.start_run(run_name=run_name) as run:
+        log_param("ProblemName", problem_name)
+        log_param("MLPipelineParamsName", ml_pipeline_params_name)
+        log_param("FeatureSetName", feature_set_name)
+        log_param("AlgorithmName", algorithm_name)
+        log_param("AlgorithmParamsName", algorithm_params_name)
+        set_tag("DidPassAcceptanceTest", did_pass_acceptance_test)
+        log_metrics_file(Path(results_folder, "metrics.json"))
+        log_parameters_file(Path(results_folder, "parameters.json"))
+        log_artifacts(results_folder)

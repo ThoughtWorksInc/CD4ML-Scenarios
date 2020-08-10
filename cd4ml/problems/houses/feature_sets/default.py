@@ -1,7 +1,5 @@
 from cd4ml.feature_set import FeatureSetBase
-from cd4ml.utils import import_relative_module
-
-ff = import_relative_module(__file__, 'feature_functions', 'feature_functions')
+import cd4ml.problems.houses.feature_sets.feature_functions.feature_functions as ff
 
 feature_set_params = {'feature_set_name': 'default',
                       'extra_information_fields': [],

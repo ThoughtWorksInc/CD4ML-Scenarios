@@ -1,5 +1,4 @@
 from cd4ml.accept_model import check_model_performance
-from cd4ml.get_problem import get_problem
 
 
 def main(*args):

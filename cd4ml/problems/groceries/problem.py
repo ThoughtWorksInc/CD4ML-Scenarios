@@ -1,27 +1,31 @@
-from cd4ml.problem import ProblemBase
-from cd4ml.utils import create_lookup
-from cd4ml.utils import import_relative_module
+from cd4ml.problems.problem_base import ProblemBase
+import cd4ml.problems.groceries.splitting as splitting
+import cd4ml.problems.groceries.readers.stream_data as data_streamer
+import cd4ml.problems.groceries.download_data.download_data as dd
+import logging
 
-stream_data = import_relative_module(__file__, 'readers', 'stream_data').stream_data
-splitting = import_relative_module(__file__, '.', 'splitting')
-get_training_validation_filters = splitting.get_training_validation_filters
+from cd4ml.utils.utils import create_lookup
 
 
 class Problem(ProblemBase):
     def __init__(self,
                  problem_name,
+                 data_downloader='default',
                  feature_set_name='default',
                  ml_pipeline_params_name='default',
                  algorithm_name='default',
                  algorithm_params_name='default'):
 
         super(Problem, self).__init__(problem_name,
+                                      data_downloader,
                                       feature_set_name=feature_set_name,
                                       ml_pipeline_params_name=ml_pipeline_params_name,
                                       algorithm_name=algorithm_name,
                                       algorithm_params_name=algorithm_params_name)
 
-        self._stream_data = stream_data
+        self.logger = logging.getLogger(__name__)
+        get_training_validation_filters = splitting.get_training_validation_filters
+        self._stream_data = data_streamer.stream_data
 
         self.date_lookup = None
         self.item_nbr_lookup = None
@@ -29,7 +33,7 @@ class Problem(ProblemBase):
         self.training_filter, self.validation_filter = get_training_validation_filters(self.ml_pipeline_params)
 
     def prepare_feature_data(self):
-        print('Preparing feature data')
+        self.logger.info('Preparing feature data')
         train_data = self.training_stream()
         date_lookup = create_lookup(train_data,
                                     ['dayofweek', 'days_til_end_of_data', 'dayoff', 'transactions'],
@@ -41,3 +45,15 @@ class Problem(ProblemBase):
         if self.feature_set is not None:
             self.feature_set.info['date_lookup'] = date_lookup
             self.feature_set.info['item_nbr_lookup'] = item_nbr_lookup
+
+    def get_feature_set_class(self, feature_set_name):
+        if feature_set_name == "default":
+            import cd4ml.problems.groceries.feature_sets.FeatureSet as fs
+            return fs.FeatureSet
+        else :
+            raise ValueError("feature_set_name '{}' is invalid. Please check your groceries configuraiton".format(feature_set_name))
+        pass
+
+    def download_data(self):
+        dd.download(self.problem_name)
+        pass

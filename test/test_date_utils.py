@@ -1,4 +1,4 @@
-import cd4ml.date_utils as du
+import cd4ml.utils.date_utils as du
 import datetime
 
 

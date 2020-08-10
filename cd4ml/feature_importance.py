@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger(__name__)
+
 def get_feature_importance_emsemble(trained_model, encoder, print_features=True):
     importances = list(trained_model.feature_importances_)
     n = len(importances)
@@ -6,10 +9,10 @@ def get_feature_importance_emsemble(trained_model, encoder, print_features=True)
 
     if print_features:
         importance_pairs = sorted(feature_importance.items(), key=lambda x: -x[1])
-        print('Feature Importance')
-        print("-" * 40)
+        logger.info('Feature Importance')
+        logger.info("-" * 40)
         for pair in importance_pairs:
-            print(pair)
+            logger.info(pair)
 
     return feature_importance
 
@@ -23,12 +26,12 @@ def get_feature_importance_linear_model(trained_model, encoder, print_features=T
     feature_importance = {k: v for k, v in zip(names, importances)}
 
     if print_features:
-        print('intercept', intercept)
+        logger.info('intercept', intercept)
         importance_pairs = sorted(feature_importance.items(), key=lambda x: -x[1])
-        print('Feature Importance')
-        print("-" * 40)
+        logger.info('Feature Importance')
+        logger.info("-" * 40)
         for pair in importance_pairs:
-            print(pair)
+            logger.info(pair)
 
     return feature_importance
 

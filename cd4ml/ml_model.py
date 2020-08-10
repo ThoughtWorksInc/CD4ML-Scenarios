@@ -1,8 +1,10 @@
 import joblib
 from wickedhot import OneHotEncoder
-from cd4ml.utils import mini_batch_eval
 from cd4ml.train import get_trained_model
 from cd4ml.model_utils import get_target_id_features_lists
+import logging
+
+from cd4ml.utils.utils import mini_batch_eval
 
 
 class MLModel:
@@ -10,9 +12,9 @@ class MLModel:
                  algorithm_params,
                  feature_set,
                  encoder,
-                 tracker,
                  random_seed):
 
+        self.logger = logging.getLogger(__name__)
         self.algorithm_name = algorithm_name
         self.algorithm_params = algorithm_params
         self.random_seed = random_seed
@@ -20,10 +22,9 @@ class MLModel:
         self.encoder = encoder
         self.feature_set = feature_set
         self.packaged_encoder = None
-        self.tracker = tracker
 
     def load_encoder_from_package(self):
-        print('loading encoder from packaging')
+        self.logger.info('loading encoder from packaging')
         self.encoder = OneHotEncoder([], [])
         self.encoder.load_from_packaged_data(self.packaged_encoder)
 
@@ -36,7 +37,7 @@ class MLModel:
         return [float(pred) for pred in preds]
 
     def predict_single_processed_row(self, processed_row):
-        print('processed_row', processed_row)
+        self.logger.debug('processed_row', processed_row)
         return list(self.predict_processed_rows([processed_row]))[0]
 
     def predict_processed_rows(self, processed_row_stream):
@@ -71,14 +72,13 @@ class MLModel:
         self.trained_model = get_trained_model(self.algorithm_name,
                                                self.algorithm_params,
                                                encoded_training_data,
-                                               self.tracker,
                                                target_data,
                                                self.random_seed)
 
         del encoded_training_data
 
     def save(self, filename):
-        # The encoder apparently is not pickelable.
+        # The encoder apparently is not pickleable.
         # No problem. The encoder has built in serialization
         # so make use if it.
         self.packaged_encoder = self.encoder.package_data()

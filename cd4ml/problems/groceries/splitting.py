@@ -1,4 +1,4 @@
-from cd4ml.date_utils import ymd_to_date_string, add_to_date_string
+from cd4ml.utils.date_utils import add_to_date_string, ymd_to_date_string
 
 
 def get_cutoff_dates(ml_pipeline_params):
