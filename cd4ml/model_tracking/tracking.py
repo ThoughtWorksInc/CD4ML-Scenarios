@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 
 from cd4ml.filenames import get_filenames
 
@@ -8,6 +9,7 @@ class Track:
     def __init__(self, base_metrics_recording_folder, problem_name):
         self.base_metrics_recording_folder = base_metrics_recording_folder
         self.problem_name = problem_name
+        self.logger = logging.getLogger(__name__)
         self.model = None
         self.params = dict()
         self.metrics = dict()
@@ -16,6 +18,8 @@ class Track:
     def save_results(self):
         folder_name = os.environ.get("GIT_COMMIT", "uncommitted-work")
         filenames = get_filenames(self.problem_name, folder_name)
+        self.logger.info("Recording run information to {}".format(filenames['results_dir']))
+
         if self.model is not None:
             self.model.save(filenames.get('full_model'))
 

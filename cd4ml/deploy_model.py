@@ -32,8 +32,8 @@ def deploy_model(problem_name,
     mlflow.set_registry_uri(uri=host_name)
     mlflow.set_experiment(problem_name)
     run_name = os.environ["BUILD_NUMBER"]
-
-    results_folder = Path(get_filenames(problem_name, problem_name).get('results_dir'))
+    folder_name = os.environ.get("GIT_COMMIT", "uncommitted-work")
+    results_folder = Path(get_filenames(problem_name, folder_name).get('results_dir'))
 
     with mlflow.start_run(run_name=run_name):
         log_param("ProblemName", problem_name)
