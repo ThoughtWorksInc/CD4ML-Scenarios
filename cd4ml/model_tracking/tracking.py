@@ -3,6 +3,7 @@ import os
 
 from cd4ml.filenames import get_filenames
 
+
 class Track:
     def __init__(self, base_metrics_recording_folder, problem_name):
         self.base_metrics_recording_folder = base_metrics_recording_folder
@@ -19,7 +20,7 @@ class Track:
             self.model.save(filenames.get('full_model'))
 
         if self.plot is not None:
-            import bokeh.io.saving as bokeh_saver
+            import bokeh.plotting as bokeh_saver
             bokeh_saver.save(obj=self.plot,
                              filename=filenames.get('validation_plot'),
                              title='Validation Plot')

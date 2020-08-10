@@ -35,7 +35,7 @@ def deploy_model(problem_name,
 
     results_folder = Path(get_filenames(problem_name, problem_name).get('results_dir'))
 
-    with mlflow.start_run(run_name=run_name) as run:
+    with mlflow.start_run(run_name=run_name):
         log_param("ProblemName", problem_name)
         log_param("MLPipelineParamsName", ml_pipeline_params_name)
         log_param("FeatureSetName", feature_set_name)

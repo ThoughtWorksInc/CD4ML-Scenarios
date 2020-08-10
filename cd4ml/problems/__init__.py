@@ -7,6 +7,7 @@ _PROBLEMS = {
     'houses': houses_scenario.Problem
 }
 
+
 def read_schema_file(schema_file):
     schema = read_json_file_as_dict(schema_file)
     # Verify the file before processing
@@ -16,8 +17,8 @@ def read_schema_file(schema_file):
     # Make sure the same field is not in both categorical and numerical sections
     overlap = set(categorical_fields).intersection(numeric_fields)
     if len(overlap) != 0:
-        error = "The field(s) {} is contained in both the categorical and numeric fields. Please check the file and re-run " \
-        "the application.".format(overlap)
+        error = "The field(s) {} is contained in both the categorical and numeric fields. " \
+                "Please check the file and re-run the application.".format(overlap)
         raise ValueError(error)
 
     return categorical_fields, numeric_fields
@@ -27,8 +28,10 @@ def read_json_file_as_dict(file_path):
     with open(file_path, "r") as file:
         return json.load(file)
 
+
 def list_available_scenarios():
     return list(_PROBLEMS.keys())
+
 
 def get_problem(problem_name,
                 data_downloader='default',

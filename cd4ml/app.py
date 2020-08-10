@@ -4,7 +4,6 @@ Web app
 
 from flask import Flask, request, render_template
 from cd4ml.webapp.webapp_data_scorer import get_form_from_model
-from cd4ml.filenames import get_filenames
 
 import logging
 

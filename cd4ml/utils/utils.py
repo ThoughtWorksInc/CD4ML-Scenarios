@@ -10,6 +10,7 @@ import urllib.request
 import logging
 logger = logging.getLogger(__name__)
 
+
 def ensure_dir_exists(directory):
     """
     If a directory doesn't exists, create it
@@ -204,4 +205,3 @@ def shuffle_csv_file(filename, filename_shuffled, seed=3623365):
     rand.shuffle(lines)
     fp.writelines(lines)
     fp.close()
-

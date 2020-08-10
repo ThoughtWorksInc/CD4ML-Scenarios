@@ -7,8 +7,8 @@ from cd4ml.utils.utils import float_or_zero
 
 logger = logging.getLogger(__name__)
 
-# TODO Read the appropriate schema files and assign "raw_schema"
 
+# TODO Read the appropriate schema files and assign "raw_schema"
 def filter_func(row):
     """
     Filter function for data

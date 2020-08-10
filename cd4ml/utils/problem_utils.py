@@ -32,5 +32,3 @@ class Specification:
             string = string + '#' + self.spec['git_hash']
 
         return string
-
-

@@ -1,5 +1,4 @@
-from bokeh.plotting import figure, save
-import logging
+from bokeh.plotting import figure
 
 
 def get_validation_plot(true_value, prediction):

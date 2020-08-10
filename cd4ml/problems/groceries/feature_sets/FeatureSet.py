@@ -4,6 +4,7 @@ from cd4ml.problems import read_json_file_as_dict as read_json_file
 from pathlib import Path
 import cd4ml.problems.groceries.feature_sets.feature_functions as ff
 
+
 class FeatureSet(FeatureSetBase):
     def __init__(self, identifier_field, target_field, info):
         super(FeatureSet, self).__init__(identifier_field, target_field)

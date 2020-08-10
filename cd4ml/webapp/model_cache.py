@@ -27,7 +27,6 @@ class ModelCache:
         }
         mlflow.set_tracking_uri(os.environ["MLFLOW_TRACKING_URL"])
 
-
     def get_loaded_model_for_scenario_and_run_id(self, scenario, run_id):
         base_scenario_folder_path = get_filenames(scenario, run_id)['model_cache_dir']
         model_path = Path(base_scenario_folder_path, "full_model.pkl")
@@ -36,7 +35,6 @@ class ModelCache:
             self.download_and_save_from_ml_flow(model_path, run_id)
 
         return load_deployed_model_from_local_file(model_path)
-
 
     def list_available_models_from_ml_flow(self):
         returning_dictionary = dict()
@@ -50,7 +48,6 @@ class ModelCache:
             returning_dictionary[scenario] = dataframe_with_columns_renamed.to_dict(orient="rows")
 
         return returning_dictionary
-
 
     def download_and_save_from_ml_flow(self, path, run_id):
         path.parent.mkdir(parents=True, exist_ok=True)

@@ -198,7 +198,7 @@ class ProblemBase:
         raise ValueError("This function should be implemented in a parent class")
 
     def get_feature_set_class(self, feature_set_name):
-        raise NotImplemented("This function should be implemented in a parent class")
+        raise NotImplementedError("This function should be implemented in a parent class")
 
     def get_ml_pipeline_params(self, ml_pipeline_params_name):
         path = 'ml_pipelines/{}.json'.format(ml_pipeline_params_name)

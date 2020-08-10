@@ -50,10 +50,10 @@ class Problem(ProblemBase):
         if feature_set_name == "default":
             import cd4ml.problems.groceries.feature_sets.FeatureSet as fs
             return fs.FeatureSet
-        else :
-            raise ValueError("feature_set_name '{}' is invalid. Please check your groceries configuraiton".format(feature_set_name))
+        else:
+            raise ValueError("feature_set_name '{}' is invalid. Please check your groceries configuration"
+                             .format(feature_set_name))
         pass
 
     def download_data(self):
         dd.download(self.problem_name)
-        pass

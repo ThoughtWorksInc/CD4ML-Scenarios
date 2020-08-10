@@ -1,6 +1,7 @@
 import logging
 logger = logging.getLogger(__name__)
 
+
 def get_feature_importance_emsemble(trained_model, encoder, print_features=True):
     importances = list(trained_model.feature_importances_)
     n = len(importances)

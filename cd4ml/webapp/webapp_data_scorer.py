@@ -1,5 +1,7 @@
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 def form_values_to_input_data(form_data, numeric_cols):
     # apply the right schema
@@ -24,8 +26,8 @@ def get_form_from_model(spec_name, model, initial_values=None):
 
     post_url = '/%s' % spec_name
     header_text, form_div = model.encoder.get_form_html_elements(initial_values=input_data,
-                                                                        post_url=post_url,
-                                                                        omitted_fields=omitted_fields)
+                                                                 post_url=post_url,
+                                                                 omitted_fields=omitted_fields)
 
     if input_data is not None:
         prediction = model.predict_single_processed_row(input_data)
@@ -34,5 +36,3 @@ def get_form_from_model(spec_name, model, initial_values=None):
 
     logger.info('prediction {}'.format(prediction))
     return header_text, form_div, prediction
-
-
