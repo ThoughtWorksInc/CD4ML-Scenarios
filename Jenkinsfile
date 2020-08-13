@@ -18,8 +18,8 @@ pipeline {
     environment { 
         MLFLOW_TRACKING_URL = 'http://mlflow:5000'
         MLFLOW_S3_ENDPOINT_URL = 'http://minio:9000'
-        AWS_ACCESS_KEY_ID = credentials("ACCESS_KEY")
-        AWS_SECRET_ACCESS_KEY = credentials("SECRET_KEY")
+        AWS_ACCESS_KEY_ID = env.ACCESS_KEY
+        AWS_SECRET_ACCESS_KEY = env.SECRET_KEY
     }
     stages {
         stage('Install dependencies') {
