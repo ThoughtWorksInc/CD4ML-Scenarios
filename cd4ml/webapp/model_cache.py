@@ -10,6 +10,7 @@ from cd4ml.filenames import get_filenames
 from cd4ml.model_utils import load_deployed_model_from_local_file
 from cd4ml.problems import list_available_scenarios
 
+
 class ModelCache:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
@@ -49,7 +50,6 @@ class ModelCache:
             returning_dictionary[scenario] = dataframe_with_columns_renamed.to_dict(orient="rows")
 
         return returning_dictionary
-
 
     def download_and_save_from_ml_flow(self, path, run_id):
         path.parent.mkdir(parents=True, exist_ok=True)
