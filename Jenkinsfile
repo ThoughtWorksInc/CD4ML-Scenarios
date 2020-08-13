@@ -25,6 +25,7 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 echo 'Starting Build'
+                sh 'printenv'
                 sh 'pip3 install -r requirements.txt'
             }
         }
@@ -45,7 +46,7 @@ pipeline {
 //         }
         stage('Deploy model') {
             steps {
-                 sh 'python3 run_python_script.py deploy_model http://mlflow:5000 ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name} yes'
+                 sh 'python3 run_python_script.py deploy_model ${MLFLOW_TRACKING_URL} ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name} yes'
             }
         }
     }
