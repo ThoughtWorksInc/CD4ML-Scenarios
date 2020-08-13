@@ -24,8 +24,6 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                echo 'Starting Build'
-                sh 'printenv'
                 sh 'pip3 install -r requirements.txt'
             }
         }

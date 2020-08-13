@@ -131,7 +131,7 @@ services:
     environment:
       MLFLOW_S3_ENDPOINT_URL: http://minio:9000
       AWS_ACCESS_KEY_ID: ${ACCESS_KEY}
-      AWS_SECRET_ACCESS_ID: ${SECRET_KEY}
+      AWS_SECRET_ACCESS_KEY: ${SECRET_KEY}
     ports:
       - "12000:5000"
     networks:

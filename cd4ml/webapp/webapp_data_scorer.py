@@ -15,7 +15,7 @@ def form_values_to_input_data(form_data, numeric_cols):
     return input_data
 
 
-def get_form_from_model(spec_name, model, initial_values=None):
+def get_form_from_model(spec_name, identifier, model, initial_values=None):
     omitted_fields = model.feature_set.omitted_feature_fields_for_input()
 
     if initial_values is not None:
@@ -24,7 +24,7 @@ def get_form_from_model(spec_name, model, initial_values=None):
     else:
         input_data = None
 
-    post_url = '/%s' % spec_name
+    post_url = f'/{spec_name}/{identifier}'
     header_text, form_div = model.encoder.get_form_html_elements(initial_values=input_data,
                                                                  post_url=post_url,
                                                                  omitted_fields=omitted_fields)
