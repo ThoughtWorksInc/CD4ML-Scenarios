@@ -19,3 +19,4 @@ strategy.setAllowAnonymousRead(false)
 Jenkins.instance.setAuthorizationStrategy(strategy)
 
 Jenkins.instance.save()
+

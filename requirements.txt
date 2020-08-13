@@ -7,15 +7,17 @@ joblib==0.16.0
 lime==0.1.1.36
 fluent-logger==0.9.4
 bokeh==1.4.0
-pytest==5.0.1
-coverage==4.5.4
 ipython==7.8.0
 arrow==0.15.5
 wickedhot==0.2.3
+boto3==1.14.41
 
 # Testing Dependencies
 flake8==3.7.8
 flake8-print==3.1.4
 autopep8==1.5
 snakeviz==2.0.1
+pytest==5.0.1
 pytest-cov==2.7.1
+
+coverage==4.5.4

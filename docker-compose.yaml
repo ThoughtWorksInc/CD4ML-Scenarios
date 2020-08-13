@@ -12,13 +12,17 @@ services:
 
   jenkins:
     container_name: jenkins
-    image: ericnaglertw/cd4ml-build-master:2
+    build:
+      context: .
+      dockerfile: Dockerfile-jenkins
     ports:
       - "10000:8080"
     environment:
         FLUENTD_HOST: fluentd
         FLUENTD_PORT: 24224
         TENANT: "jenkins"
+        ACCESS_KEY: ${ACCESS_KEY}
+        SECRET_KEY: ${SECRET_KEY}
     volumes:
       - jenkins_home:/var/jenkins_home
     secrets:
@@ -90,6 +94,9 @@ services:
     environment:
       FLUENTD_HOST: fluentd
       FLUENTD_PORT: 24224
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+      ACCESS_KEY: ${ACCESS_KEY}
+      SECRET_KEY: ${SECRET_KEY}
     networks:
       - jenkins_nw
     depends_on: 
@@ -101,9 +108,9 @@ services:
     ports:
       - "9000:9000"
     environment:
-      MINIO_ACCESS_KEY: minio
-      MINIO_SECRET_KEY: minio123
-    command: server /data
+      MINIO_ACCESS_KEY: ${ACCESS_KEY}
+      MINIO_SECRET_KEY: ${SECRET_KEY}
+    command: mkdir -p /data/cd4ml-ml-flow-bucket && server /data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
@@ -121,8 +128,8 @@ services:
       dockerfile: Dockerfile-mlflow
     environment:
       MLFLOW_S3_ENDPOINT_URL: http://minio:9000
-      AWS_ACCESS_KEY_ID: minio
-      AWS_SECRET_ACCESS_ID: minio123
+      AWS_ACCESS_KEY_ID: ${ACCESS_KEY}
+      AWS_SECRET_ACCESS_ID: ${SECRET_KEY}
     ports:
       - "12000:5000"
     networks:

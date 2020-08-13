@@ -32,7 +32,7 @@ def deploy_model(problem_name,
                  host_name=None):
 
     logger = logging.getLogger(__name__)
-    mlflow.set_registry_uri(uri=host_name)
+    mlflow.set_tracking_uri(uri=host_name)
     mlflow.set_experiment(problem_name)
 
     run_name = os.environ["BUILD_NUMBER"]
