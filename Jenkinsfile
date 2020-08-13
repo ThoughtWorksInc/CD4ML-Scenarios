@@ -17,6 +17,7 @@ pipeline {
     }
     environment { 
         MLFLOW_TRACKING_URL = 'http://mlflow:5000'
+        MLFLOW_S3_ENDPOINT_URL = 'http://minio:9000'
     }
     stages {
         stage('Install dependencies') {

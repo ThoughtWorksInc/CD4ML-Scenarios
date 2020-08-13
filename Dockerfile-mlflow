@@ -1,7 +1,7 @@
 FROM python:3.7-slim-buster
+WORKDIR /usr/src/app
 
-RUN pip install mlflow==1.10.0
-
+RUN pip install mlflow==1.10.0 && \
+    mkdir /usr/src/app/artifacts
 EXPOSE 5000
-
-ENTRYPOINT mlflow server -h 0.0.0.0 -p 5000
+ENTRYPOINT mlflow server -h 0.0.0.0 -p 5000 --default-artifact-root s3://cd4ml-ml-flow-bucket/

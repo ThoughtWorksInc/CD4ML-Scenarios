@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 from pathlib import Path
 
@@ -29,11 +30,15 @@ def deploy_model(problem_name,
                  algorithm_params_name,
                  did_pass_acceptance_test,
                  host_name=None):
+
+    logger = logging.getLogger(__name__)
     mlflow.set_registry_uri(uri=host_name)
     mlflow.set_experiment(problem_name)
+
     run_name = os.environ["BUILD_NUMBER"]
     folder_name = os.environ.get("GIT_COMMIT", "uncommitted-work")
     results_folder = Path(get_filenames(problem_name, folder_name).get('results_dir'))
+    logger.info("Reporting data from from folder {}".format(results_folder))
 
     with mlflow.start_run(run_name=run_name):
         log_param("ProblemName", problem_name)
