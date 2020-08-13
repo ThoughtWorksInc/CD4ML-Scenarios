@@ -1,4 +1,3 @@
-// https://nickcharlton.net/posts/setting-jenkins-credentials-with-groovy.html
 import jenkins.model.Jenkins
 import com.cloudbees.plugins.credentials.domains.Domain
 import org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl
@@ -7,24 +6,29 @@ import hudson.util.Secret
 
 instance = Jenkins.instance
 domain = Domain.global()
-store = instance.getExtensionList(
-  "com.cloudbees.plugins.credentials.SystemCredentialsProvider")[0].getStore()
+store = instance.getExtensionList("com.cloudbees.plugins.credentials.SystemCredentialsProvider")[0].getStore()
 
-def accessKey = System.getenv("ACCESS_KEY") ?: throw new Exception("NO ACCESS_KEY CONFIGURED")
-def secretKey = System.getenv("SECRET_KEY") ?: throw new Exception("NO SECRET_KEY CONFIGURED")
+def getSecret(String key) {
+    String environmentKey = System.getenv(key)
+    if (environmentKey == null) {
+        throw new Exception("No " + key + "configured")
+    }
+}
 
 secretAccessKey = new StringCredentialsImpl(
   CredentialsScope.GLOBAL,
   "ACCESS_KEY",
   "S3 Bucket Access Key",
-  Secret.fromString(accessKey)
+  Secret.fromString(getSecret("ACCESS_KEY"))
 )
-store.addCredentials(domain, accessKey)
+store.addCredentials(domain, secretAccessKey)
 
-secretAccessKey = new StringCredentialsImpl(
+secretKey = new StringCredentialsImpl(
   CredentialsScope.GLOBAL,
   "SECRET_KEY",
   "S3 Bucket Secret Key",
-  Secret.fromString(accessKey)
+  Secret.fromString(getSecret("SECRET_KEY"))
 )
 store.addCredentials(domain, secretKey)
+
+println "---> Created Minio Access Keys"
