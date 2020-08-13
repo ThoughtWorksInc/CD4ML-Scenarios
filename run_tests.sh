@@ -11,4 +11,4 @@ eval "$command"
 
 echo
 echo Flake8 comments:
-flake8 --max-line-length=120 cd4ml
+flake8 --extend-ignore T001 --max-line-length=120 cd4ml
