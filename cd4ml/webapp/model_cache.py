@@ -51,6 +51,7 @@ class ModelCache:
 
         return returning_dictionary
 
+    @staticmethod
     def download_and_save_from_ml_flow(self, path, run_id):
         path.parent.mkdir(parents=True, exist_ok=True)
         results = requests.get("{}/get-artifact?path=full_model.pkl&run_uuid={}"
