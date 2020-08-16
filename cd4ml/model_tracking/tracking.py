@@ -55,5 +55,7 @@ class Track:
         self.plot = plot
 
     def _write_dictionary_to_file(self, dict_to_write, output_file_name):
+        if len(dict_to_write) == 0:
+            return
         with open(output_file_name, 'w') as file:
             json.dump(dict_to_write, file, indent=4)
