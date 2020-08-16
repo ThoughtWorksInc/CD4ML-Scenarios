@@ -6,8 +6,7 @@ from cd4ml.filenames import get_filenames
 
 
 class Track:
-    def __init__(self, base_metrics_recording_folder, problem_name):
-        self.base_metrics_recording_folder = base_metrics_recording_folder
+    def __init__(self, problem_name):
         self.problem_name = problem_name
         self.logger = logging.getLogger(__name__)
         self.model = None

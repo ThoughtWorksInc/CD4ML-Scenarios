@@ -1,35 +1,27 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <title>Welcome to the CD4ML Scenario Picker</title>
-    </head>
+    {% set title = 'Welcome to the CD4ML Scenario Picker' %}
+    {% include "partials/_head.html" %}
+    {% include "partials/_navbar.html" %}
     <body>
         <div class="container">
-            <h2 class="col-md-6 mb-5">Select the scenario you want to try!</h2>
+            <div class="row"><h2>Welcome! Select the scenario you want to try!</h2></div>
               <div class="row">
                 <div class="col-lg-6">
-                  <img class="img-circle" src="/static/groceries.png" alt="Generic placeholder image" width="200" height="200">
+                  <img class="mx-auto d-block" src="/static/groceries.png" alt="Groceries Scenario Image" width="200" height="200">
                   <h2>Sales Forecasting Scenario</h2>
                   <p>Predict the amount of a product required to order on a particular date</p>
-                  <p><a class="btn btn-default" href="/groceries/latest" role="button">Use latest valid model »</a></p>
-                  <p><a class="btn btn-default" href="/groceries/models" role="button">View All Models »</a></p>
+                  <p><a class="btn btn-primary" href="/groceries/latest" role="button">Use latest valid model »</a></p>
+                  <p><a class="btn btn-secondary" href="/groceries/models" role="button">View All Models »</a></p>
                 </div>
-                 <div class="col-lg-6">
-                  <img class="img-circle" src="/static/houses.png" alt="Generic placeholder image" width="200" height="200">
+                <div class="col-lg-6">
+                  <img class="mx-auto d-block" src="/static/houses.png" alt="Houses Scenario Image" width="200" height="200">
                   <h2>Housing Price Prediction Scenario</h2>
                   <p>Prediction the difference between the actual price of a house and the suggested price</p>
-                  <p><a class="btn btn-default" href="/houses/latest" role="button">Use latest valid model »</a></p>
-                  <p><a class="btn btn-default" href="/houses/models" role="button">View All Models »</a></p>
+                  <p><a class="btn btn-primary" href="/houses/latest" role="button">Use latest valid model »</a></p>
+                  <p><a class="btn btn-secondary" href="/houses/models" role="button">View All Models »</a></p>
                 </div>
               </div>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="static/index.js"></script>
     </body>
 </html>

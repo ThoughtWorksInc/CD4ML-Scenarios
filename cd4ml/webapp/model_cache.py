@@ -1,9 +1,10 @@
+import datetime
 import logging
 import os
-import mlflow
-
+from functools import lru_cache
 from pathlib import Path
 
+import mlflow
 import requests
 
 from cd4ml.filenames import get_filenames
@@ -29,12 +30,30 @@ class ModelCache:
         mlflow.set_tracking_uri(os.environ["MLFLOW_TRACKING_URL"])
 
     def get_loaded_model_for_scenario_and_run_id(self, scenario, run_id):
+        if run_id == "latest":
+            all_models_for_scenario = self.list_available_models_from_ml_flow().get(scenario)
+            if all_models_for_scenario is None:
+                return None
+
+            possible_deployable_models = [row for row in all_models_for_scenario if self.is_latest_deployable_model]
+            if len(possible_deployable_models) == 0:
+                return None
+
+            last_deployment_model = sorted(possible_deployable_models,
+                                           key=lambda row: datetime.datetime.strptime(row['time'], "%c"),
+                                           reverse=True)
+            return self.get_loaded_model_for_scenario_and_run_id(scenario, last_deployment_model[0]['run_id'])
+
         base_scenario_folder_path = get_filenames(scenario, run_id)['model_cache_dir']
         model_path = Path(base_scenario_folder_path, "full_model.pkl")
 
         if not model_path.exists():
             self.download_and_save_from_ml_flow(model_path, run_id)
 
+        return self.read_model(model_path)
+
+    @lru_cache(maxsize=64)
+    def read_model(self, model_path):
         return load_deployed_model_from_local_file(model_path)
 
     def list_available_models_from_ml_flow(self):
@@ -52,9 +71,17 @@ class ModelCache:
         return returning_dictionary
 
     @staticmethod
-    def download_and_save_from_ml_flow(self, path, run_id):
+    def download_and_save_from_ml_flow(path, run_id):
         path.parent.mkdir(parents=True, exist_ok=True)
         results = requests.get("{}/get-artifact?path=full_model.pkl&run_uuid={}"
                                .format(mlflow.get_tracking_uri(), run_id))
         with open(path, "wb") as f:
             f.write(results.content)
+
+    @staticmethod
+    def is_latest_deployable_model(row):
+        return row['ml_pipeline_params_name'] == 'default' and \
+               row['feature_set_name'] == 'default' and \
+               row['algorithm_name'] == 'default' and \
+               row['algorithm_params_name'] == 'default' and \
+               row['passed_acceptance_test'] == 'yes'

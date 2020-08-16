@@ -4,7 +4,6 @@ from cd4ml.logger.fluentd_logging import FluentdLogger
 from cd4ml.model_tracking import tracking
 from cd4ml.model_tracking.validation_metrics import get_validation_metrics
 from cd4ml.utils.problem_utils import Specification
-from cd4ml.filenames import get_filenames
 from cd4ml.ml_model import MLModel
 from cd4ml.feature_importance import get_feature_importance
 from cd4ml.splitter import splitter
@@ -180,8 +179,7 @@ class ProblemBase:
 
     def run_all(self):
         start = time()
-        recording_folder = get_filenames(self.problem_name).get('results_dir')
-        self.tracker = tracking.Track(recording_folder, self.problem_name)
+        self.tracker = tracking.Track(self.problem_name)
         self.tracker.log_pipeline_params(self.ml_pipeline_params)
         self.download_data()
         self.get_encoder()

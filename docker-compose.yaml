@@ -72,6 +72,7 @@ services:
     depends_on: 
       - es01
       
+
   fluentd:
     image: ericnaglertw/cd4ml-fluentd:1
     container_name: fluentd
@@ -147,6 +148,8 @@ services:
     ports:
       - "8888:8888"
       - "8889:8888"
+    entrypoint: "start.sh"
+    command: "jupyter lab --LabApp.token=''"
     volumes:
       - .:/home/jovyan/
     networks:

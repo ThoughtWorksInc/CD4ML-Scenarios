@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+    {% include "partials/_head.html" %}
+    {% include "partials/_navbar.html" %}
+    <body>
+        <div class="container">
+            {{ form_div | safe }}
+            <div class="col-md-6" style="border: 1px solid; font-weight: bold;">
+                Prediction: {{ prediction }}
+            </div>
+        </div>
+    </body>
+    <style>
+
+    .alpaca-form-button-submit {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    </style>
+</html>
