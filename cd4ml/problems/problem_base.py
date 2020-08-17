@@ -23,8 +23,8 @@ class ProblemBase:
     def __init__(self,
                  problem_name,
                  data_downloader='default',
-                 feature_set_name='default',
                  ml_pipeline_params_name='default',
+                 feature_set_name='default',
                  algorithm_name='default',
                  algorithm_params_name='default'):
 
