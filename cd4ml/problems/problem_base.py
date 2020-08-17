@@ -82,7 +82,8 @@ class ProblemBase:
                                              self.ml_pipeline_params['target_field'],
                                              {})
 
-        self.algorithm_params = self.get_algorithm_params(self.resolved_algorithm_name)
+        self.algorithm_params = self.get_algorithm_params(self.resolved_algorithm_name,
+                                                          self.algorithm_params_name)
 
     def stream_processed(self):
         return self._stream_data(self.problem_name)
@@ -202,8 +203,9 @@ class ProblemBase:
         path = 'ml_pipelines/{}.json'.format(ml_pipeline_params_name)
         return self.read_json_file_for_current_problem_as_dict(path)
 
-    def get_algorithm_params(self, algorithm_name):
-        path = 'algorithms/{}/default.json'.format(algorithm_name)
+    def get_algorithm_params(self, algorithm_name, algorithm_params_name):
+        path = 'algorithms/{}/{}.json'.format(algorithm_name, algorithm_params_name)
+
         return self.read_json_file_for_current_problem_as_dict(path)
 
     def make_specification(self):
@@ -217,6 +219,7 @@ class ProblemBase:
 
     def read_json_file_for_current_problem_as_dict(self, file_path):
         path = Path(Path(__file__).parent, self.problem_name, file_path)
+
         with open(path, "r") as file:
             return json.load(file)
 

@@ -39,9 +39,6 @@ def main(*args):
 
     # TODO: Allow a different data_downloader
 
-    print('ml_pipeline_params_name', ml_pipeline_params_name)
-    print('feature_set-name', feature_set_name)
-
     problem = get_problem(problem_name,
                           data_downloader='default',
                           ml_pipeline_params_name=ml_pipeline_params_name,
