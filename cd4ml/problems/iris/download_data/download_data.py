@@ -2,7 +2,8 @@ from cd4ml.filenames import get_filenames
 from cd4ml.utils.utils import download_to_file_from_url
 
 download_params = {
-                    'url': "https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/639388c2cbc2120a14dcf466e85730eb8be498bb/iris.csv"
+                    'url': "https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/"
+                           "raw/639388c2cbc2120a14dcf466e85730eb8be498bb/iris.csv"
                    }
 
 
