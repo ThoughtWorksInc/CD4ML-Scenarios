@@ -24,8 +24,12 @@ class Problem(ProblemBase):
         self._stream_data = stream_data.stream_data
 
     def get_feature_set_class(self, feature_set_name):
-        if (feature_set_name == 'default'):
+
+        if feature_set_name == 'default':
             import cd4ml.problems.houses.feature_sets.default as default_features
+            return default_features.FeatureSet
+        elif feature_set_name == 'feature_set_simple':
+            import cd4ml.problems.houses.feature_sets.feature_set_simple as default_features
             return default_features.FeatureSet
         else:
             raise ValueError("Featureset name {} is not valid".format(feature_set_name))
