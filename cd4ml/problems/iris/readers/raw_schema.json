@@ -1,0 +1,4 @@
+{
+  "categorical": ["species"],
+  "numerical": ["sepal_width", "sepal_length", "petal_width", "petal_length"]
+}

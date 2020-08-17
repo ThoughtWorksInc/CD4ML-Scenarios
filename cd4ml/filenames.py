@@ -26,6 +26,7 @@ def get_filenames(problem_name, problem_specification_name='not-specified'):
         'validation_plot': '%s/validation_plot.html' % _results_dir,
         'raw_house_data': '%s/house_sales.csv' % _raw_data_dir,
         'house_data_zip_lookup': '%s/zip_lookup.csv' % _raw_data_dir,
+        'iris_data': '%s/iris.csv' % _raw_data_dir
     }
 
     file_names = {k: v.format(problem_name=problem_name,
