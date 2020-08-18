@@ -1,6 +1,7 @@
 import json
 import logging
 from pathlib import Path
+import os
 import mlflow
 from mlflow import log_param, log_metric, log_artifacts, set_tag
 from cd4ml.filenames import get_filenames
@@ -40,7 +41,10 @@ def register_model(model_id, host_name=None, did_pass_acceptance_test=''):
         log_param("FeatureSetName", specification['feature_set_name'])
         log_param("AlgorithmName", specification['algorithm_name'])
         log_param("AlgorithmParamsName", specification['algorithm_params_name'])
+
         set_tag("DidPassAcceptanceTest", did_pass_acceptance_test)
+        set_tag("BuildNumber", os.getenv('BUILD_NUMBER'))
+
         log_metrics_file(Path(results_folder, "metrics.json"))
         log_parameters_file(Path(results_folder, "parameters.json"))
         log_artifacts(results_folder)
