@@ -1,4 +1,5 @@
 import os
+import uuid
 from hashlib import sha256
 from struct import unpack
 from itertools import takewhile, islice, count
@@ -205,3 +206,7 @@ def shuffle_csv_file(filename, filename_shuffled, seed=3623365):
     rand.shuffle(lines)
     fp.writelines(lines)
     fp.close()
+
+
+def get_uuid():
+    return str(uuid.uuid1())

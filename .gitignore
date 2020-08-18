@@ -29,3 +29,5 @@ jenkins/jenkins-admin-password.txt
 .jupyter/*
 .local/*
 **/.ipynb_checkpoints/*
+set_registry_creds.sh
+

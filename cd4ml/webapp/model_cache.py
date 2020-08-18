@@ -3,10 +3,8 @@ import logging
 import os
 from functools import lru_cache
 from pathlib import Path
-
 import mlflow
 import requests
-
 from cd4ml.filenames import get_filenames
 from cd4ml.model_utils import load_deployed_model_from_local_file
 from cd4ml.problems import list_available_scenarios

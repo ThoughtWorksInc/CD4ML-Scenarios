@@ -1,32 +1,29 @@
 import json
 import os
-
 from pathlib import Path
-
-from wickedhot import OneHotEncoder
-
-from cd4ml.feature_set import FeatureSetBase
-from cd4ml.ml_model import MLModel
 from cd4ml.model_tracking.tracking import Track
 
 
 class TestTracking:
     def test_tracking_dictionaries_only(self, tmp_path):
+        specification = {'problem_name': "foo_problem"}
         os.environ["CD4ML_DATA_DIR"] = str(tmp_path)
-        tracking = Track("unit_test")
+        tracking = Track("unit-test-id", specification)
         tracking.log_param("my_param", 1)
         tracking.log_metrics({"my_metric": 2})
         tracking.save_results()
-        files = os.listdir(Path(tmp_path, 'results', 'uncommitted-work'))
-        assert set(files) == {"metrics.json", "parameters.json"}
-        metrics_json = json.loads(Path(tmp_path, 'results', 'uncommitted-work', "metrics.json").read_text())
+
+        files = os.listdir(Path(tmp_path, 'results', 'unit-test-id'))
+        assert set(files) == {"metrics.json", "parameters.json", "specification.json"}
+        metrics_json = json.loads(Path(tmp_path, 'results', 'unit-test-id', "metrics.json").read_text())
         assert metrics_json["my_metric"] == 2
-        params_json = json.loads(Path(tmp_path, 'results', 'uncommitted-work', "parameters.json").read_text())
+        params_json = json.loads(Path(tmp_path, 'results', 'unit-test-id', "parameters.json").read_text())
         assert params_json["my_param"] == 1
 
     def test_writing_bokeh_plot(self, tmp_path):
         from bokeh.plotting import figure
         from bokeh.sampledata.iris import flowers
+        specification = {'problem_name': "foo_problem"}
 
         colormap = {'setosa': 'red', 'versicolor': 'green', 'virginica': 'blue'}
         colors = [colormap[x] for x in flowers['species']]
@@ -38,9 +35,9 @@ class TestTracking:
         p.circle(flowers["petal_length"], flowers["petal_width"], color=colors, fill_alpha=0.2, size=10)
 
         os.environ["CD4ML_DATA_DIR"] = str(tmp_path)
-        tracking = Track("unit_test")
+        tracking = Track("unit-test-id", specification)
         tracking.log_validation_plot(p)
         tracking.save_results()
-        files = os.listdir(Path(tmp_path, 'results', 'uncommitted-work'))
-        assert set(files) == {"validation_plot.html"}
+        files = os.listdir(Path(tmp_path, 'results', 'unit-test-id'))
+        assert set(files) == {"validation_plot.html", "specification.json"}
 

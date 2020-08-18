@@ -6,7 +6,7 @@
     "training_random_seed": 4548276,
     "identifier_field": "sale_id",
     "target_field": "price",
-    "feature_set_name": "feature_set_1",
+    "feature_set_name": "default",
     "max_rows_to_read": null,
     "splitting": {
         "random_seed": 1299472653,

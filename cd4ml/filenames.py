@@ -6,17 +6,22 @@ import os
 from cd4ml.utils.utils import ensure_dir_exists
 
 
-def get_filenames(problem_name, problem_specification_name='not-specified'):
+# TODO: this is a mess, clean up
+# TODO: probably want to return filenames that are only relevant to the problem
+# TODO: so structure accordingly
+
+def get_filenames(problem_name, model_id='temporary'):
     base_directory = os.getenv('CD4ML_DATA_DIR', 'data')
     base_directory = os.path.realpath(base_directory)
 
     ensure_dir_exists(base_directory)
 
     _raw_data_dir = "%s/{problem_name}/raw_data" % base_directory
-    _results_dir = "%s/results/{problem_specification_name}" % base_directory
+    _results_dir = "%s/results/{model_id}" % base_directory
 
     _file_names = {
         'metrics': '%s/metrics.json' % _results_dir,
+        'specification': '%s/specification.json' % _results_dir,
         'parameters': '%s/parameters.json' % _results_dir,
         'raw_grocery_data': '%s/groceries.csv' % _raw_data_dir,
         'grocery_data_shuffled': '%s/groceries_shuffled.csv' % _raw_data_dir,
@@ -30,21 +35,21 @@ def get_filenames(problem_name, problem_specification_name='not-specified'):
     }
 
     file_names = {k: v.format(problem_name=problem_name,
-                              problem_specification_name=problem_specification_name)
+                              model_id=model_id)
                   for k, v in _file_names.items()}
 
     raw_data_dir = _raw_data_dir.format(problem_name=problem_name)
-    results_dir = _results_dir.format(problem_specification_name=problem_specification_name)
+    results_dir = _results_dir.format(model_id=model_id)
 
     ensure_dir_exists(raw_data_dir)
-    if 'not-specified' not in results_dir:
-        ensure_dir_exists(results_dir)
 
     file_names['raw_data_dir'] = raw_data_dir
     file_names['results_dir'] = results_dir
-    file_names['model_cache_dir'] = "{data_dir}/cache/{problem_name}/{problem_specification_name}"\
+    file_names['model_cache_dir'] = "{data_dir}/cache/{problem_name}/{model_id}"\
         .format(data_dir=base_directory,
                 problem_name=problem_name,
-                problem_specification_name=problem_specification_name)
+                model_id=model_id)
+
+    ensure_dir_exists(results_dir)
 
     return file_names

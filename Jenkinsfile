@@ -37,15 +37,16 @@ pipeline {
                 sh 'python3 run_python_script.py pipeline ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name}'
             }
         }
+        stage('Register model') {
+            steps {
+                 sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL}'
+            }
+        }
 //         stage('Acceptance test') {
 //             steps {
 //                 sh 'python3 run_python_script.py acceptance'
 //             }
 //         }
-        stage('Deploy model') {
-            steps {
-                 sh 'python3 run_python_script.py deploy_model ${MLFLOW_TRACKING_URL} ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name} yes'
-            }
-        }
+//
     }
 }

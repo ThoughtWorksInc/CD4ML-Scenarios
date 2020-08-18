@@ -1,3 +1,7 @@
+import os
+from cd4ml.filenames import get_filenames
+
+
 class Specification:
     def __init__(self,
                  problem_name,
@@ -32,3 +36,16 @@ class Specification:
             string = string + '#' + self.spec['git_hash']
 
         return string
+
+
+def get_subdirs(results_dir):
+    results = [os.path.join(results_dir, d) for d in os.listdir(results_dir)]
+    return [d for d in results if os.path.isdir(d)]
+
+
+def get_last_model_subdir():
+    file_names = get_filenames('', '')
+    results_dir = file_names['results_dir']
+    subdirs = get_subdirs(results_dir)
+    latest_subdir = max(subdirs, key=os.path.getmtime)
+    return latest_subdir

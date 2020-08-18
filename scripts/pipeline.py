@@ -1,7 +1,7 @@
 import numpy as np
 import logging
-
 from cd4ml.problems import get_problem
+from cd4ml.register_model import register_model
 
 DEFAULT_ARGUMENT = 'default'
 
@@ -12,6 +12,7 @@ def main(*args):
     """
     logger = logging.getLogger(__name__)
     args = args[0]
+
     problem_name = args[0]
     np.random.seed(462748)
 
@@ -48,4 +49,3 @@ def main(*args):
 
     # Call the run_all method, which will perform the entire data pipeline
     problem.run_all()
-

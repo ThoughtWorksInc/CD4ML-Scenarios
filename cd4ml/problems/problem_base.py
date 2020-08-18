@@ -8,7 +8,7 @@ from cd4ml.ml_model import MLModel
 from cd4ml.feature_importance import get_feature_importance
 from cd4ml.splitter import splitter
 from cd4ml.model_tracking.validation_plots import make_validation_plot
-
+from cd4ml.utils.utils import get_uuid
 from pathlib import Path
 import json
 import logging
@@ -28,6 +28,8 @@ class ProblemBase:
                  algorithm_name='default',
                  algorithm_params_name='default'):
 
+        # this is the unique identifier for every model created
+        self.model_id = get_uuid()
         self.logger = logging.getLogger(__name__)
         self.fluentd_logger = FluentdLogger()
 
@@ -38,6 +40,8 @@ class ProblemBase:
         self.algorithm_name = algorithm_name
         self.algorithm_params_name = algorithm_params_name
         self.ml_pipeline_params = self.get_ml_pipeline_params(ml_pipeline_params_name)
+
+        self.logger.info("Created model_id: %s" % self.model_id)
 
         if algorithm_name == 'default':
             self.resolved_algorithm_name = self.ml_pipeline_params['default_algorithm']
@@ -121,6 +125,10 @@ class ProblemBase:
         return (row for row in self.stream_processed() if self.validation_filter(row))
 
     def train(self):
+        if self.ml_model is not None:
+            self.logger.warning('Model is already trained, cannot retrain')
+            return
+
         self.logger.info('Starting training')
         start = time()
         if self.encoder is None:
@@ -180,7 +188,7 @@ class ProblemBase:
 
     def run_all(self):
         start = time()
-        self.tracker = tracking.Track(self.problem_name)
+        self.tracker = tracking.Track(self.model_id, self.specification.spec)
         self.tracker.log_pipeline_params(self.ml_pipeline_params)
         self.download_data()
         self.get_encoder()
@@ -192,6 +200,7 @@ class ProblemBase:
         self.tracker.save_results()
 
         self.logger.info('All ML steps time: {0:.1f} seconds'.format(runtime))
+        self.logger.info('Finished model: %s' % self.model_id)
 
     def download_data(self):
         raise ValueError("This function should be implemented in a parent class")

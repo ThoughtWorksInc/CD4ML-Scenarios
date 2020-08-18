@@ -4,7 +4,7 @@ import logging
 
 from cd4ml.logger import cd4ml_logging
 
-script_names = ["pipeline", "acceptance", "deploy_model"]
+script_names = ["pipeline", "acceptance", "register_model"]
 
 
 def run_python_script(script_name, *args, **kwargs):
@@ -24,8 +24,8 @@ def run_python_script(script_name, *args, **kwargs):
         from scripts import pipeline as executable_script
     elif script_name == "acceptance":
         from scripts import acceptance as executable_script
-    elif script_name == "deploy_model":
-        from scripts import deploy_model as executable_script
+    elif script_name == "register_model":
+        from scripts import register_model as executable_script
     else:
         message = "Error, script_name ({}) must be one of {}".format(script_name, script_names)
         raise ValueError(message)

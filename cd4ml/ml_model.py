@@ -37,11 +37,15 @@ class MLModel:
         return [float(pred) for pred in preds]
 
     def predict_single_processed_row(self, processed_row):
+        # don't call this on each element of a stream or list
+        # call it when you really only have one to predict
+        # not performant when called many times
+        # use predict_processed_rows for that instead
         self.logger.debug('processed_row', processed_row)
         return list(self.predict_processed_rows([processed_row]))[0]
 
     def predict_processed_rows(self, processed_row_stream):
-        # minibatch prediction is much faster because of overhear
+        # minibatch prediction is much faster because of overhead
         # of model scoring call
 
         if self.encoder is None:

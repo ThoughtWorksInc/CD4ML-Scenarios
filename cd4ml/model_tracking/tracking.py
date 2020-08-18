@@ -1,13 +1,13 @@
 import json
-import os
 import logging
 
 from cd4ml.filenames import get_filenames
 
 
 class Track:
-    def __init__(self, problem_name):
-        self.problem_name = problem_name
+    def __init__(self, model_id, specification):
+        self.specification = specification
+        self.model_id = model_id
         self.logger = logging.getLogger(__name__)
         self.model = None
         self.params = dict()
@@ -15,8 +15,8 @@ class Track:
         self.plot = None
 
     def save_results(self):
-        folder_name = os.environ.get("GIT_COMMIT", "uncommitted-work")
-        filenames = get_filenames(self.problem_name, folder_name)
+        folder_name = self.model_id
+        filenames = get_filenames(self.specification['problem_name'], folder_name)
         self.logger.info("Recording run information to {}".format(filenames['results_dir']))
 
         if self.model is not None:
@@ -30,6 +30,7 @@ class Track:
 
         self._write_dictionary_to_file(self.params, filenames.get('parameters'))
         self._write_dictionary_to_file(self.metrics, filenames.get('metrics'))
+        self._write_dictionary_to_file(self.specification, filenames.get('specification'))
 
     def log_param(self, key, val):
         self.params[key] = val
