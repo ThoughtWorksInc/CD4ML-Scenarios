@@ -22,7 +22,7 @@ def main(*args):
     if len(args) > 2:
         did_pass_acceptance_test = args[2]
     else:
-        did_pass_acceptance_test = ''
+        did_pass_acceptance_test = 'not-checked'
 
     register_model(model_id,
                    host_name=host_name,
