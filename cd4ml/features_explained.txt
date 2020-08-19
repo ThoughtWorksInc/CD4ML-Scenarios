@@ -1,3 +1,6 @@
+# TODO: ensure this is correct and up to date
+
+
 Explanation of the different feature field sets and what they mean, how they are used
 and how they are specified in the derived FeatureSet class
 -------------------------------------------------------------
