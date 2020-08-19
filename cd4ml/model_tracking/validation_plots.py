@@ -3,8 +3,7 @@ from bokeh.plotting import figure, output_file
 
 
 def get_validation_plot(true_value, prediction):
-    temp_file = NamedTemporaryFile().name
-    output_file(temp_file)
+    output_file(NamedTemporaryFile().name)
     x_min = min(min(true_value), min(prediction))
     x_max = max(max(true_value), max(prediction))
 

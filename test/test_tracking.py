@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 from cd4ml.model_tracking.tracking import Track
 
 
@@ -21,13 +22,14 @@ class TestTracking:
         assert params_json["my_param"] == 1
 
     def test_writing_bokeh_plot(self, tmp_path):
-        from bokeh.plotting import figure
+        from bokeh.plotting import figure, output_file
         from bokeh.sampledata.iris import flowers
         specification = {'problem_name': "foo_problem"}
 
         colormap = {'setosa': 'red', 'versicolor': 'green', 'virginica': 'blue'}
         colors = [colormap[x] for x in flowers['species']]
 
+        output_file(NamedTemporaryFile().name)
         p = figure(title="Iris Morphology")
         p.xaxis.axis_label = 'Petal Length'
         p.yaxis.axis_label = 'Petal Width'
