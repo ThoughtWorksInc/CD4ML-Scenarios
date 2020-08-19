@@ -52,6 +52,6 @@ def register_model(model_id, host_name):
         set_tag("DidPassAcceptanceTest", did_pass_acceptance_test)
         set_tag("BuildNumber", os.getenv('BUILD_NUMBER'))
 
-        log_model_metrics_file(file_names["model_metrics.json"])
+        log_model_metrics_file(file_names["model_metrics"])
         log_ml_pipeline_params_file(file_names["ml_pipeline_params"])
         log_artifacts(file_names['results_folder'])
