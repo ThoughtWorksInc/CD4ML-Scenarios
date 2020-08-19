@@ -26,7 +26,3 @@ def get_validation_plot(true_value, prediction):
     plot.line(x_range, y_range, line_dash='dashed', color='gray')
 
     return plot
-
-
-def make_validation_plot(true_value, prediction):
-    return get_validation_plot(true_value, prediction)

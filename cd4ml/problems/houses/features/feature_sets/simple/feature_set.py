@@ -1,23 +1,17 @@
 from cd4ml.feature_set import FeatureSetBase
-import cd4ml.problems.houses.feature_sets.feature_functions.feature_functions as ff
-
-feature_set_params = {'feature_set_name': 'default',
-                      'extra_information_fields': [],
-                      'base_categorical_n_levels_dict': {'zipcode': 50000,
-                                                         'style': 50},
-                      'base_fields_numerical': ['lot_size_sf', 'beds', 'baths', 'year_built',
-                                                'kitchen_refurbished', 'square_feet', 'pool',
-                                                'parking', 'multi_family'],
-                      'derived_categorical_n_levels_dict': {'state': 100},
-                      'derived_fields_numerical': ['avg_price_in_zip', 'num_in_zip',
-                                                   'avg_price_in_state', 'num_in_state',
-                                                   ],
-                      'encoder_excluded_fields': [],
-                      'encoder_untransformed_fields': ['zipcode']}
+import cd4ml.problems.houses.features.feature_functions.feature_functions as ff
+from cd4ml.utils.feature_utils import get_feature_params
 
 
 class FeatureSet(FeatureSetBase):
-    def __init__(self, identifier_field, target_field, info):
+    def __init__(self, identifier_field,
+                 target_field,
+                 info,
+                 feature_set_params=None):
+
+        if feature_set_params is None:
+            feature_set_params = get_feature_params(__file__)
+
         super(FeatureSet, self).__init__(identifier_field, target_field)
         self.info = info
         self.params = feature_set_params.copy()

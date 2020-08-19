@@ -7,7 +7,7 @@ from cd4ml.utils.problem_utils import Specification
 from cd4ml.ml_model import MLModel
 from cd4ml.feature_importance import get_feature_importance
 from cd4ml.splitter import splitter
-from cd4ml.model_tracking.validation_plots import make_validation_plot
+from cd4ml.model_tracking.validation_plots import get_validation_plot
 from cd4ml.utils.utils import get_uuid
 from pathlib import Path
 import json
@@ -156,7 +156,7 @@ class ProblemBase:
     def _write_validation_info(self):
         true_validation_target = list(self.true_target_stream(self.validation_stream()))
         validation_predictions = list(self.ml_model.predict_processed_rows(self.validation_stream()))
-        validation_plot = make_validation_plot(true_validation_target, validation_predictions)
+        validation_plot = get_validation_plot(true_validation_target, validation_predictions)
         self.tracker.log_validation_plot(validation_plot)
         self.tracker.log_metrics(self.validation_metrics)
         self.fluentd_logger.log('validation_metrics', self.validation_metrics)
