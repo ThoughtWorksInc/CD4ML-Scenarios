@@ -1,6 +1,9 @@
-from cd4ml.problems.houses.features.feature_sets.default.feature_set import FeatureSet as FeatureSetDefault
+from cd4ml.problems.houses.features.feature_sets.default.feature_set \
+    import FeatureSet as FeatureSetDefault, get_feature_set_params as get_feature_set_params_default
 from cd4ml.problems.houses.features.feature_sets.simple.feature_set \
-    import FeatureSet as FeatureSetSimple
+    import FeatureSet as FeatureSetSimple, get_feature_set_params as get_feature_set_params_simple
+
+
 
 feature_set_params_default_provided = {
     'feature_set_name': 'default',
@@ -58,7 +61,7 @@ def check_feature_set(use_json_file, feature_set_class):
         feature_set_params_provided = feature_set_params_default_provided
         delete_fields = []
 
-    else:
+    elif feature_set_class == FeatureSetSimple:
         derived_info = {
             "state": "MA",
             "avg_price_in_zip": 700000
@@ -66,6 +69,9 @@ def check_feature_set(use_json_file, feature_set_class):
 
         feature_set_params_provided = feature_set_params_simple_provided
         delete_fields = ['year_built', 'kitchen_refurbished', 'pool', 'parking', 'multi_family']
+
+    else:
+        raise ValueError('Unknown class')
 
     identifier_field = 'sale_id'
     target_field = 'price'
@@ -86,12 +92,17 @@ def check_feature_set(use_json_file, feature_set_class):
     # refurbished", "square_feet", "pool", "parking", "multi_family", "price"]
 
     if use_json_file:
-        feature_set_params = None
+        if feature_set_class == FeatureSetDefault:
+            feature_set_params = get_feature_set_params_default()
+        elif feature_set_class == FeatureSetSimple:
+            feature_set_params = get_feature_set_params_simple()
+        else:
+            raise ValueError('Unknown class')
+
     else:
         feature_set_params = feature_set_params_provided
 
-    feature_set = feature_set_class(identifier_field, target_field, info,
-                             feature_set_params=feature_set_params)
+    feature_set = feature_set_class(identifier_field, target_field, info, feature_set_params)
 
     assert feature_set.info == info
 

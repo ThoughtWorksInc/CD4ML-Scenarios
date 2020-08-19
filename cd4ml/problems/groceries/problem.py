@@ -46,10 +46,11 @@ class Problem(ProblemBase):
             self.feature_set.info['date_lookup'] = date_lookup
             self.feature_set.info['item_nbr_lookup'] = item_nbr_lookup
 
-    def get_feature_set_class(self, feature_set_name):
+    @staticmethod
+    def get_feature_set_constructor(feature_set_name):
         if feature_set_name == "default":
             from cd4ml.problems.groceries.features.feature_sets.default import feature_set as fs
-            return fs.FeatureSet
+            return fs.get_feature_set
         else:
             raise ValueError("feature_set_name '{}' is invalid. Please check your groceries configuration"
                              .format(feature_set_name))

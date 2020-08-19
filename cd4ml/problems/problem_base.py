@@ -80,7 +80,7 @@ class ProblemBase:
 
         self.training_filter, self.validation_filter = splitter(self.ml_pipeline_params)
 
-        feature_set_class = self.get_feature_set_class(feature_set_name)
+        feature_set_class = self.get_feature_set_constructor(feature_set_name)
 
         self.feature_set = feature_set_class(self.ml_pipeline_params['identifier_field'],
                                              self.ml_pipeline_params['target_field'],
@@ -205,7 +205,7 @@ class ProblemBase:
     def download_data(self):
         raise ValueError("This function should be implemented in a parent class")
 
-    def get_feature_set_class(self, feature_set_name):
+    def get_feature_set_constructor(self, feature_set_name):
         raise NotImplementedError("This function should be implemented in a parent class")
 
     def get_ml_pipeline_params(self, ml_pipeline_params_name):
