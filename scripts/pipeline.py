@@ -1,7 +1,6 @@
 import numpy as np
 import logging
 from cd4ml.problems import get_problem
-from cd4ml.register_model import register_model
 
 DEFAULT_ARGUMENT = 'default'
 

@@ -11,6 +11,8 @@ def main(*args):
     if len(args) > 0:
         host_name = args[0]
     else:
+        # for the local environment only, Jenkins will give the
+        # relevant url
         host_name = "http://localhost:12000"
 
     if len(args) > 1:
@@ -19,11 +21,4 @@ def main(*args):
         latest_subdir = get_last_model_subdir()
         model_id = latest_subdir.split('/')[-1]
 
-    if len(args) > 2:
-        did_pass_acceptance_test = args[2]
-    else:
-        did_pass_acceptance_test = 'not-checked'
-
-    register_model(model_id,
-                   host_name=host_name,
-                   did_pass_acceptance_test=did_pass_acceptance_test)
+    register_model(model_id, host_name)

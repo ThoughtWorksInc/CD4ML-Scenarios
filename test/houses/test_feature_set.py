@@ -4,7 +4,6 @@ from cd4ml.problems.houses.features.feature_sets.simple.feature_set \
     import FeatureSet as FeatureSetSimple, get_feature_set_params as get_feature_set_params_simple
 
 
-
 feature_set_params_default_provided = {
     'feature_set_name': 'default',
     'extra_information_fields': [],
@@ -86,10 +85,6 @@ def check_feature_set(use_json_file, feature_set_class):
     }
 
     info = {'zip_lookup': zip_lookup}
-
-    # categorical = ["zipcode", "style", "sale_id"]
-    # numerical = ["lot_size_sf", "beds", "baths", "year_built", "kitchen_
-    # refurbished", "square_feet", "pool", "parking", "multi_family", "price"]
 
     if use_json_file:
         if feature_set_class == FeatureSetDefault:

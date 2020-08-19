@@ -21,7 +21,8 @@ def log_parameters_file(file_path):
             log_param(key, val)
 
 
-def register_model(model_id, host_name=None, did_pass_acceptance_test='not-checked'):
+def register_model(model_id, host_name):
+    did_pass_acceptance_test = 'not-checked'
     logger = logging.getLogger(__name__)
     mlflow.set_tracking_uri(uri=host_name)
 

@@ -23,6 +23,7 @@ test/mlruns/*
 # Jenkins Files
 jenkins/jenkins-admin-password.txt
 creds.txt
+.ipython/
 
 # Jupyter Files
 .bash_history
