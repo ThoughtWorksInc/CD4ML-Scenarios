@@ -5,7 +5,7 @@ pipeline {
         string(name: 'ml_pipeline_params_name', defaultValue: 'default', description: 'Specify the ml_pipeline_params file')
         string(name: 'feature_set_name', defaultValue: 'default', description: 'Specify the feature_set name/file')
         string(name: 'algorithm_name', defaultValue: 'default', description: 'Specify the algorithm (overrides problem_params)')
-        string(name: 'algorithm_params_name', defaultValue: 'default', description: 'Specify the algorithm (overrides the default)')
+        string(name: 'algorithm_params_name', defaultValue: 'default', description: 'Specify the algorithm params')
     }
     triggers { 
         // Poll SCM every minute for new changes
