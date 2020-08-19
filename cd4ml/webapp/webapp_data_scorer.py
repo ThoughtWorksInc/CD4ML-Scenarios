@@ -3,6 +3,8 @@ import logging
 from cd4ml.utils.utils import float_or_zero
 
 logger = logging.getLogger(__name__)
+
+
 def form_values_to_input_data(form_data, numeric_cols):
     # apply the right schema
     input_data = {}
