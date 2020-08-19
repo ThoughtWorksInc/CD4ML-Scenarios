@@ -140,7 +140,7 @@ class ProblemBase:
                                 self.encoder,
                                 self.ml_pipeline_params['training_random_seed'])
 
-        self.tracker.log_ml_params(self.algorithm_params)
+        self.tracker.log_algorithm_params(self.algorithm_params)
         self.ml_model.train(self.training_stream())
 
         model_name = self.specification.spec['algorithm_name_actual']
@@ -189,7 +189,7 @@ class ProblemBase:
     def run_all(self):
         start = time()
         self.tracker = tracking.Track(self.model_id, self.specification.spec)
-        self.tracker.log_pipeline_params(self.ml_pipeline_params)
+        self.tracker.log_ml_pipeline_params(self.ml_pipeline_params)
         self.download_data()
         self.get_encoder()
         self.train()

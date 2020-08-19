@@ -1,5 +1,5 @@
 from csv import DictReader
-from cd4ml.filenames import get_filenames
+from cd4ml.filenames import get_problem_files
 from cd4ml.utils.utils import float_or_zero
 
 
@@ -8,7 +8,7 @@ def stream_raw(problem_name):
     :param problem_name: name of problem
     :return: stream to raw rows of house sales data
     """
-    file_names = get_filenames(problem_name)
+    file_names = get_problem_files(problem_name)
     filename = file_names['raw_house_data']
     return (dict(row) for row in DictReader(open(filename, 'r')))
 

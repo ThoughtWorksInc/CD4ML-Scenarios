@@ -1,6 +1,6 @@
 from csv import DictReader
 
-from cd4ml.filenames import get_filenames
+from cd4ml.filenames import get_problem_files
 import logging
 
 from cd4ml.utils.utils import float_or_zero
@@ -20,7 +20,7 @@ def filter_func(row):
 
 
 def stream_raw_unfiltered(problem_name):
-    file_names = get_filenames(problem_name)
+    file_names = get_problem_files(problem_name)
     filename_shuffled = file_names['grocery_data_shuffled']
     return (dict(row) for row in DictReader(open(filename_shuffled, 'r')))
 

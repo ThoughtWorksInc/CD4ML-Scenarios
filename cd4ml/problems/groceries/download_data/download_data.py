@@ -1,4 +1,4 @@
-from cd4ml.filenames import get_filenames
+from cd4ml.filenames import get_problem_files
 from cd4ml.utils.utils import download_to_file_from_url, shuffle_csv_file
 
 download_params = {'key': 'store47-2016.csv',
@@ -7,7 +7,7 @@ download_params = {'key': 'store47-2016.csv',
 
 
 def get_grocery_url_and_files(problem_name):
-    file_names = get_filenames(problem_name)
+    file_names = get_problem_files(problem_name)
     key = download_params['key']
     gcs_bucket = download_params['gcs_bucket']
     base_url = download_params['base_url']

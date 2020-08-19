@@ -1,5 +1,5 @@
 import os
-from cd4ml.filenames import get_filenames
+from cd4ml.filenames import get_model_files
 
 
 class Specification:
@@ -44,8 +44,13 @@ def get_subdirs(results_dir):
 
 
 def get_last_model_subdir():
-    file_names = get_filenames('', '')
-    results_dir = file_names['results_dir']
+    # use empty string to get the root model_results_dir
+    file_names = get_model_files('')
+
+    results_dir = file_names['results_folder']
     subdirs = get_subdirs(results_dir)
+    if len(subdirs) == 0:
+        return None
+
     latest_subdir = max(subdirs, key=os.path.getmtime)
     return latest_subdir

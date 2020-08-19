@@ -1,7 +1,7 @@
 import json
 import logging
 
-from cd4ml.filenames import get_filenames
+from cd4ml.filenames import get_model_files
 
 
 class Track:
@@ -15,33 +15,32 @@ class Track:
         self.plot = None
 
     def save_results(self):
-        folder_name = self.model_id
-        filenames = get_filenames(self.specification['problem_name'], folder_name)
-        self.logger.info("Recording run information to {}".format(filenames['results_dir']))
+        filenames = get_model_files(self.model_id)
+        self.logger.info("Recording run information for model %s" % self.model_id)
 
         if self.model is not None:
-            self.model.save(filenames.get('full_model'))
+            self.model.save(filenames['full_model'])
 
         if self.plot is not None:
             import bokeh.plotting as bokeh_saver
             bokeh_saver.save(obj=self.plot,
-                             filename=filenames.get('validation_plot'),
+                             filename=filenames['validation_plot'],
                              title='Validation Plot')
 
-        self._write_dictionary_to_file(self.params, filenames.get('parameters'))
-        self._write_dictionary_to_file(self.metrics, filenames.get('metrics'))
-        self._write_dictionary_to_file(self.specification, filenames.get('specification'))
+        self._write_dictionary_to_file(self.params, filenames['ml_pipeline_params'])
+        self._write_dictionary_to_file(self.metrics, filenames['model_metrics'])
+        self._write_dictionary_to_file(self.specification, filenames['model_specification'])
 
     def log_param(self, key, val):
         self.params[key] = val
 
-    def log_ml_params(self, ml_params):
+    def log_algorithm_params(self, ml_params):
         for key, val in ml_params.items():
             self.log_param(key, val)
 
-    def log_pipeline_params(self, pipeline_params):
+    def log_ml_pipeline_params(self, ml_pipeline_params):
         excluded_keys = ['download_data_info']
-        for key, val in pipeline_params.items():
+        for key, val in ml_pipeline_params.items():
             if key not in excluded_keys:
                 self.log_param(key, val.__repr__())
 
