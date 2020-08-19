@@ -28,8 +28,8 @@ class Problem(ProblemBase):
         if feature_set_name == 'default':
             import cd4ml.problems.houses.features.feature_sets.default.feature_set as default_features
             return default_features.FeatureSet
-        elif feature_set_name == 'feature_set_simple':
-            import cd4ml.problems.houses.features.feature_sets.feature_set_simple.feature_set as default_features
+        elif feature_set_name == 'simple':
+            import cd4ml.problems.houses.features.feature_sets.simple.feature_set as default_features
             return default_features.FeatureSet
         else:
             raise ValueError("Featureset name {} is not valid".format(feature_set_name))
