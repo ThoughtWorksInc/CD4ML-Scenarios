@@ -8,6 +8,8 @@ root_dir = os.path.realpath(os.path.dirname(__file__) + "/..")
 
 _default_data_dir = "%s/%s" % (root_dir, 'data')
 
+_model_file_name = "full_model.pkl"
+
 
 def _get_base_dirs(base_data_dir=None):
     # makes a fresh call to environment for variable each call
@@ -37,7 +39,7 @@ def _get_model_file_templates(model_results_dir):
         'model_specification': '%s/model_specification.json' % model_results_dir,
         'ml_pipeline_params': '%s/ml_pipeline_params.json' % model_results_dir,
         'encoder': '%s/encoder.json' % model_results_dir,
-        'full_model': '%s/full_model.pkl' % model_results_dir,
+        'full_model': '%s/%s' % (model_results_dir, _model_file_name),
         'validation_plot': '%s/validation_plot.html' % model_results_dir,
         'results_folder': model_results_dir
     }
@@ -92,7 +94,7 @@ def get_problem_files(problem_name, base_data_dir=None):
     return {k: v.format(problem_name=problem_name) for k, v in problem_files.items()}
 
 
-def get_model_cache_dir(problem_name, model_id, base_data_dir=None):
+def get_model_cache_file(problem_name, model_id, base_data_dir=None):
     """
     Get the model cache file
     :param problem_name: the problem name string
@@ -103,6 +105,7 @@ def get_model_cache_dir(problem_name, model_id, base_data_dir=None):
     """
     raw_problem_data_dir, _, model_cache_dir = _get_base_dirs(base_data_dir)
 
-    return "{model_cache_dir}/{problem_name}/{model_id}".format(model_cache_dir=model_cache_dir,
-                                                                problem_name=problem_name,
-                                                                model_id=model_id)
+    return "{model_cache_dir}/{problem_name}/{model_id}/{model_file_name}".format(model_cache_dir=model_cache_dir,
+                                                                                  problem_name=problem_name,
+                                                                                  model_id=model_id,
+                                                                                  model_file_name=_model_file_name)

@@ -2,10 +2,9 @@ import datetime
 import logging
 import os
 from functools import lru_cache
-from pathlib import Path
 import mlflow
 import requests
-from cd4ml.filenames import get_filenames
+from cd4ml.filenames import get_model_cache_file
 from cd4ml.model_utils import load_deployed_model_from_local_file
 from cd4ml.problems import list_available_scenarios
 
@@ -42,8 +41,7 @@ class ModelCache:
                                            reverse=True)
             return self.get_loaded_model_for_scenario_and_run_id(scenario, last_deployment_model[0]['run_id'])
 
-        base_scenario_folder_path = get_filenames(scenario, run_id)['model_cache_dir']
-        model_path = Path(base_scenario_folder_path, "full_model.pkl")
+        model_path = get_model_cache_file(scenario, run_id)
 
         if not model_path.exists():
             self.download_and_save_from_ml_flow(model_path, run_id)
