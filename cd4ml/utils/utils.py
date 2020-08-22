@@ -1,5 +1,6 @@
 import os
 import uuid
+import json
 from hashlib import sha256
 from struct import unpack
 from itertools import takewhile, islice, count
@@ -210,3 +211,8 @@ def shuffle_csv_file(filename, filename_shuffled, seed=3623365):
 
 def get_uuid():
     return str(uuid.uuid1())
+
+
+def get_json(filename):
+    with open(filename, 'r') as fp:
+        return json.load(fp)

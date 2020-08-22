@@ -4,7 +4,8 @@
 import os
 from cd4ml.utils.utils import ensure_dir_exists
 
-root_dir = os.path.realpath(os.path.dirname(__file__) + "/..")
+this_dir = os.path.dirname(__file__)
+root_dir = os.path.realpath(this_dir + "/..")
 
 _default_data_dir = "%s/%s" % (root_dir, 'data')
 
@@ -59,6 +60,10 @@ def _get_problem_file_templates(raw_problem_data_dir):
         }
     }
 
+    for problem_name, params in file_names_problem.items():
+        problem_dir = "%s/problems/{problem_name}" % this_dir
+        params['acceptance_params'] = "%s/acceptance_params.json" % problem_dir
+
     return file_names_problem
 
 
@@ -105,7 +110,8 @@ def get_model_cache_file(problem_name, model_id, base_data_dir=None):
     """
     raw_problem_data_dir, _, model_cache_dir = _get_base_dirs(base_data_dir)
 
-    return "{model_cache_dir}/{problem_name}/{model_id}/{model_file_name}".format(model_cache_dir=model_cache_dir,
-                                                                                  problem_name=problem_name,
-                                                                                  model_id=model_id,
-                                                                                  model_file_name=_model_file_name)
+    return "{model_cache_dir}/{problem_name}/{model_id}/{model_file_name}" \
+        .format(model_cache_dir=model_cache_dir,
+                problem_name=problem_name,
+                model_id=model_id,
+                model_file_name=_model_file_name)

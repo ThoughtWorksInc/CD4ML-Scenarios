@@ -15,7 +15,7 @@ def get_metric(metric_name, df_of_single_run):
     return df_of_single_run["metrics.%s" % metric_name].head().values[0]
 
 
-def check_model_performance(metric_name, threshold_min, threshold_max):
+def check_model_performance_deprecated(metric_name, threshold_min, threshold_max):
     mlflow.set_tracking_uri(os.environ["MLFLOW_TRACKING_URL"])
     experiment = mlflow.get_experiment_by_name(TENANT)
     runs = mlflow.search_runs(experiment_ids=experiment.experiment_id)

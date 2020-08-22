@@ -44,7 +44,7 @@ pipeline {
         }
 //         stage('Acceptance test') {
 //             steps {
-//                 sh 'python3 run_python_script.py acceptance'
+//                 sh 'python3 run_python_script.py acceptance ${MLFLOW_TRACKING_URL}'
 //             }
 //         }
 //
