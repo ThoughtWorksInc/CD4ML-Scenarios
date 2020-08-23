@@ -26,10 +26,6 @@ def date_to_days_until_end(record, lookup):
     return float_or_zero(base_record_to_feature(record['date'], lookup, 'days_til_end_of_data'))
 
 
-def date_to_transactions(record, lookup):
-    return float_or_zero(base_record_to_feature(record['date'], lookup, 'transactions'))
-
-
 def item_nbr_to_product_class(record, lookup):
     return base_record_to_feature(record['item_nbr'], lookup, 'class')
 

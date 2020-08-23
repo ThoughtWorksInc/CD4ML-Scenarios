@@ -48,11 +48,9 @@ class FeatureSet(FeatureSetBase):
         year, month, day = ff.date_to_ymd(date)
         day_off = ff.date_to_day_off(base_features, self.info['date_lookup'])
         days_until_end = ff.date_to_days_until_end(base_features, self.info['date_lookup'])
-        trans = ff.date_to_transactions(base_features, self.info['date_lookup'])
 
         features = {'day': day,
                     'day_off': day_off,
-                    'days_until_end': days_until_end,
-                    'transactions_in_day': trans}
+                    'days_until_end': days_until_end}
 
         return {k: features[k] for k in self.params['derived_fields_numerical']}

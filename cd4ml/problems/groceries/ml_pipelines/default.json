@@ -5,7 +5,7 @@
     "acceptance_metric": "r2_score",
     "acceptance_threshold_min": 0.6,
     "acceptance_threshold_max": 1.0,
-    "training_random_seed": 2245486,
+    "training_random_seed": 462748,
     "identifier_field": "id",
     "target_field": "unit_sales",
     "feature_set_name": "feature_set_1",
