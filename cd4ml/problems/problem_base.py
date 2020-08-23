@@ -205,7 +205,8 @@ class ProblemBase:
     def download_data(self):
         raise ValueError("This function should be implemented in a parent class")
 
-    def get_feature_set_constructor(self, feature_set_name):
+    @staticmethod
+    def get_feature_set_constructor(feature_set_name):
         raise NotImplementedError("This function should be implemented in a parent class")
 
     def get_ml_pipeline_params(self, ml_pipeline_params_name):

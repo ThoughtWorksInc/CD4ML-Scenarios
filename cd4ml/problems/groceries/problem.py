@@ -51,6 +51,9 @@ class Problem(ProblemBase):
         if feature_set_name == "default":
             from cd4ml.problems.groceries.features.feature_sets.default import feature_set as fs
             return fs.get_feature_set
+        elif feature_set_name == "original":
+            from cd4ml.problems.groceries.features.feature_sets.original import feature_set as fs
+            return fs.get_feature_set
         else:
             raise ValueError("feature_set_name '{}' is invalid. Please check your groceries configuration"
                              .format(feature_set_name))
