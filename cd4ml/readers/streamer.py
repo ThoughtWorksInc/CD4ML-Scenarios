@@ -1,5 +1,8 @@
 from cd4ml.readers.file_reader import CSVDictionaryReader
-from cd4ml.readers.postgres import PostgresReader
+try:
+    from cd4ml.readers.postgres import PostgresReader
+except ImportError:
+    pass
 
 
 class DataStreamer:
