@@ -31,8 +31,8 @@ def stream_raw(problem_name):
 
 
 def stream_data(problem_name, max_rows_to_read=None):
-    from cd4ml.problems import read_schema_file
-    from pathlib import Path
+    # from cd4ml.problems import read_schema_file
+    # from pathlib import Path
     # categorical_fields, numeric_fields = read_schema_file(Path(Path(__file__).parent, "raw_schema.json"))
 
     for row_num, row in enumerate(stream_raw(problem_name)):
