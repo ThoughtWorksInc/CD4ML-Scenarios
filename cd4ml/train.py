@@ -20,6 +20,9 @@ def get_model_class(model_name):
 
 
 def train_model(encoded_train_data, target, model_name, params, seed=None):
+
+    # print(encoded_train_data[0:3])
+
     model_class = get_model_class(model_name)
 
     logger.info("Training {} model".format(model_name))
