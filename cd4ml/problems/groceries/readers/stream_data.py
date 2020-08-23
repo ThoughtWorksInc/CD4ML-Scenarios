@@ -21,8 +21,9 @@ def filter_func(row):
 
 def stream_raw_unfiltered(problem_name):
     file_names = get_problem_files(problem_name)
-    filename_shuffled = file_names['grocery_data_shuffled']
-    return (dict(row) for row in DictReader(open(filename_shuffled, 'r')))
+    # filename_shuffled = file_names['grocery_data_shuffled']
+    filename = file_names['raw_grocery_data']
+    return (dict(row) for row in DictReader(open(filename, 'r')))
 
 
 def stream_raw(problem_name):

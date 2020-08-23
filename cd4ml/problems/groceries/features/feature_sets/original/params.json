@@ -21,7 +21,5 @@
     "days_until_end"
   ],
   "encoder_excluded_fields": [],
-  "encoder_untransformed_fields": [
-    "date"
-  ]
+  "encoder_untransformed_fields": []
 }
