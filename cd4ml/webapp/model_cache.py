@@ -2,18 +2,18 @@ import datetime
 import logging
 import os
 from functools import lru_cache
+from pathlib import Path
+
 import mlflow
 import requests
-from cd4ml.filenames import get_model_cache_file
 from cd4ml.model_utils import load_deployed_model_from_local_file
 from cd4ml.problems import list_available_scenarios
 
 
 class ModelCache:
-    def __init__(self):
+    def __init__(self, cache_location=Path("mlflow_cache")):
         self.logger = logging.getLogger(__name__)
         self.known_problems = list_available_scenarios()
-        self.mlflow = mlflow
         self.columns_of_interest = {
             'run_id': 'run_id',
             'tags.mlflow.runName': 'run_number',
@@ -24,6 +24,7 @@ class ModelCache:
             'params.AlgorithmParamsName': 'algorithm_params_name',
             'tags.DidPassAcceptanceTest': 'passed_acceptance_test'
         }
+        self.base_model_directory = cache_location
         mlflow.set_tracking_uri(os.environ["MLFLOW_TRACKING_URL"])
 
     def get_loaded_model_for_scenario_and_run_id(self, scenario, run_id):
@@ -32,7 +33,8 @@ class ModelCache:
             if all_models_for_scenario is None:
                 return None
 
-            possible_deployable_models = [row for row in all_models_for_scenario if self.is_latest_deployable_model]
+            possible_deployable_models = [row for row in all_models_for_scenario
+                                          if self.is_latest_deployable_model(row)]
             if len(possible_deployable_models) == 0:
                 return None
 
@@ -41,7 +43,7 @@ class ModelCache:
                                            reverse=True)
             return self.get_loaded_model_for_scenario_and_run_id(scenario, last_deployment_model[0]['run_id'])
 
-        model_path = get_model_cache_file(scenario, run_id)
+        model_path = Path(self.base_model_directory, scenario, run_id, "full_model.pkl")
 
         if not model_path.exists():
             self.download_and_save_from_ml_flow(model_path, run_id)
