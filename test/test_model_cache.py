@@ -89,7 +89,8 @@ class TestModelCache:
         def get_search_return_values(experiment_ids, *args, **kwargs):
             df = pd.DataFrame(columns=list(cache.columns_of_interest.keys()), data=[{
                 'run_id': "123",
-                'tags.mlflow.runName': '1',
+                'tags.mlflow.runName': 'my_run',
+                'tags.mlflow.BuildNumber': '4',
                 'end_time': datetime(2020, 8, 29, 8, 0, 0),
                 'params.MLPipelineParamsName': 'default',
                 'params.FeatureSetName': 'default',
@@ -98,7 +99,8 @@ class TestModelCache:
                 'tags.DidPassAcceptanceTest': 'no'
             }, {
                 'run_id': "456",
-                'tags.mlflow.runName': '2',
+                'tags.mlflow.runName': 'my_second_run',
+                'tags.mlflow.BuildNumber': '5',
                 'end_time': datetime(2020, 8, 29, 9, 0, 0),
                 'params.MLPipelineParamsName': 'default',
                 'params.FeatureSetName': 'default',
@@ -122,6 +124,8 @@ class TestModelCache:
         assert set(available_models.keys()) == {"groceries"}
         assert len(available_models["groceries"]) == 2
         assert [x["run_id"] for x in available_models["groceries"]] == ['123', '456']
+        assert [x["is_latest"] for x in available_models["groceries"] if x["run_id"] == "456"][0]
+        assert not [x["is_latest"] for x in available_models["groceries"] if x["run_id"] == "123"][0]
 
     def test_get_model_by_name(self, tmp_path):
         cache = ModelCache(tmp_path)
