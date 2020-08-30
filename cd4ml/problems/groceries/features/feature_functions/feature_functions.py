@@ -37,6 +37,7 @@ def item_nbr_to_product_family(record, lookup):
 def item_nbr_to_perishable(record, lookup):
     return int(base_record_to_feature(record['item_nbr'], lookup, 'perishable'))
 
+
 def date_to_transactions(record, lookup):
     return float_or_zero(base_record_to_feature(record['date'], lookup, 'transactions'))
 
