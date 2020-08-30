@@ -21,17 +21,11 @@ def log_ml_pipeline_params_file(file_path):
             log_param(key, val)
 
 
-def register_model(model_id, host_name):
-    # not the concern of this stage, set to a default rather than
-    # not sending anything or leaving blank
-    # will be modified by acceptance stage
-
-    did_pass_acceptance_test = 'not-checked'
-
+def register_model(model_id, host_name, did_pass_acceptance_test):
     logger = logging.getLogger(__name__)
     mlflow.set_tracking_uri(uri=host_name)
 
-    logger.info("Reporting data for model %s" % model_id)
+    logger.info(f"Reporting data for model {model_id}")
 
     file_names = get_model_files(model_id)
     specification = get_json(file_names['model_specification'])

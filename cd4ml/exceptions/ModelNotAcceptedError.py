@@ -1,0 +1,2 @@
+class ModelNotAcceptedError(ValueError):
+    pass

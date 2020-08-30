@@ -60,10 +60,6 @@ def _get_problem_file_templates(raw_problem_data_dir):
         }
     }
 
-    for problem_name, params in file_names_problem.items():
-        problem_dir = "%s/problems/{problem_name}" % this_dir
-        params['acceptance_params'] = "%s/acceptance_params.json" % problem_dir
-
     return file_names_problem
 
 

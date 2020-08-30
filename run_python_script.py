@@ -37,7 +37,7 @@ def run_python_script(script_name, *args, **kwargs):
         cProfile.runctx(command, None, locals(), filename=filename)
         logger.info("To see profiler result, run:\nsnakeviz %s" % filename)
     else:
-        executable_script.main(*args)
+        executable_script.main(list(args[0]))
 
 
 if __name__ == "__main__":

@@ -39,14 +39,8 @@ pipeline {
         }
         stage('Register model') {
             steps {
-                 sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL}'
+                 sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL}' 'not-checked'
             }
         }
-//         stage('Acceptance test') {
-//             steps {
-//                 sh 'python3 run_python_script.py acceptance ${MLFLOW_TRACKING_URL}'
-//             }
-//         }
-//
     }
 }
