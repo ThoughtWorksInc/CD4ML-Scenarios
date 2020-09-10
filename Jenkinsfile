@@ -20,6 +20,7 @@ pipeline {
         MLFLOW_S3_ENDPOINT_URL = 'http://minio:9000'
         AWS_ACCESS_KEY_ID = "${env.ACCESS_KEY}"
         AWS_SECRET_ACCESS_KEY = "${env.SECRET_KEY}"
+
     }
     stages {
         stage('Install dependencies') {
@@ -37,22 +38,16 @@ pipeline {
                 sh 'python3 run_python_script.py pipeline ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name}'
             }
        }
-//        stage('Register model') {
-//            steps {
-//                    sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} yes'
-//            }
-//        }
        stage('Register Model and Acceptance Test') {
             steps {
-                 sh 'python3 run_python_script.py acceptance'
-            }
-            post {
-                success {
-                    sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} yes'
-                }
-                failure {
-                    sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} no'
-                }
+                 def statusCode = sh 'python3 run_python_script.py acceptance', returnStatus: true
+                 def isProductionPipeline = "${ml_pipeline_params_name}" == "default" &&
+                                            "${feature_set_name}" == "default" &&
+                                            "${algorithm_name}" == "default" &&
+                                            "${algorithm_params_name}" == "default"
+                 def statusText = statusCode == 0 ? "yes" : isProductionPipeline ? "yes" : "no"
+                 sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} ${statusText}'
+                 currentBuild.result = statusCode == 0 "SUCCESS" : isProductionPipeline ? "SUCCESS" else "FAILURE"
             }
        }
     }
