@@ -70,7 +70,11 @@ pipeline {
                }
            }
            steps {
-                sh(script: 'python3 run_python_script.py acceptance', returnStatus: false)
+                sh '''
+                set +e
+                python3 run_python_script.py acceptance
+                set -e
+                '''
                 sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} no'
            }
        }
