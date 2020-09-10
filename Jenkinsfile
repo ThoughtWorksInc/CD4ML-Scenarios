@@ -38,12 +38,6 @@ pipeline {
                 sh 'python3 run_python_script.py pipeline ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name}'
             }
        }
-       stage('Register Model and Acceptance Test (experiment)') {
-           steps {
-                sh(script: 'python3 run_python_script.py acceptance', returnStatus: false)
-                sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} no'
-           }
-       }
        stage('Register Model and Acceptance Test (production)') {
            when {
                allOf {
@@ -66,5 +60,20 @@ pipeline {
                 }
            }
        }
+       stage('Register Model and Acceptance Test (experiment)') {
+            when {
+               anyOf {
+                    not { equals expected: 'default', actual: "${ml_pipeline_params_name}" }
+                    not { equals expected: 'default', actual: "${feature_set_name}"}
+                    not { equals expected: 'default', actual: "${algorithm_name}"}
+                    not { equals expected: 'default', actual: "${algorithm_params_name}"}
+               }
+           }
+           steps {
+                sh(script: 'python3 run_python_script.py acceptance', returnStatus: false)
+                sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} no'
+           }
+       }
+
     }
 }
