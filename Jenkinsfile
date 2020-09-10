@@ -38,7 +38,7 @@ pipeline {
                 sh 'python3 run_python_script.py pipeline ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name}'
             }
        }
-       stage('Register Model and Acceptance Test (production)') {
+       stage('Production - Register Model and Acceptance Test') {
            when {
                allOf {
                     equals expected: 'default', actual: "${ml_pipeline_params_name}"
@@ -60,7 +60,7 @@ pipeline {
                 }
            }
        }
-       stage('Register Model and Acceptance Test (experiment)') {
+       stage('Experiment - Register Model and Acceptance Test') {
             when {
                anyOf {
                     not { equals expected: 'default', actual: "${ml_pipeline_params_name}" }
