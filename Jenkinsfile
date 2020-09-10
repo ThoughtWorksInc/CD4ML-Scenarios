@@ -49,7 +49,7 @@ pipeline {
                  String statusCode = sh 'python3 run_python_script.py acceptance', returnStatus: true
                  String statusText = statusCode == 0 ? "yes" : isProductionPipeline() ? "yes" : "no"
                  sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} ${statusText}'
-                 currentBuild.result = statusCode == 0 "SUCCESS" : isProductionPipeline() ? "SUCCESS" : "FAILURE"
+                 currentBuild.result = statusCode == 0 ? "SUCCESS" : isProductionPipeline() ? "SUCCESS" : "FAILURE"
             }
        }
     }
