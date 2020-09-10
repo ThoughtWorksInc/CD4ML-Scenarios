@@ -38,19 +38,33 @@ pipeline {
                 sh 'python3 run_python_script.py pipeline ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name}'
             }
        }
-       stage('Register Model and Acceptance Test') {
+       stage('Register Model and Acceptance Test (experiment)') {
            steps {
-                 String statusCode = sh 'python3 run_python_script.py acceptance', returnStatus: true
-                 String statusText = statusCode == 0 ? "yes" : isProductionPipeline() ? "yes" : "no"
-                 sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} ${statusText}'
-                 currentBuild.result = statusCode == 0 ? "SUCCESS" : isProductionPipeline() ? "SUCCESS" : "FAILURE"
-            }
+                sh(script: 'python3 run_python_script.py acceptance', returnStatus: false)
+                sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} no'
+           }
+       }
+       stage('Register Model and Acceptance Test (production)') {
+           when {
+               allOf {
+                    equals expected: 'default', actual: "${ml_pipeline_params_name}"
+                    equals expected: 'default', actual: "${feature_set_name}"
+                    equals expected: 'default', actual: "${algorithm_name}"
+                    equals expected: 'default', actual: "${algorithm_params_name}"
+               }
+
+           }
+           steps {
+                sh 'python3 run_python_script.py acceptance'
+           }
+           post {
+                success {
+                    sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} yes'
+                }
+                failure {
+                    sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} no'
+                }
+           }
        }
     }
-}
-def isProductionPipeline() {
-     return "${ml_pipeline_params_name}" == "default" &&
-                   "${feature_set_name}" == "default" &&
-                   "${algorithm_name}" == "default" &&
-                   "${algorithm_params_name}" == "default"
 }
