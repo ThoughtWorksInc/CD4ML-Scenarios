@@ -39,12 +39,6 @@ pipeline {
             }
        }
        stage('Register Model and Acceptance Test') {
-           def isProductionPipeline() {
-                return "${ml_pipeline_params_name}" == "default" &&
-                       "${feature_set_name}" == "default" &&
-                       "${algorithm_name}" == "default" &&
-                       "${algorithm_params_name}" == "default"
-           }
            steps {
                  String statusCode = sh 'python3 run_python_script.py acceptance', returnStatus: true
                  String statusText = statusCode == 0 ? "yes" : isProductionPipeline() ? "yes" : "no"
@@ -53,4 +47,10 @@ pipeline {
             }
        }
     }
+}
+def isProductionPipeline() {
+     return "${ml_pipeline_params_name}" == "default" &&
+                   "${feature_set_name}" == "default" &&
+                   "${algorithm_name}" == "default" &&
+                   "${algorithm_params_name}" == "default"
 }
