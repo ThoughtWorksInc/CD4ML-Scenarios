@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    when {
+        branch 'master'
+    }
     parameters {
         choice(name: 'problem_name', choices: ['houses', 'groceries'], description: 'Choose the problem name')
         string(name: 'ml_pipeline_params_name', defaultValue: 'default', description: 'Specify the ml_pipeline_params file')
@@ -35,19 +38,16 @@ pipeline {
         }
         stage('Run ML pipeline') {
             steps {
-                sh 'python3 run_python_script.py pipeline ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name}'
+                sh 'python3 run_python_script.py pipeline ${params.problem_name} ${params.ml_pipeline_params_name} ${params.feature_set_name} ${params.algorithm_name} ${params.algorithm_params_name}'
             }
        }
        stage('Production - Register Model and Acceptance Test') {
            when {
-               anyOf {
-                   allOf {
-                        equals expected: 'default', actual: "${ml_pipeline_params_name}"
-                        equals expected: 'default', actual: "${feature_set_name}"
-                        equals expected: 'default', actual: "${algorithm_name}"
-                        equals expected: 'default', actual: "${algorithm_params_name}"
-                   }
-                   environment name: 'BUILD_NUMBER', value: '1'
+              allOf {
+                    equals expected: 'default', actual: "${params.ml_pipeline_params_name}"
+                    equals expected: 'default', actual: "${params.feature_set_name}"
+                    equals expected: 'default', actual: "${params.algorithm_name}"
+                    equals expected: 'default', actual: "${params.algorithm_params_name}"
                }
            }
            steps {
@@ -65,10 +65,10 @@ pipeline {
        stage('Experiment - Register Model and Acceptance Test') {
             when {
                anyOf {
-                    not { equals expected: 'default', actual: "${ml_pipeline_params_name}" }
-                    not { equals expected: 'default', actual: "${feature_set_name}"}
-                    not { equals expected: 'default', actual: "${algorithm_name}"}
-                    not { equals expected: 'default', actual: "${algorithm_params_name}"}
+                    not { equals expected: 'default', actual: "${params.ml_pipeline_params_name}" }
+                    not { equals expected: 'default', actual: "${params.feature_set_name}"}
+                    not { equals expected: 'default', actual: "${params.algorithm_name}"}
+                    not { equals expected: 'default', actual: "${params.algorithm_params_name}"}
                }
            }
            steps {
