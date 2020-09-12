@@ -40,13 +40,15 @@ pipeline {
        }
        stage('Production - Register Model and Acceptance Test') {
            when {
-               allOf {
-                    equals expected: 'default', actual: "${ml_pipeline_params_name}"
-                    equals expected: 'default', actual: "${feature_set_name}"
-                    equals expected: 'default', actual: "${algorithm_name}"
-                    equals expected: 'default', actual: "${algorithm_params_name}"
+               anyOf {
+                   allOf {
+                        equals expected: 'default', actual: "${ml_pipeline_params_name}"
+                        equals expected: 'default', actual: "${feature_set_name}"
+                        equals expected: 'default', actual: "${algorithm_name}"
+                        equals expected: 'default', actual: "${algorithm_params_name}"
+                   }
+                   environment name: 'BUILD_NUMBER', value: '1'
                }
-
            }
            steps {
                 sh 'python3 run_python_script.py acceptance'
@@ -78,6 +80,5 @@ pipeline {
                 sh 'python3 run_python_script.py register_model ${MLFLOW_TRACKING_URL} no'
            }
        }
-
     }
 }

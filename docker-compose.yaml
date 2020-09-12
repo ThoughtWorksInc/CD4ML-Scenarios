@@ -137,6 +137,8 @@ services:
       - "12000:5000"
     networks:
       - jenkins_nw
+    volumes:
+      - mlflow-storage:/mnt/mlflow
     depends_on:
       - minio
   
@@ -163,6 +165,8 @@ volumes:
   data01:
     driver: local
   minio-storage:
+    driver: local
+  mlflow-storage:
     driver: local
 
 networks:
