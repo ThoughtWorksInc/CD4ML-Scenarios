@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    when {
-        branch 'master'
-    }
     parameters {
         choice(name: 'problem_name', choices: ['houses', 'groceries'], description: 'Choose the problem name')
         string(name: 'ml_pipeline_params_name', defaultValue: 'default', description: 'Specify the ml_pipeline_params file')
