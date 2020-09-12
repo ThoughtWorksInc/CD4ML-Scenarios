@@ -35,7 +35,7 @@ pipeline {
         }
         stage('Run ML pipeline') {
             steps {
-                sh 'python3 run_python_script.py pipeline ${params.problem_name} ${params.ml_pipeline_params_name} ${params.feature_set_name} ${params.algorithm_name} ${params.algorithm_params_name}'
+                sh 'python3 run_python_script.py pipeline ${problem_name} ${ml_pipeline_params_name} ${feature_set_name} ${algorithm_name} ${algorithm_params_name}'
             }
        }
        stage('Production - Register Model and Acceptance Test') {
