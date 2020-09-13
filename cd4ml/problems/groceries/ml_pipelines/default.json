@@ -3,7 +3,7 @@
     "days_back": 57,
     "default_algorithm": "random_forest",
     "acceptance_metric": "r2_score",
-    "acceptance_threshold_min": 0.6,
+    "acceptance_threshold_min": 0.55,
     "acceptance_threshold_max": 1.0,
     "training_random_seed": 462748,
     "identifier_field": "id",
