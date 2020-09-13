@@ -22,22 +22,22 @@ In this workshop, we use the EFK stack for our monitoring and observability infr
 
 1. Ensure that you have run the Jenkins Pipeline recently to have a model loaded.
 2. Navigate to the [Model Service](http://localhost:11000)
-3. Select a time and a product and click Submit
+3. Fill in the parameters on the housing page and click 'Submit'
 4. Navigate to [Kibana](http://localhost:5601)
 
-![Kibana Home Page](./../images/KibanaHomePage.png)
+    ![Kibana Home Page](./../images/KibanaHomePage.png)
 
 5. When the page loads click the "Discover" Compass on the top left. This will take you to the "Create Index Pattern" Page. Enter `model-*` as the index pattern. Click "Next Step"
 
-![Kibana Create Index](./../images/KibanaCreateIndex.png)
+    ![Kibana Create Index](./../images/KibanaCreateIndex.png)
 
 6. On the "Configure Settings" page, make sure `@timestamp` is selected from the "Time Filter Field name" dropdown. Click "Create Index Pattern". 
 
-![Kibana Time Filter](./../images/KibanaTimeFilter.png)
+    ![Kibana Time Filter](./../images/KibanaTimeFilter.png)
 
 7. Click the Discover Compass on the top left again and you should able to visualize your model logs and see the times, product names and predictions that were made
 
-![Kibana Model Predictions](./../images/KibanaPredictions.png)
+   ![Kibana Model Predictions](./images/KibanaHousing.png)
 
 To stop the environment run: `docker-compose down`
 

@@ -17,7 +17,7 @@ git push
 ``` 
 Notice that your build should have failed because the prediction accuracy with this estimator are not high enough. 
 
-![BuildFailedCD](./images/BuildFailedCD.png)
+![BuildFailedCD](./../images/BuildFailedCD.png)
 
 Let's revert this commit back to it's original estimation values. Run 
 ```bash
@@ -27,4 +27,4 @@ git push
 
 After reverting your change your build should go green!
 
-Continue to the [next section](6-KibanaLogVisualization.md) to visualize your model results in real time. 
+Continue to the [next section](./6-KibanaLogVisualization.md) to visualize your model results in real time. 
