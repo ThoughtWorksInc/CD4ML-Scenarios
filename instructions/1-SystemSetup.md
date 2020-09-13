@@ -7,11 +7,15 @@
 * Configuring a python code development environment
 
 ### Github Setup
-Navigate to the [Github Personal Access Tokens page](https://github.com/settings/tokens).
+Navigate to the [Github Personal Access Token page](https://github.com/settings/tokens).
 
 Click "Generate new token" on the top right. You may need to enter your Github password again.
 
-Enter a Note for your personal access token and select the "repo" and "user:email" permissions. Click "Generate Token".
+![TokenSettings](./images/TokenSettings.png)
+
+Enter a Note for your personal access token and select the "repo" and "user:email" permissions. Click "Generate Token". See example below
+
+![DockerSettings](./images/DockerSettings.png)
 
 Your personal access token will be created and displayed to you. Make sure you save this token safely because it will not be shown again.
 
