@@ -1,4 +1,0 @@
-{
-    "categorical": ["id", "item_nbr"],
-    "numerical": ["date"]
-}

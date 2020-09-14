@@ -8,7 +8,6 @@ from cd4ml.utils.utils import float_or_zero
 logger = logging.getLogger(__name__)
 
 
-# TODO Read the appropriate schema files and assign "raw_schema"
 def filter_func(row):
     """
     Filter function for data
@@ -40,6 +39,7 @@ def stream_data(problem_name, max_rows_to_read=None):
         if max_rows_to_read and row_num == max_rows_to_read:
             logger.info('Stopped reading file after {} rows'.format(max_rows_to_read))
             break
+
         yield process(row)
         # yield process_orig(row)
 
@@ -57,23 +57,6 @@ def process(row):
             'class': row['class'],
             'family': row['family'],
             'unit_sales': max(0.0, float(row['unit_sales']))}
-
-
-# ['dayofweek', 'days_til_end_of_data', 'dayoff', 'transactions']
-
-def process_row(row, categorical_fields, numeric_fields):
-    """
-    Process a raw row of house data and give it the right schema
-    :param row: raw row
-    :param schema: raw_schema_dict
-    :return: processed row
-    """
-    row_out = {k: row[k] for k in categorical_fields}
-
-    for field in numeric_fields:
-        row_out[field] = float_or_zero(row[field])
-
-    return row_out
 
 
 def process_orig(row_in):
