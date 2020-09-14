@@ -1,4 +1,4 @@
 {
-    "categorical": ["id", "item_nbr", "family", "class", "dayoff"],
-    "numerical": ["date", "unit_sales", "perishable", "transactions", "days_til_end_of_data","year", "month", "day", "dayofweek"]
+    "categorical": ["id", "item_nbr"],
+    "numerical": ["date"]
 }

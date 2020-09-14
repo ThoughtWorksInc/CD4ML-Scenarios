@@ -9,8 +9,9 @@ def base_record_to_feature(base_feature, lookup, feature):
         return results[feature]
 
 
-def date_to_ymd(date_string):
-    year, month, day = date_string.split('-')
+def date_to_ymd(date):
+    date_string = str(date)
+    year, month, day = date_string[0:4], date_string[4:6], date_string[6:8]
     return int(year), int(month), int(day)
 
 
@@ -36,10 +37,6 @@ def item_nbr_to_product_family(record, lookup):
 
 def item_nbr_to_perishable(record, lookup):
     return int(base_record_to_feature(record['item_nbr'], lookup, 'perishable'))
-
-
-def date_to_transactions(record, lookup):
-    return float_or_zero(base_record_to_feature(record['date'], lookup, 'transactions'))
 
 # derive
 # from date: year, month, day, dayofweek, days_til_end_of_data, dayoff

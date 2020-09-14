@@ -40,9 +40,26 @@ def stream_data(problem_name, max_rows_to_read=None):
         if max_rows_to_read and row_num == max_rows_to_read:
             logger.info('Stopped reading file after {} rows'.format(max_rows_to_read))
             break
-        # yield process_row(row, categorical_fields, numeric_fields)
-        yield process_orig(row)
+        yield process(row)
+        # yield process_orig(row)
 
+
+def process(row):
+    return {'date': int(row['date'].replace('-', '')),
+            'item_nbr': str(row['item_nbr']),
+            'id': str(row['id']),
+            'year': row['year'],
+            'month': row['month'],
+            'day': row['day'],
+            'dayofweek': row['dayofweek'],
+            'days_til_end_of_data': int(row['days_til_end_of_data']),
+            'dayoff': int(row['dayoff'] == 'True'),
+            'class': row['class'],
+            'family': row['family'],
+            'unit_sales': max(0.0, float(row['unit_sales']))}
+
+
+# ['dayofweek', 'days_til_end_of_data', 'dayoff', 'transactions']
 
 def process_row(row, categorical_fields, numeric_fields):
     """

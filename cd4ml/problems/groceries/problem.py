@@ -36,7 +36,7 @@ class Problem(ProblemBase):
         self.logger.info('Preparing feature data')
         train_data = self.training_stream()
         date_lookup = create_lookup(train_data,
-                                    ['dayofweek', 'days_til_end_of_data', 'dayoff', 'transactions'],
+                                    ['dayofweek', 'days_til_end_of_data', 'dayoff'],
                                     'date')
 
         train_data = self.training_stream()
