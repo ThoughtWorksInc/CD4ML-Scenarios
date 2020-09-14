@@ -144,7 +144,7 @@ services:
   
   dev:
     container_name: dev
-    image: jupyter/minimal-notebook:latest
+    image: jupyter/minimal-notebook:54462805efcb
     environment:
       - JUPYTER_ENABLE_LAB=yes
     ports:

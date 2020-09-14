@@ -32,4 +32,4 @@ creds.txt
 .local/*
 **/.ipynb_checkpoints/*
 set_registry_creds.sh
-
+.gitignore

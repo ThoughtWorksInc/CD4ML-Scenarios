@@ -24,6 +24,7 @@ In the following exercise we are going to demonstrate how a continuous deploymen
     ```bash
     git add .
     git commit -m "Adjust max_features to 0.4, acceptance_threshold to 0.5"
+    git push
     ```
 4. After running the pipeline we should see the pipeline go read indicating a build error:
    ![RedPipeline](./images/RedPipeline.png)
