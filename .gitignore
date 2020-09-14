@@ -22,6 +22,9 @@ bad_code.py
 test/mlruns/*
 # Jenkins Files
 jenkins/jenkins-admin-password.txt
+.ipython/
+creds.txt
+set_registry_creds.sh
 
 # Jupyter Files
 .bash_history
