@@ -3,8 +3,6 @@ from csv import DictReader
 from cd4ml.filenames import get_problem_files
 import logging
 
-from cd4ml.utils.utils import float_or_zero
-
 logger = logging.getLogger(__name__)
 
 
