@@ -5,6 +5,7 @@
     "target_field": "price",
     "feature_set_name": "feature_set_1",
     "max_rows_to_read": null,
+    "acceptance_metric": "rms_score",
     "splitting": {
         "random_seed": 420,
         "training_random_start": 0.0,
