@@ -43,7 +43,7 @@ The second is a scenario based on a problem from the Zillow group, an American o
 
 ## Links to the different components of this scenario
 
-After a successful setup of the environment, the following components are running on your machine. You can find a homepage to navigate to any of these services [here](http://localhost:3000).
+After a successful setup of the environment, the following components are running on your machine. You can find a homepage to navigate to any of these services [here](http://localhost:3000)
 
 * [Jenkins](http://localhost:10000/blue)
 * [JupyterLab](http://127.0.0.1:8888/lab)
