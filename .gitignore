@@ -24,6 +24,7 @@ test/mlruns/*
 jenkins/jenkins-admin-password.txt
 creds.txt
 .ipython/
+set_registry_creds.sh
 
 # Jupyter Files
 .bash_history
@@ -31,6 +32,5 @@ creds.txt
 .jupyter/*
 .local/*
 **/.ipynb_checkpoints/*
-set_registry_creds.sh
 .gitignore
 .gitconfig
