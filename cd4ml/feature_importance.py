@@ -27,7 +27,7 @@ def get_feature_importance_linear_model(trained_model, encoder, print_features=T
     feature_importance = {k: v for k, v in zip(names, importances)}
 
     if print_features:
-        logger.info('intercept', intercept)
+        logger.info(f'intercept {intercept}')
         importance_pairs = sorted(feature_importance.items(), key=lambda x: -x[1])
         logger.info('Feature Importance')
         logger.info("-" * 40)
