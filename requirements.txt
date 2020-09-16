@@ -9,7 +9,7 @@ fluent-logger==0.9.4
 bokeh==1.4.0
 ipython==7.8.0
 arrow==0.15.5
-wickedhot==0.2.3
+wickedhot==0.2.4
 boto3==1.14.41
 requests-mock==1.8.0
 
