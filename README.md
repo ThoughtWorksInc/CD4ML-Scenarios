@@ -63,7 +63,7 @@ The material, ideas, and content developed for this workshop were contributions 
 * [Danni Yu](https://github.com/danniyu)
 * [David Johnston](https://github.com/dave31415)
 * [David Tan](https://github.com/davified)
-* [Emily Grasmeder](https://github.com/emilyagras)
+* [Emma Grasmeder](https://github.com/emilyagras)
 * [Emily Gorcenski](https://github.com/Gorcenski)
 * [Eric Nagler](https://github.com/ericnagler)
 * [Jin Yang](https://github.com/yytina)
