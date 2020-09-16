@@ -1,0 +1,105 @@
+# TODO: ensure this is correct and up to date
+
+
+Explanation of the different feature field sets and what they mean, how they are used
+and how they are specified in the derived FeatureSet class
+-------------------------------------------------------------
+
+raw_fields: (implicit)
+    All the fields present in the raw file
+base_fields: (explicit, set defined as keys of base_field_schema)
+    Subset of the raw fields to be retained and assigned a data type (string or float)
+    by raw_schema.py
+identifier_field: (explicit)
+    The field which acts as a primary key for each row of raw file. Specified in
+    problem_params and copied into FeatureSet class
+target_field: (explicit)
+    Field which will be the target of the ML algorithm
+extra_information_fields (explicit):
+    Any other fields which are desired to be retained for debugging, descriptions or any
+    other information. Will not be treated as features. Just come along for the ride.
+base_feature_fields: (derived)
+    base_fields - {identifier_field, target_field} - extra_information_fields
+    These are the fields that are needed as input for scoring the algorithm once trained,
+    i.e. the domain of the scoring function. Can be used to auto-generate an input form,
+    for example.
+derived_feature_fields: (explicit)
+    Fields that will be derived from the base features and possibly some extra
+    data structures such as lookup tables (e.g. zipcode -> state)
+feature_fields: (derived)
+    base_feature_fields + derived_feature_fields
+encoder_excluded_fields: (explicit)
+    These are the subset of base_feature_fields that will not be input to the encoder.
+    So the encoder will not counts their levels (if categorical) or measure their
+    statistics (optional for numerical fields) and of course will not be able to encode
+    them. Typically used for categorical features with too many levels that were need
+    to derive features with lower cardinality. Could also be numerical features used to
+    derive some more useful feature (e.g. two numbers which form a ratio that is expected
+    to more informative.
+encoded_fields: (derived)
+    feature_fields - encoder_excluded_fields
+encoder_untransformed_fields: (explicit)
+    Set of fields that were included in encoder but are not actually transformed to encode the
+    final set of features. The point of having this distinct from encoder_excluded_fields is that
+    sometimes you might want to utilize other features of the encoder for a field such as
+    count of levels or statistics but don't actually want it encoded into a set of final features.
+    Typically used for categorical features with high cardinality. Example, throw away ZIP-code
+    after deriving state (lower cardinality and worth one-hot-encoding).
+final_features: (derived)
+    encoded_fields - non_encoded_fields
+
+Example
+------------
+Goal: predict loan approval for new customers
+
+raw_fields: ['id', 'name', 'zipcode', 'state', 'salary', 'approved', 'loan_paid_off']
+    Implicit in the data file.
+base_fields: (explicit) ['id', 'zipcode', 'salary', 'approved', 'loan_paid_off']
+    'name' was excluded because it is useless and possibly a privacy concern
+    'state' was excluded because it should be derived from zipcode rather than be
+    something people need to specify at scoring time. You want to avoid someone entering
+    zipcode='90210' (a Californin zipcode) and the state of New Jersey. That would be inconsistent.
+    So instead, build a lookup table of zipcode -> state and make state a derived feature.
+    Be sure to give it a different name to avoid possible confusion.
+    These fields are actually given a schema to specify whether they should be treated as
+    numerical or categorical.
+identifier_field: 'id'
+target_field: 'approved'
+extra_information_fields: explicit ['loan_paid_off']
+    Perhaps there is as reason why this is useful so it wasn't dropped immediately. But it's
+    not going to be available as a feature if a loan hasn't even been given yet. So let it
+    come along for the ride but don't use it in the algorithm or require it to be entered
+    at scoring time.
+base_feature_fields: (derived) ['zipcode', 'salary']
+    If you enter these two fields, the trained algorithm will be able to score it for
+    estimation of loan approval.
+derived_fields: (explicit) ['us_state']
+    Create a lookup table from zipcode -> us_state. Note we have not reused the same name 'state'
+    but gave it a variant name to remove confusion. They could in principle differ if zipcode -> state
+    is not actually single valued. (There is some debate over that exact problem I believe).
+    One could however coerce it to be single valued which might then create a few difference.
+    Both base_fields and derived_fields that are categorical are given a max_levels value to
+    tell the one-hot encoder to limit the number of Boolean levels derived from it.
+feature_fields: (derived) ['zipcode', 'salary', 'us_state']
+    All these will be one-hot encoded into the final set of features to train on unless
+    explicitly removed using one of the two specifications below.
+encoder_excluded_fields: (explicit) []
+    No fields are used here. zipcode might be included here. However, if we do include it here,
+    the encoder will not compute it's levels which would mean we can't auto-generate a drop-down
+    menu or validate a zipcode input form. the wickedhot one-hot encoder can do those things.
+encoded_fields: (derived) ['zipcode', 'salary', 'us_state']
+encoder_untransformed_fields: (implicit) ['zipcode']
+    While we did not exclude zipcode from the encoder, we don't actually want it one-hot-encoded.
+    There are roughly 42,000 US zipcodes so that would create around that many boolean features
+    which would be memory intensive and have too high a dimensionality to be useful.
+    Sparse matrix representations can allviate former memory issue but not the latter.
+    While the wickedhot encoder allows us to limit the encoded variables (say top 20 most common
+    zipcodes), we have created the 'us_state' variable which is a less granular measure of location
+    and are happy just using that. There might be other ways to decide on which zipcodes carry
+    most of the information and create an altered version with lower cardinality with one level
+    being "other". Also we might create a feature that is some aggregation by zipcode such as
+    'average_salary_in_zip' which would be a new derived feature computable from a lookup table
+    that you create. Likewise, we would want to drop zipcode itself before one-hot encoding a
+    row of features. If the cardinality of the set is truly enormous (e.g. millions), you'll probably
+    want to exclude it from the encoder because it will make the serialized encoder package
+    (and file) pretty huge.

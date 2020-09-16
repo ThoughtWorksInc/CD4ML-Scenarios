@@ -1,24 +1,57 @@
-import numpy as np
-from cd4ml import pipeline_helpers as ph
-from cd4ml.pipeline_params import pipeline_params
+import argparse
+
+import logging
+from cd4ml.problems import get_problem, list_available_scenarios
+
+DEFAULT_ARGUMENT = 'default'
 
 
-def main(*args):
+def make_argument_parser():
+    list_of_arguments = [
+        {'arg_name': "ml_pipeline_params_name", 'help': "The name of the problem to Run"},
+        {'arg_name': "feature_set_name", 'help': "The name of the problem to Run"},
+        {'arg_name': "algorithm_name", 'help': "The name of the problem to Run"},
+        {'arg_name': "algorithm_params_name", 'help': "The name of the problem to Run"}
+    ]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("problem_name",
+                        help="The name of the problem to run",
+                        choices=list_available_scenarios(),
+                        nargs='?',
+                        default="houses")
+
+    for arg in list_of_arguments:
+        parser.add_argument(arg['arg_name'],
+                            help=arg['help'],
+                            nargs='?',
+                            default=DEFAULT_ARGUMENT)
+    return parser
+
+
+def main(args):
     """
     Run the pipeline
     """
-    args = args[0]
-    if len(args) > 0:
-        variable = args[0]
-    else:
-        variable = None
+    logger = logging.getLogger(__name__)
+    arg_parser = make_argument_parser()
 
-    np.random.seed(462748)
+    parsed_args = arg_parser.parse_args(args)
+    problem_name = parsed_args.problem_name
 
-    if variable:
-        print('variable: %s' % variable)
+    ml_pipeline_params_name = parsed_args.ml_pipeline_params_name
+    feature_set_name = parsed_args.feature_set_name
+    algorithm_name = parsed_args.algorithm_name
+    algorithm_params_name = parsed_args.algorithm_params_name
 
-    if pipeline_params["data_source"] == "file":
-        ph.download_data(pipeline_params)
+    logger.info(f'Desired Problem to Run: {problem_name}')
+    # TODO: Allow a different data_downloader
 
-    ph.train_and_validate_model(pipeline_params)
+    problem = get_problem(problem_name,
+                          data_downloader=DEFAULT_ARGUMENT,
+                          ml_pipeline_params_name=ml_pipeline_params_name,
+                          feature_set_name=feature_set_name,
+                          algorithm_name=algorithm_name,
+                          algorithm_params_name=algorithm_params_name)
+
+    # Call the run_all method, which will perform the entire data pipeline
+    problem.run_all()

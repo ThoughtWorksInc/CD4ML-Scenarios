@@ -5,9 +5,11 @@ ENV FLUENTD_HOST "fluentd"
 ENV FLUENTD_PORT "24224"
 ENV FLASK_APP "cd4ml/app.py"
 ENV FLASK_ENV "production"
+ENV MLFLOW_TRACKING_URL "http://mlflow:5000"
 
 RUN mkdir -p /app/cd4ml/
 WORKDIR /app/cd4ml/
+
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 

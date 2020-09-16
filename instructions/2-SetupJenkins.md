@@ -22,8 +22,18 @@ At this step the pipeline will build, you can select the pipeline to see the ind
 
 ![GreenBuildPipline](./images/GreenBuildPipeline.png)
 
-Now try to run the model in production by clicking this [link](http://localhost:11000).
+Now, we can verify that our model works in production. Navigate to the ML Model [here](http://localhost:11000). You should see the following welcome page.
 
-Select a date and a product and click submit. You will see the prediction of the customer demand of this product at this date.
+![ModelHomePage](./images/ModelHomePage.png)
 
-![SalesModel](./images/MLModel.png)
+Click "Use latest valid model" in the Housing Price Prediction Scenario". From here you should be able to fill fields (see sample below) and click "Submit". Afterwards, you will see the estimated sale price of the house.
+
+![SampleHousePricePrediction](./images/HousePricePrediction.png)
+
+Finally, if you want to build the model for the sales forecasting scenario, navigate back to Jenkins, click Branches and then the play button next to the 'master' branch.  You should see the following window.
+
+![SelectProblem](./images/JenkinsSelectScenario.png)
+
+From here you can select the scenario that you want to execute by selecting the problem name of interest at the top. You can click 'Run' to execute the pipeline.
+
+Now, you are ready to get started. You can continue the [Zillow Housing Scenario](./housing/3-MachineLearning.md) or the [Shopping Scenario](./groceries/3-MachineLearning.md).

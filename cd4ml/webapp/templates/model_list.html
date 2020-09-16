@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+    {% set title = 'Available models for ' + printable_scenario_name %}
+    {% include "partials/_head.html" %}
+    {% include "partials/_navbar.html" %}
+    <body>
+        <div class="container">
+            {% if rows is not none %}
+                {% include 'partials/_model_table.html' %}
+            {% else %}
+                {% include 'partials/_no_models.html' %}
+            {% endif %}
+        </div>
+    </body>
+</html>

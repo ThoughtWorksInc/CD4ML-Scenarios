@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+    {% set title = 'Error!' %}
+    {% include "partials/_head.html" %}
+    <body>
+        {% include "partials/_navbar.html" %}
+        <div class="container">
+            <h3>{{ title }}</h3>
+            <p>{{ message }}</p>
+        </div>
+    </body>
+</html>

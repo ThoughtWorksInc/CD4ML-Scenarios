@@ -1,0 +1,14 @@
+{
+    "max_date": "2017-08-15",
+    "days_back": 57,
+    "default_algorithm": "random_forest",
+    "acceptance_metric": "r2_score",
+    "acceptance_threshold_min": 0.55,
+    "acceptance_threshold_max": 1.0,
+    "training_random_seed": 462748,
+    "identifier_field": "id",
+    "target_field": "unit_sales",
+    "feature_set_name": "feature_set_1",
+    "max_rows_to_read": null,
+    "validation_metric_names": ["r2_score", "rms_score", "mad_score", "num_validated"]
+}

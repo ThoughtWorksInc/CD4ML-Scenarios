@@ -1,0 +1,25 @@
+{
+  "feature_set_name": "original",
+  "extra_information_fields": [],
+  "base_categorical_n_levels_dict": {
+    "item_nbr": 10000000000,
+    "date": 10000,
+    "day": 370
+  },
+  "base_fields_numerical": [
+    "perishable"
+  ],
+  "derived_categorical_n_levels_dict": {
+    "year": 50,
+    "month": 13,
+    "day_of_week": 10,
+    "product_class": 600,
+    "product_family": 100
+  },
+  "derived_fields_numerical": [
+    "day_off",
+    "days_until_end"
+  ],
+  "encoder_excluded_fields": [],
+  "encoder_untransformed_fields": ["date"]
+}

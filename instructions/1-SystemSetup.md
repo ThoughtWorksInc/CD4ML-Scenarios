@@ -7,11 +7,13 @@
 * Configuring a python code development environment
 
 ### Github Setup
-Navigate to the [Github Personal Access Tokens page](https://github.com/settings/tokens).
+Navigate to the [Github Personal Access Token page](https://github.com/settings/tokens).
 
 Click "Generate new token" on the top right. You may need to enter your Github password again.
 
-Enter a Note for your personal access token and select the "repo" and "user:email" permissions. Click "Generate Token".
+Enter a Note for your personal access token and select the "repo" and "user:email" permissions. Click "Generate Token". See example below
+
+![TokenSettings](./images/TokenSettings.png)
 
 Your personal access token will be created and displayed to you. Make sure you save this token safely because it will not be shown again.
 
@@ -67,20 +69,12 @@ pip3 install -r requirements.txt
 ```
 
 Note, if using PyCharm and virtualenv, be sure to select the right python interpreter for PyCharm. 
-This is done by clicking on interpreter in the bottom right on the PyCharm window and 
-navigating to the python3 executable in the .venv/bin/ directory. That will allow PyCharm 
-to highlight missing libraries and incorrect syntax correctly. If you don't configure this 
-it will show red lines everywhere because it can't find the installed libraries.
+This is done by clicking on interpreter in the bottom right on the PyCharm window and navigating to the python3 executable in the .venv/bin/ directory. That will allow PyCharm to highlight missing libraries and incorrect syntax correctly. If you don't configure this it will show red lines error lines because it can't find the installed libraries.
 
 ### JupyterLab Development Environment
 1. Clone the environment to your local machine using `git clone https://github.com/<Your User Name>/CD4ML-Scenarios`
 2. Run `docker-compose up -d --build --remove-orphans` to download the images and start the environment
-3. Run the following command to retrieve the URL for docker. 
-```bash
-docker logs dev
-```
-You will see a URL such as `http://127.0.0.1:8888?token=<token>`. Open that url in your web browser
-
+3. Navigate to http://127.0.0.1:8888. The jupyterlab environment will load.
 4. From the JupyterLab environment you can open a terminal window by clicking the terminal tile on the home page. Run the following commands to setup the environment. Please fill in the git email and name to your name 
 ```bash
 git config --global user.email "<your email>"
@@ -90,4 +84,4 @@ pip install -r requirements.txt
 
 ### Next Steps
 
-At this step you can start setting up the different components of CD4ML. Continue to the [next section](https://github.com/ThoughtworksInc/CD4ML-Scenarios/blob/master/instructions/2-SetupJenkins.md).
+At this step you can start setting up the different components of CD4ML. Continue to the [next section](./2-SetupJenkins.md).

@@ -1,0 +1,13 @@
+{"feature_set_name": "feature_set_1",
+"extra_information_fields": [],
+"base_categorical_n_levels_dict": {"item_nbr": 8000},
+"base_fields_numerical": ["date"],
+"derived_categorical_n_levels_dict": {"year": 100,
+                                      "month": 20,
+                                      "day_of_week": 20,
+                                      "product_class": 100,
+                                      "product_family": 100},
+"derived_fields_numerical": ["day", "day_off", "days_until_end"],
+"encoder_excluded_fields": [],
+"encoder_untransformed_fields": ["date"]
+}

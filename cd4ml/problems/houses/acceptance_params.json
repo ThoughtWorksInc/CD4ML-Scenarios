@@ -1,0 +1,3 @@
+{ "acceptance_metric": "rms_score",
+  "acceptance_threshold_min": 0.0,
+  "acceptance_threshold_max": 125000000000}

@@ -1,0 +1,35 @@
+<h3> Available Models for {{ printable_scenario_name }}</h3>
+<table class="table">
+    <thead>
+        <th>Build Number</th>
+        <th>Run Number</th>
+        <th>Build Time</th>
+        <th>ML pipeline</th>
+        <th>Feature set</th>
+        <th>Algorithm name</th>
+        <th>Algorithm params name</th>
+        <th>Passed Acceptance Test</th>
+        <th>Open Model</th>
+    </thead>
+
+    <tbody>
+        {% for row in rows %}
+            <tr>
+                <td>{{ row['build_number'] }}</td>
+                <td>{{ row['run_number'] }}</td>
+                <td>{{ row['time'] }}</td>
+                <td>{{ row['ml_pipeline_params_name'] }}</td>
+                <td>{{ row['feature_set_name'] }}</td>
+                <td>{{ row['algorithm_name'] }}</td>
+                <td>{{ row['algorithm_params_name'] }}</td>
+                <td>{{ row['passed_acceptance_test'] }}</td>
+                {% if row['is_latest'] %}
+                    <td><a href=/{{ scenario_name }}/{{ row['run_id'] }}> Open (latest)</a></td>
+                {% else %}
+                    <td><a href=/{{ scenario_name }}/{{ row['run_id'] }}> Open</a></td>
+                {% endif %}
+
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

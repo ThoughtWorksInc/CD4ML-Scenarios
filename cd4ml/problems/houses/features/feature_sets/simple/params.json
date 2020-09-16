@@ -1,0 +1,24 @@
+{
+  "feature_set_name": "feature_set_simple",
+  "extra_information_fields": [],
+  "base_categorical_n_levels_dict": {
+    "zipcode": 50000,
+    "style": 50
+  },
+  "base_fields_numerical": [
+    "lot_size_sf",
+    "beds",
+    "baths",
+    "square_feet"
+  ],
+  "derived_categorical_n_levels_dict": {
+    "state": 100
+  },
+  "derived_fields_numerical": [
+    "avg_price_in_zip"
+  ],
+  "encoder_excluded_fields": [],
+  "encoder_untransformed_fields": [
+    "zipcode"
+  ]
+}
