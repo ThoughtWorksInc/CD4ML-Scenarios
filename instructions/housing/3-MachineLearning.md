@@ -2,8 +2,10 @@
 
 ## Goals
 
-* Learn to do experiments without interrupting the rest of your team or changing the production model
-* Learn about the codebase design and how it enables great flexibility with reproducibility
+* Learn to do experiments without interrupting the rest of your team or changing 
+the production model
+* Learn about the codebase design and how it enables great flexibility while
+maintaining reproducibility
 
 ## Step by Step Instructions
 
@@ -21,12 +23,12 @@ All have at least one called default.json which will be the default
 params for that algorithm if it is chosen without the params text box 
 being changed to something else. 
 
-Note in the lasso directory, there is a file called big_alpha.json which
+    Note in the lasso directory, there is a file called big_alpha.json which
 corresponds to the 'big_alpha' that we typed into that text box. It has 
 an alpha parameter of 50 rather than 1 and so encourages sparseness 
 more than the default. 
 
-The idea is that you don't modify the defaults very often and certainly 
+    The idea is that you don't modify the defaults very often and certainly 
 don't do so in order to experiment. Make new files with your alternative 
 parameter sets. That way, it won't affect your colleagues and won't 
 change the official model that is deployed. Just make a new file in the
