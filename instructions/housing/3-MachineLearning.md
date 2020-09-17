@@ -52,4 +52,21 @@ And so, the pipeline skipped the production check.
 
 ![GreenExperiment](../images/GreenExperiment.png)
 
+5) Look in the feature set directory and you can see similarly how to create alternative
+feature sets. Copy the default subdirectory to a new one of another name and edit one or
+both of those files. 
+
+    If you create a new feature set, you can select it in the Jenkins
+UI as well but need to make another edit in cd4ml/problems/houses/problem.py. Add another
+option around line 34 to import your new feature set if is to be selected. Unlike 
+algorithms and params, it won't be discovered automatically without that change.
+
+
+6) Looks at the ml_pipeline_params directory. Similarly, it contains a default.json file. 
+This file contains information such as the default algorithm and the information for 
+training and validation splitting. Training and validation percentages do not need to 
+add up to 100%. You can run on much smaller data sets by making both of them small. It also
+specifies the primary ML metric as well as it's range of accepted values. We describe this
+in later sections. 
+
 Continue on to the [next section](./4-ContinuousDelivery.md)
