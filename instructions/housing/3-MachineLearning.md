@@ -9,11 +9,15 @@ maintaining reproducibility
 
 ## Step by Step Instructions
 
-1) Run the pipeline on the housing problem through the Jenkins UI but instead of
+1) Run the pipeline with defaults
+
+![GreenExperiment](../images/GreenProduction.png)
+
+2) Run the pipeline on the housing problem through the Jenkins UI but instead of
 using the defaults, change the algorithm to 'lasso' and the parameters 
 to 'big_alpha'. 
 
-2) While this is running, look in the cd4ml/problems directory. 
+3) While this is running, look in the cd4ml/problems directory. 
 This will show the two problems: houses and groceries. Look in houses 
 and note the directories. Three of these correspond with three of the 
 four text boxes in the Jenkins UI: algorithms, features and ml_pipelines. 
@@ -35,7 +39,7 @@ change the official model that is deployed. Just make a new file in the
 relevant algorithm directory, commit and push and then Jenkins will be 
 able to find those parameters and build that particular model.
 
-3) Go back Jenkins and observe that the model succeeded. Note that 
+4) Go back Jenkins and observe that the model succeeded. Note that 
 it was identified as an experiment due to using non-default parameters. 
 And so, the pipeline skipped the production check.
 
