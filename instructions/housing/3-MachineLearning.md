@@ -39,6 +39,6 @@ able to find those parameters and build that particular model.
 it was identified as an experiment due to using non-default parameters. 
 And so, the pipeline skipped the production check.
 
-![GreenExperiment](./images/GreenExperiment.png)
+![GreenExperiment](../images/GreenExperiment.png)
 
 Continue on to the [next section](./4-ContinuousDelivery.md)
