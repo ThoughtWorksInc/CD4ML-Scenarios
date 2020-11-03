@@ -1,5 +1,5 @@
 {
-    "default_algorithm": "gradient_boosting",
+    "default_algorithm": "neural_network",
     "training_random_seed": 4548276,
     "identifier_field": "sale_id",
     "target_field": "price",
@@ -11,7 +11,7 @@
     "splitting": {
         "random_seed": 1299472653,
         "training_random_start": 0.0,
-        "training_random_end": 0.1,
+        "training_random_end": 0.05,
         "validation_random_start": 0.9,
         "validation_random_end": 1.0
     },
