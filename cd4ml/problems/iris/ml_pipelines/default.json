@@ -4,8 +4,8 @@
     "identifier_field": "row_id",
     "target_field": "species",
     "feature_set_name": "default",
-    "acceptance_metric": "r2_score",
-    "acceptance_threshold_min": 0.42,
+    "acceptance_metric": "roc_auc",
+    "acceptance_threshold_min": 0.6,
     "acceptance_threshold_max": 1.0,
     "max_rows_to_read": null,
     "splitting": {
