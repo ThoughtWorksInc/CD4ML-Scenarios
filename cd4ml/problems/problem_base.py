@@ -161,10 +161,13 @@ class ProblemBase:
     def _write_validation_info(self):
         true_validation_target = list(self.true_target_stream(self.validation_stream()))
         validation_predictions = list(self.ml_model.predict_processed_rows(self.validation_stream()))
-        validation_plot = get_validation_plot(true_validation_target, validation_predictions)
 
         if self.tracker:
-            self.tracker.log_validation_plot(validation_plot)
+            if self.ml_model.model_type == 'regressor':
+                validation_plot = get_validation_plot(true_validation_target,
+                                                      validation_predictions)
+                self.tracker.log_validation_plot(validation_plot)
+
             self.tracker.log_metrics(self.validation_metrics)
             self.fluentd_logger.log('validation_metrics', self.validation_metrics)
 

@@ -1,13 +1,13 @@
 pipeline {
     agent any
     parameters {
-        choice(name: 'problem_name', choices: ['houses', 'groceries'], description: 'Choose the problem name')
+        choice(name: 'problem_name', choices: ['houses', 'groceries', 'iris'], description: 'Choose the problem name')
         string(name: 'ml_pipeline_params_name', defaultValue: 'default', description: 'Specify the ml_pipeline_params file')
         string(name: 'feature_set_name', defaultValue: 'default', description: 'Specify the feature_set name/file')
         string(name: 'algorithm_name', defaultValue: 'default', description: 'Specify the algorithm (overrides problem_params)')
         string(name: 'algorithm_params_name', defaultValue: 'default', description: 'Specify the algorithm params')
     }
-    triggers { 
+    triggers {
         // Poll SCM every minute for new changes
         pollSCM('* * * * *')
     }
