@@ -57,6 +57,9 @@ def _get_problem_file_templates(raw_problem_data_dir):
         'houses': {
             'raw_house_data': '%s/house_sales.csv' % raw_problem_data_dir,
             'house_data_zip_lookup': '%s/zip_lookup.csv' % raw_problem_data_dir
+        },
+        'iris': {
+            'raw_iris_data': '%s/iris.csv' % raw_problem_data_dir
         }
     }
 

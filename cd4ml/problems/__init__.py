@@ -1,12 +1,5 @@
 import json
-import cd4ml.problems.groceries.problem as groceries_scenario
-import cd4ml.problems.houses.problem as houses_scenario
-
-
-_PROBLEMS = {
-    'groceries': groceries_scenario.Problem,
-    'houses': houses_scenario.Problem
-}
+from cd4ml.problems.available_problems import PROBLEMS
 
 
 def read_schema_file(schema_file):
@@ -31,7 +24,7 @@ def read_json_file_as_dict(file_path):
 
 
 def list_available_scenarios():
-    return list(_PROBLEMS.keys())
+    return list(PROBLEMS.keys())
 
 
 def get_problem(problem_name,
@@ -40,7 +33,7 @@ def get_problem(problem_name,
                 feature_set_name='default',
                 algorithm_name='default',
                 algorithm_params_name='default'):
-    constructor_object = _PROBLEMS.get(problem_name)
+    constructor_object = PROBLEMS.get(problem_name)
     return constructor_object(problem_name,
                               data_downloader,
                               ml_pipeline_params_name,

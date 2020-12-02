@@ -1,0 +1,10 @@
+{
+  "feature_set_name": "default",
+  "extra_information_fields": [],
+  "base_categorical_n_levels_dict": {},
+  "base_fields_numerical": ["sepal_length", "sepal_width", "petal_length", "petal_width"],
+  "derived_categorical_n_levels_dict": {},
+  "derived_fields_numerical": [],
+  "encoder_excluded_fields": [],
+  "encoder_untransformed_fields": []
+}

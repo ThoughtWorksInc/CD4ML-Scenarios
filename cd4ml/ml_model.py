@@ -3,8 +3,8 @@ from wickedhot import OneHotEncoder
 from cd4ml.train import get_trained_model
 from cd4ml.model_utils import get_target_id_features_lists
 import logging
-
 from cd4ml.utils.utils import mini_batch_eval
+from cd4ml.available_models import get_model_type
 
 
 class MLModel:
@@ -22,6 +22,7 @@ class MLModel:
         self.encoder = encoder
         self.feature_set = feature_set
         self.packaged_encoder = None
+        self.model_type = get_model_type(self.algorithm_name)
 
     def load_encoder_from_package(self):
         self.logger.info('loading encoder from packaging')
@@ -34,7 +35,20 @@ class MLModel:
         # eliminates model scoring overhead
 
         preds = self.trained_model.predict(encoded_row_list)
-        return [float(pred) for pred in preds]
+        if self.model_type == 'regressor':
+            return [float(pred) for pred in preds]
+        else:
+            return [str(pred) for pred in preds]
+
+    def predict_prob_encoded_rows(self, encoded_row_list):
+        # needs a list not a stream
+        # for batch or mini-batch calls
+        # eliminates model scoring overhead
+        if self.model_type == 'regressor':
+            raise NotImplementedError('predict_prob_encoded_rows not implemented for regressor models')
+
+        pred_probs = self.trained_model.predict_proba(encoded_row_list)
+        return pred_probs
 
     def predict_single_processed_row(self, processed_row):
         # don't call this on each element of a stream or list
@@ -44,7 +58,12 @@ class MLModel:
         self.logger.debug('processed_row', processed_row)
         return list(self.predict_processed_rows([processed_row]))[0]
 
-    def predict_processed_rows(self, processed_row_stream):
+    def predict_prob_single_processed_row(self, processed_row):
+        # same for prob
+        self.logger.debug('processed_row', processed_row)
+        return list(self.predict_prob_processed_rows([processed_row]))[0]
+
+    def predict_processed_rows(self, processed_row_stream, prob=False):
         # minibatch prediction is much faster because of overhead
         # of model scoring call
 
@@ -57,7 +76,13 @@ class MLModel:
 
         feature_row_stream = (self.feature_set.features(row) for row in processed_row_stream)
         encoded_row_stream = (self.encoder.encode_row(feature_row) for feature_row in feature_row_stream)
-        return mini_batch_eval(encoded_row_stream, batch_size, self.predict_encoded_rows)
+
+        if prob:
+            function = self.predict_prob_encoded_rows
+        else:
+            function = self.predict_encoded_rows
+
+        return mini_batch_eval(encoded_row_stream, batch_size, function)
 
     def _get_target_id_features_lists_training(self, training_processed_stream):
 

@@ -1,4 +1,5 @@
 from cd4ml.problems.problem_base import ProblemBase
+from cd4ml.problems.houses.download_data.download_data import download
 import cd4ml.problems.houses.readers.stream_data as stream_data
 import cd4ml.problems.houses.readers.zip_lookup as zip_lookup
 from cd4ml.utils.utils import average_by
@@ -79,5 +80,4 @@ class Problem(ProblemBase):
                 v['num_in_state'] = count_state
 
     def download_data(self):
-        import cd4ml.problems.houses.download_data.download_data as dd
-        dd.download()
+        download()

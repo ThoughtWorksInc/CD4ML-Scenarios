@@ -61,7 +61,7 @@ class TestModelCache:
         mlflow.search_runs = MagicMock(side_effect=get_search_return_values)
 
         available_models = cache.list_available_models_from_ml_flow()
-        assert available_models == {"groceries": [], "houses": []}
+        assert available_models == {"groceries": [], "houses": [], "iris": []}
 
     def test_list_no_houses_experiment_not_available(self):
         cache = ModelCache()
@@ -81,7 +81,7 @@ class TestModelCache:
         mlflow.search_runs = MagicMock(side_effect=get_search_return_values)
 
         available_models = cache.list_available_models_from_ml_flow()
-        assert available_models == {"groceries": []}
+        assert available_models == {"groceries": [], "iris": []}
 
     def test_return_a_couple_models(self):
         cache = ModelCache()
@@ -121,7 +121,7 @@ class TestModelCache:
         mlflow.search_runs = MagicMock(side_effect=get_search_return_values)
 
         available_models = cache.list_available_models_from_ml_flow()
-        assert set(available_models.keys()) == {"groceries"}
+        assert set(available_models.keys()) == {"groceries", "iris"}
         assert len(available_models["groceries"]) == 2
         assert [x["run_id"] for x in available_models["groceries"]] == ['123', '456']
         assert [x["is_latest"] for x in available_models["groceries"] if x["run_id"] == "456"][0]

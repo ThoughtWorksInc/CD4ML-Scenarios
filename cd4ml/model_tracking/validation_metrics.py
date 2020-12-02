@@ -6,6 +6,8 @@ logger = logging.getLogger(__name__)
 # TODO: add others
 # TODO: add ability to include generic functions
 
+# The actual functions
+
 
 def r2_score(true_target, prediction):
     # R2 metric
@@ -14,42 +16,70 @@ def r2_score(true_target, prediction):
 
 def rms_score(true_target, prediction):
     # Root mean square metric
-    return np.sqrt(((prediction - true_target)**2).mean())
+    return np.sqrt(((np.array(prediction) - np.array(true_target))**2).mean())
 
 
 def mad_score(true_target, prediction):
     # mean absolute deviation metric
-    return abs(prediction - true_target).mean()
+    return abs(np.array(prediction) - np.array(true_target)).mean()
 
 
-def get_validation_metrics(metric_names, true_prediction_function):
-    logger.info('Getting predictions')
-    data = list(true_prediction_function())
-    logger.info('Done with predictions')
-    assert len(data) > 0
-    true_target, prediction = zip(*data)
+# classification
 
-    true_target = np.array(true_target)
-    prediction = np.array(prediction)
+def f1_score(true_target, prediction):
+    # mean absolute deviation metric
+    return metrics.f1_score(true_target, prediction, average='macro')
+
+
+def roc_auc(true_target, prediction_prob, target_levels):
+    # ROC AUC for classification
+    return metrics.roc_auc_score(true_target, prediction_prob,
+                                 multi_class='ovo', labels=target_levels)
+
+
+def get_num_validated(true_target, _):
+    return len(true_target)
+
+
+# The mapping from name to function as well as defining
+# what gets passed in
+
+metric_funcs = {'roc_auc': {'function': roc_auc,
+                            'runs_on': 'prob'},
+                'r2_score': {'function': r2_score,
+                             'runs_on': 'pred'},
+                'rms_score': {'function': rms_score,
+                              'runs_on': 'pred'},
+                'mad_score': {'function': mad_score,
+                              'runs_on': 'pred'},
+                'f1_score': {'function': f1_score,
+                              'runs_on': 'pred'},
+                'num_validated': {'function': get_num_validated,
+                                  'runs_on': 'pred'}}
+
+
+def get_metric(metric_name, true_target, prediction, pred_prob, target_levels):
+    func = metric_funcs[metric_name]['function']
+    runs_on = metric_funcs[metric_name]['runs_on']
+    if runs_on == 'prob':
+        metric = func(true_target, pred_prob, target_levels)
+    elif runs_on == 'pred':
+        metric = func(true_target, prediction)
+    else:
+        raise ValueError("Do not understand runs_on = %s" % runs_on)
+
+    logger.info('%s : %s' % (metric_name, metric))
+    return metric
+
+
+def get_validation_metrics(metric_names, true_target, prediction, pred_prob, target_levels):
+    assert len(true_target) > 0
 
     n_validated = len(true_target)
     logger.info('n_validated: %s' % n_validated)
 
-    validation_metrics = {}
-    if 'r2_score' in metric_names:
-        validation_metrics['r2_score'] = r2_score(true_target, prediction)
-        logger.info('r2_score : {}'.format(validation_metrics['r2_score']))
-
-    if 'rms_score' in metric_names:
-        validation_metrics['rms_score'] = rms_score(true_target, prediction)
-        logger.info('rms_scoring: {}'.format(validation_metrics['rms_score']))
-
-    if 'mad_score' in metric_names:
-        validation_metrics['mad_score'] = mad_score(true_target, prediction)
-        logger.info('mad_scoring: {}'.format(validation_metrics['mad_score']))
-
-    if 'num_validated' in metric_names:
-        validation_metrics['num_validated'] = n_validated
+    validation_metrics = {metric_name: get_metric(metric_name, true_target, prediction, pred_prob, target_levels)
+                          for metric_name in metric_names}
 
     logger.info('Done validation metrics')
 

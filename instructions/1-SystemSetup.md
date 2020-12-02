@@ -46,7 +46,9 @@ your already existing development environment.
 
 ### Local machine environment
 For this workshop we are going to use python3 as our python, pip3 as our dependency manager, 
-and virtualenv for python environment management.
+and virtualenv for python environment management. 
+This has been tested on Python 3.7.6 and working in a local environment assumes
+you have this set up correctly.
 
 First you need to fork this repo to your github account and then clone this environment to your local machine
 
@@ -69,7 +71,19 @@ pip3 install -r requirements.txt
 ```
 
 Note, if using PyCharm and virtualenv, be sure to select the right python interpreter for PyCharm. 
-This is done by clicking on interpreter in the bottom right on the PyCharm window and navigating to the python3 executable in the .venv/bin/ directory. That will allow PyCharm to highlight missing libraries and incorrect syntax correctly. If you don't configure this it will show red lines error lines because it can't find the installed libraries.
+This is done by clicking on interpreter in the bottom right on the PyCharm window and navigating to the python3 executable in the .venv/bin/ directory. 
+That will allow PyCharm to highlight missing libraries and incorrect syntax correctly. If you don't configure this it will show red lines error lines because it can't find the installed libraries.
+
+Depending on how you installed Python, you could run into an SSL error when attempting to run the download data scripts later.
+
+URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] ...
+
+If not, ignore this. If so and assuming your are using Mac, you can do this then. Just once.:
+
+Go to Macintosh HD > Applications > Python3.7 folder (or whatever version of python you're using) 
+
+double click on "Install Certificates.command" file. That should fix it. 
+
 
 ### JupyterLab Development Environment
 1. Clone the environment to your local machine using `git clone https://github.com/<Your User Name>/CD4ML-Scenarios`

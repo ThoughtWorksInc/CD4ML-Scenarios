@@ -1,6 +1,6 @@
 numpy==1.17.4
 pandas==0.25.3
-scikit-learn==0.21.3
+scikit-learn==0.23.2
 flask==1.1.1
 mlflow==1.10.0
 joblib==0.16.0
@@ -9,7 +9,7 @@ fluent-logger==0.9.4
 bokeh==1.4.0
 ipython==7.8.0
 arrow==0.15.5
-wickedhot==0.2.4
+wickedhot==0.2.5
 boto3==1.14.41
 requests-mock==1.8.0
 

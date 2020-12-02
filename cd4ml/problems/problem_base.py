@@ -1,4 +1,5 @@
 from time import time
+import numpy as np
 from cd4ml.get_encoder import get_trained_encoder
 from cd4ml.logger.fluentd_logging import FluentdLogger
 from cd4ml.model_tracking import tracking
@@ -11,7 +12,9 @@ from cd4ml.model_tracking.validation_plots import get_validation_plot
 from cd4ml.utils.utils import get_uuid
 from pathlib import Path
 import json
+
 import logging
+logger = logging.getLogger(__name__)
 
 
 class ProblemBase:
@@ -140,7 +143,9 @@ class ProblemBase:
                                 self.encoder,
                                 self.ml_pipeline_params['training_random_seed'])
 
-        self.tracker.log_algorithm_params(self.algorithm_params)
+        if self.tracker:
+            self.tracker.log_algorithm_params(self.algorithm_params)
+
         self.ml_model.train(self.training_stream())
 
         model_name = self.specification.spec['algorithm_name_actual']
@@ -157,27 +162,42 @@ class ProblemBase:
         true_validation_target = list(self.true_target_stream(self.validation_stream()))
         validation_predictions = list(self.ml_model.predict_processed_rows(self.validation_stream()))
         validation_plot = get_validation_plot(true_validation_target, validation_predictions)
-        self.tracker.log_validation_plot(validation_plot)
-        self.tracker.log_metrics(self.validation_metrics)
-        self.fluentd_logger.log('validation_metrics', self.validation_metrics)
+
+        if self.tracker:
+            self.tracker.log_validation_plot(validation_plot)
+            self.tracker.log_metrics(self.validation_metrics)
+            self.fluentd_logger.log('validation_metrics', self.validation_metrics)
 
     def validate(self):
+        # a batch step
         self.logger.info('Starting validating')
         start = time()
 
-        def get_validation_stream():
-            true_validation_target_stream = self.true_target_stream(self.validation_stream())
-            validation_prediction_stream = self.ml_model.predict_processed_rows(self.validation_stream())
+        logger.info('Getting predictions')
 
-            validation_stream = zip(true_validation_target_stream, validation_prediction_stream)
-            return validation_stream
+        true_validation_target = list(self.true_target_stream(self.validation_stream()))
+        validation_prediction = list(self.ml_model.predict_processed_rows(self.validation_stream()))
+        if self.ml_model.model_type == 'classifier':
+            validation_pred_prob = np.array(list(self.ml_model.predict_processed_rows(self.validation_stream(),
+                                                                                      prob=True)))
+            target_levels = self.ml_model.trained_model.classes_
+        elif self.ml_model.model_type == 'regressor':
+            validation_pred_prob = None
+            target_levels = None
+        else:
+            raise ValueError('Do not understand classification type: %s' % self.ml_model.model_type)
 
-        # one downside of these next two steps is that they score the same data twice
-        # but that isn't really a major performance hit overall
+        logger.info('Done with predictions')
 
         self.logger.info('Getting validation metrics')
         validation_metric_names = self.ml_pipeline_params['validation_metric_names']
-        self.validation_metrics = get_validation_metrics(validation_metric_names, get_validation_stream)
+
+        self.validation_metrics = get_validation_metrics(validation_metric_names,
+                                                         true_validation_target,
+                                                         validation_prediction,
+                                                         validation_pred_prob,
+                                                         target_levels)
+
         self.logger.info('Writing validation info')
         self._write_validation_info()
         runtime = time() - start
@@ -186,9 +206,12 @@ class ProblemBase:
     def write_ml_model(self):
         self.tracker.log_model(self.ml_model)
 
+    def setup_tracker(self):
+        self.tracker = tracking.Track(self.model_id, self.specification.spec)
+
     def run_all(self):
         start = time()
-        self.tracker = tracking.Track(self.model_id, self.specification.spec)
+        self.setup_tracker()
         self.tracker.log_ml_pipeline_params(self.ml_pipeline_params)
         self.download_data()
         self.get_encoder()
