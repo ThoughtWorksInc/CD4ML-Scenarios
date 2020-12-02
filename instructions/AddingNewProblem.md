@@ -163,18 +163,5 @@ You can go back and add features later but this should now run
 python run_python_script.py pipeline your_new_problem
 ```
 
-Or run from the Jenkins UI. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+To run it from the Jenkins UI, you need to add the problem name to 
+the Jenkins file so it will present it as an option.
