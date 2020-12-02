@@ -53,7 +53,7 @@ metric_funcs = {'roc_auc': {'function': roc_auc,
                 'mad_score': {'function': mad_score,
                               'runs_on': 'pred'},
                 'f1_score': {'function': f1_score,
-                              'runs_on': 'pred'},
+                             'runs_on': 'pred'},
                 'num_validated': {'function': get_num_validated,
                                   'runs_on': 'pred'}}
 
