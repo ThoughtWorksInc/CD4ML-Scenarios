@@ -4,15 +4,15 @@
     "identifier_field": "row_id",
     "target_field": "species",
     "feature_set_name": "default",
-    "acceptance_metric": "roc_auc",
-    "acceptance_threshold_min": 0.6,
+    "acceptance_metric": "f1_score",
+    "acceptance_threshold_min": 0.9,
     "acceptance_threshold_max": 1.0,
     "max_rows_to_read": null,
     "splitting": {
         "random_seed": 1299472653,
         "training_random_start": 0.0,
-        "training_random_end": 0.1,
-        "validation_random_start": 0.9,
+        "training_random_end": 0.6,
+        "validation_random_start": 0.6,
         "validation_random_end": 1.0
     },
     "validation_metric_names": ["roc_auc", "num_validated", "f1_score"]
