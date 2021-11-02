@@ -10,6 +10,8 @@ ENV MLFLOW_TRACKING_URL "http://mlflow:5000"
 RUN mkdir -p /app/cd4ml/
 WORKDIR /app/cd4ml/
 
+RUN apt update && \
+    apt install -y zlib1g-dev libjpeg-dev
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
