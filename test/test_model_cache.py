@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 
 import mlflow
 import pandas as pd
+import pytest
 import requests_mock
 
 from cd4ml.webapp.model_cache import ModelCache
