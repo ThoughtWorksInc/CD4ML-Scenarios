@@ -74,7 +74,7 @@ class ModelCache:
             dataframe_with_columns_of_interest = runs[list(self.columns_of_interest.keys())]
             dataframe_with_columns_renamed = dataframe_with_columns_of_interest.rename(columns=self.columns_of_interest)
             dataframe_with_columns_renamed['time'] = dataframe_with_columns_renamed['time'].dt.strftime("%c")
-            list_of_dictionaries = dataframe_with_columns_renamed.to_dict(orient="rows")
+            list_of_dictionaries = dataframe_with_columns_renamed.to_dict("records")
             id_of_latest = self._get_id_for_latest_model(list_of_dictionaries)
             for d in list_of_dictionaries:
                 d['is_latest'] = d['run_id'] == id_of_latest

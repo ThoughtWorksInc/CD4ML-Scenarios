@@ -19,7 +19,7 @@ In order to run this workshop, you will need:
 
 As part of this workshop all of these service will be automatically setup for you as Docker containers. You do not need to download and install these services ahead of time.
 
-* [Python 3.7](https://www.python.org/downloads/release/python-377/)
+* [Python 3.9](https://www.python.org/downloads/release/python-399/)
 * [Docker](https://www.docker.com/)
 * [Jenkins](https://jenkins.io/)
 * EFK Stack, [ElasticSearch](https://www.elastic.co/elasticsearch/), [Fluentd](https://www.fluentd.org/), [Kibana](https://www.elastic.co/kibana) 
