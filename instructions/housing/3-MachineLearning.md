@@ -11,8 +11,7 @@ maintaining reproducibility
 
 1) Run the pipeline on the housing problem through the Jenkins UI with default parameters.
 Go to http://localhost:10000. Log into Jenkins if you need to. Open Blue Ocean (on left)
-if it's not open. Click on the CD4ML-Scenarios pipeline. Then Branches. Then the little
-arrow on the right side of master branch. 
+if it's not open. Click on the CD4ML-Scenarios pipeline. Then Branches. Then play button on the right side of master branch. 
 
 ![GreenExperiment](../images/JenkinsRunPipeline.png)
 
