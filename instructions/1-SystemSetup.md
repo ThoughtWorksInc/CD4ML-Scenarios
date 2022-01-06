@@ -32,8 +32,8 @@ Open Docker Desktop by clicking on the docker icon in your Mac or Windows taskba
 
 ![DockerSettings](./images/DockerSettings.png)
 
-If you are running the environment on a MS Windows 10 machine, make sure to switch Docker to Linux-containers.
-You can do this by clicking on the little Docker icon in your Windows taskbar.
+If you are running the environment on a Windows 10 machine, make sure to switch Docker to Linux-containers instead of Windows Containers.
+You can do this by clicking on the Docker icon in your Windows taskbar.
 You also need to make sure that your PC can handle virtual environments. This can be switched on or off in your systems BIOS.
 
 ## Select your development environment
@@ -47,7 +47,7 @@ your already existing development environment.
 ### Local machine environment
 For this workshop we are going to use python3 as our python, pip3 as our dependency manager, 
 and virtualenv for python environment management. 
-This has been tested on Python 3.7.6 and working in a local environment assumes
+This has been tested on Python 3.9.x and working in a local environment assumes
 you have this set up correctly.
 
 First you need to fork this repo to your github account and then clone this environment to your local machine

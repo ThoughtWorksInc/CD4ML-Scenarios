@@ -1,7 +1,7 @@
-FROM python:3.7-slim-buster
+FROM python:3.9-slim-buster
 WORKDIR /usr/src/app
 
-RUN pip install awscli boto3 mlflow==1.10.0
+RUN pip install awscli==1.22.29 boto3==1.20.29 mlflow==1.22.0
 EXPOSE 5000
 ENV MLFLOW_S3_ENDPOINT_URL ${MLFLOW_S3_ENDPOINT_URL}
 ENV AWS_ACCESS_KEY_ID ${AWS_ACCESS_KEY_ID}

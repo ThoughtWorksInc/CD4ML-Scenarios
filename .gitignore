@@ -34,3 +34,5 @@ set_registry_creds.sh
 **/.ipynb_checkpoints/*
 .gitignore
 .gitconfig
+
+.pythonhistory
