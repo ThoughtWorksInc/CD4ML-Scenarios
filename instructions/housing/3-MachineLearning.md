@@ -23,7 +23,7 @@ When it is done, click on the pipeline to see that it finishes green for success
 using the defaults, change the algorithm to 'lasso' and the parameters 
 to 'big_alpha'. 
 
-3) While this is running, look in the cd4ml/problems directory. 
+3) While this is running, look in the `cd4ml/problems` directory. 
 This will show the two problems: houses and groceries. Look in houses 
 and note the directories. Three of these correspond with three of the 
 four text boxes in the Jenkins UI: algorithms, features and ml_pipelines. 
