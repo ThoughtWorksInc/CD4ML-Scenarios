@@ -1,7 +1,7 @@
 numpy==1.21.5
 pandas==1.3.5
 scikit-learn==1.0.2
-flask==1.1.1
+flask==2.1.0
 mlflow==1.22.0
 joblib==0.16.0
 lime==0.2.0.1
