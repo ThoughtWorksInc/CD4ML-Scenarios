@@ -1,5 +1,5 @@
 {
-    "default_algorithm": "random_forest",
+    "default_algorithm": "lasso",
     "training_random_seed": 4548276,
     "identifier_field": "sale_id",
     "target_field": "price",
