@@ -10,7 +10,7 @@ bokeh==2.4.2
 arrow==1.2.1
 wickedhot==0.2.5
 boto3==1.23.7
-
+protobuf==3.20.1
 
 # Testing Dependencies
 requests-mock==1.8.0
