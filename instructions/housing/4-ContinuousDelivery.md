@@ -21,13 +21,13 @@ In the previous section you were testing out and running experiments to work tow
     git commit -m "Adjust acceptance_threshold_min from 0.42 to 0.5"
     git push
     ```
-4. After running the pipeline we should see the pipeline go read indicating a build error:
+4. The pipeline should run automatically (Jenkins polls github) and we should see the pipeline go red indicating a build error:
    ![RedPipeline](./images/RedPipeline.png)
-5. The logging error indicates a build error, and that trained model score was not accepted. We can see that this error does not impact the production model because if we navigate to the all [models listing](http://localhost:11000/houses/models) of the housing scenario it indicates that the new model is not the latest model, hence is not what production uses (Build Number 3).
+5. The logging error indicates a build error, and that trained model score was not accepted. We can see that this error does not impact the production model because if we navigate to the all [models listing](http://localhost:11000/houses/models) of the housing scenario it indicates that the new model is not the latest model, hence is not what production uses (Build Number 3). This is effectively custom [model registry](https://www.phdata.io/blog/what-is-a-model-registry/).
 
     ![NotEffectProduction](./images/NotEffectProduction.png)
     
-Let's fix this red pipeline by adjusting our default parameters to be the lasso model.
+Let's fix this red pipeline by adjusting our default parameters to be the lasso model. The model will then perform well enough to meet the new threshold.
 
 Open the file `cd4ml/problems/houses/ml_pipelines/default.json` and change the `default_algorithm` to `lasso`. Next, navigate to `cd4ml/problems/houses/algorithms/lasso`. Copy the contents of `big_alpha.json` into `default.json`. Save and commit your code.
 ```sh

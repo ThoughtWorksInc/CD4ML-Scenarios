@@ -5,6 +5,7 @@
 * Setup a development environment for CD4ML including:
 * Fork Git Code Repository into Personal GitHub
 * Configuring a python code development environment
+* Install Docker Desktop or [an alternative](https://www.rockyourcode.com/docker-desktop-alternatives-for-macos/)
 
 ### Github Setup
 Navigate to the [Github Personal Access Token page](https://github.com/settings/tokens).
@@ -78,7 +79,7 @@ Depending on how you installed Python, you could run into an SSL error when atte
 
 URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] ...
 
-If not, ignore this. If so and assuming your are using Mac, you can do this then. Just once.:
+If not, ignore this. If so and assuming you are using Mac, you can do this then. Just once.:
 
 Go to Macintosh HD > Applications > Python3.7 folder (or whatever version of python you're using) 
 

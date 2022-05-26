@@ -35,7 +35,7 @@ being changed to something else.
 
     Note in the lasso directory, there is a file called big_alpha.json which
 corresponds to the 'big_alpha' that we typed into that text box. It has 
-an alpha parameter of 50 rather than 1 and so encourages sparseness 
+an alpha parameter of 50 rather than 1 and so [encourages sparseness](https://chrisalbon.com/code/machine_learning/linear_regression/effect_of_alpha_on_lasso_regression/) 
 more than the default. 
 
     The idea is that you don't modify the defaults very often and certainly 
@@ -47,21 +47,24 @@ able to find those parameters and build that particular model.
 
 4) Go back Jenkins and observe that the model succeeded. Note that 
 it was identified as an experiment due to using non-default parameters. 
-And so, the pipeline skipped the production check.
+The pipeline therefore skipped the production 'register model' step and ran the experiment step instead.
 
 ![GreenExperiment](../images/GreenExperiment.png)
 
+This lets us use Jenkins like an [ML training orchestration platform](https://github.com/EthicalML/awesome-production-machine-learning#model-training-orchestration).
+
 5) Look in the feature set directory and you can see similarly how to create alternative
-feature sets. Copy the default subdirectory to a new one of another name and edit one or
+feature sets. Optionally copy the default subdirectory to a new one of another name and edit one or
 both of those files. 
 
     If you create a new feature set, you can select it in the Jenkins
-UI as well but need to make another edit in cd4ml/problems/houses/problem.py. Add another
+UI as well but need to make another edit in cd4ml/problems/houses/problem.py. To do this, add another
 option around line 34 to import your new feature set if is to be selected. Unlike 
-algorithms and params, it won't be discovered automatically without that change.
+algorithms and params, it won't be discovered automatically without that change. This happens to be the way we've 
+implemented this but it's not unusual that feature changes require a code change rather than just a run parameter change.
 
 
-6) Looks at the ml_pipeline_params directory. Similarly, it contains a default.json file. 
+6) Look at the ml_pipeline directory. Similarly, it contains a default.json file. 
 This file contains information such as the default algorithm and the information for 
 training and validation splitting. Training and validation percentages do not need to 
 add up to 100%. You can run on much smaller data sets by making both of them small. It also
