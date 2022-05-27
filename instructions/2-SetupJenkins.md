@@ -18,7 +18,7 @@ Enter your Github Personal Access Token.
 
 Select your github account, then cd4ml-scenarios and click "Create Pipeline"
 
-At this step the pipeline will build, you can select the pipeline to see the individual steps execute. At the end the pipeline should be 'green' indicating that all the steps were successful (shown below).
+At this step the pipeline will build, you can select the pipeline to see the individual steps execute. Jenkins will first index branches, [which can take time](https://support.cloudbees.com/hc/en-us/articles/360055870591-Multibranch-Pipeline-Branch-indexing-job-stuck-and-cannot-be-aborted). It will then checkout the code which [can also take a while](https://stackoverflow.com/questions/36017253/jenkins-git-fetch-timeout). It does get there eventually. At the end the pipeline should run and be 'green' indicating that all the steps were successful (shown below). If it times out then trigger a manual run.
 
 ![GreenBuildPipline](./images/GreenBuildPipeline.png)
 
@@ -36,4 +36,4 @@ Finally, if you want to build the model for the sales forecasting scenario, navi
 
 From here you can select the scenario that you want to execute by selecting the problem name of interest at the top. You can click 'Run' to execute the pipeline.
 
-Now, you are ready to get started. You can continue the [Zillow Housing Scenario](./housing/3-MachineLearning.md) or the [Shopping Scenario](./groceries/3-MachineLearning.md).
+Now, you are ready to get started. You can continue the [Zillow Housing Scenario](./housing/3-MachineLearning.md) (recommended to start here) or the [Shopping Scenario](./groceries/3-MachineLearning.md).
