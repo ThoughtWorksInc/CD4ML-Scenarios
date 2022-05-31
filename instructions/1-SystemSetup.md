@@ -4,6 +4,7 @@
 
 * Setup a development environment for CD4ML including:
 * Fork Git Code Repository into Personal GitHub
+* Configuring container runtime
 * Configuring a python code development environment
 * Install Docker Desktop or [an alternative](https://www.rockyourcode.com/docker-desktop-alternatives-for-macos/)
 
@@ -28,7 +29,13 @@ git clone https://github.com/<Your User Name>/CD4ML-Scenarios
 ### Setting your Jenkins Administrator Password
 Create a file called `jenkins-admin-password.txt` in the `jenkins\` folder. On the first line of the file type in a secure password. Save and close the file
 
-### Docker Settings Adjustments
+### Container Runtimes
+We have provided three options for container runtimes:
+- Docker Desktop (Windows, macOS and Linux). Free personal licence, but commerical licence required on work computer from January 2022
+- Colima (macOS and Linux). Free
+- Rancher (Windows, macOS and Linux). Free
+
+#### Docker Desktop Settings Adjustments
 Open Docker Desktop by clicking on the docker icon in your Mac or Windows taskbar and selecting Dashboard. Click the gear and select "Resources" and then "Advanced". Increase the RAM allocated to docker to 4 Gigabytes. Click "Apply and Restart".
 
 ![DockerSettings](./images/DockerSettings.png)
@@ -36,6 +43,16 @@ Open Docker Desktop by clicking on the docker icon in your Mac or Windows taskba
 If you are running the environment on a Windows 10 machine, make sure to switch Docker to Linux-containers instead of Windows Containers.
 You can do this by clicking on the Docker icon in your Windows taskbar.
 You also need to make sure that your PC can handle virtual environments. This can be switched on or off in your systems BIOS.
+
+#### Colima setup
+Follow the instructions for installing Colima and Docker’s CLI with Homebrew from: https://smallsharpsoftwaretools.com/tutorials/use-colima-to-run-docker-containers-on-macos/
+
+When using Colima, immediately before the docker-compose step below, which downloads and starts the development environment, please run
+
+```bash
+colima start --cpu 4 --memory 8
+```
+
 
 ## Select your development environment
 In the next section you can choose from one of two different application development 
