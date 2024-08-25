@@ -1,9 +1,11 @@
 from cd4ml.filenames import get_problem_files
 from cd4ml.utils.utils import download_to_file_from_url
 
+baseUri = "https://github.com/luizmachado/CD4ML/tree/master/dataset/"
+
 download_params = {
-                    'url': "https://github.com/dave31415/house_price/raw/master/data/house_data_100000.csv",
-                    'url_lookup': "https://github.com/dave31415/house_price/raw/master/data/zip_lookup.csv"
+                    'url': "https://github.com/luizmachado/CD4ML/raw/master/dataset/house_data_100000.csv",
+                    'url_lookup': "https://github.com/luizmachado/CD4ML/raw/master/dataset/zip_lookup.csv"
                    }
 
 

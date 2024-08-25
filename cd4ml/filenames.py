@@ -51,8 +51,8 @@ def _get_model_file_templates(model_results_dir):
 def _get_problem_file_templates(raw_problem_data_dir):
     file_names_problem = {
         'groceries': {
-            'raw_grocery_data': '%s/groceries.csv' % raw_problem_data_dir,
-            'grocery_data_shuffled': '%s/groceries_shuffled.csv' % raw_problem_data_dir
+            'raw_grocery_data': '%s/store47-2016.csv' % raw_problem_data_dir,
+            'grocery_data_shuffled': '%s/store47-2016_shuffled.csv' % raw_problem_data_dir
         },
         'houses': {
             'raw_house_data': '%s/house_sales.csv' % raw_problem_data_dir,
